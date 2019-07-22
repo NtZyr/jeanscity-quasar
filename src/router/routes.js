@@ -35,13 +35,27 @@ const routes = [
   //   name: 'contacts',
   //   component: contacts
   // }
-  {
-    path: '/',
-    component: () => import('pages/Index.vue'),
-    // children: [
-    //   { path: '', component: () => import('pages/Index.vue') }
-    // ]
-  }
+    /*{
+        path: '/',
+        component: () => import('pages/Home.vue')
+    },*/
+    {
+        path: '/',
+        component: () => import('pages/ShoppingCart.vue'),
+        children: [
+            {
+                path: 'product',
+                component: () => import('pages/Product.vue')
+            },
+            {
+                path: 'item',
+                component: () => import('pages/Item.vue')
+            }
+        ]
+        // children: [
+        //   { path: '', component: () => import('pages/Index.vue') }
+        // ]
+    },
 ]
 
 // Always leave this as last one
