@@ -13,9 +13,9 @@
                         active-bg-color="grey-2"
                         bg-color="white"
                     >
-                        <q-route-tab name="mails" label="Mails" class="bg-white" to="/product"/>
-                        <q-route-tab name="alarms" label="Alarms" class="bg-white" to="/product"/>
-                        <q-route-tab name="movies" label="Movies" class="bg-white" to="/product"/>
+                        <q-route-tab name="all" label="Все товары" class="bg-white" to="/products"/>
+                        <q-route-tab name="alarms" label="Alarms" class="bg-white" to="/products"/>
+                        <q-route-tab name="movies" label="Movies" class="bg-white" to="/products"/>
                     </q-tabs>
                     <router-view/>
                 </div>

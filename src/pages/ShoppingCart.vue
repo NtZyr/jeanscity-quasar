@@ -114,55 +114,67 @@
                                 <q-separator class="q-mb-sm"/>
                                 <div class="text-subtitle1 q-pb-sm">Контактная информация</div>
                                 <q-input
+                                    required
                                     filled
                                     v-model="firstName"
                                     label="имя"
-                                    lazy-rules
-                                    :rules="[ val => val && val.length > 0 || 'Please type something']"
+                                    type="text"
+                                    class="q-mb-md"
                                 />
                                 <q-input
+                                    required
                                     filled
                                     v-model="lastName"
                                     label="фамилия"
-                                    lazy-rules
-                                    :rules="[ val => val && val.length > 0 || 'Please type something']"
+                                    type="text"
+                                    class="q-mb-md"
                                 />
                                 <q-input
                                     filled
                                     v-model="email"
                                     label="email"
-                                    lazy-rules
+                                    type="email"
+                                    class="q-mb-md"
                                 />
                                 <q-input
+                                    required
                                     filled
                                     v-model="phone"
                                     type="tel"
                                     label="телефон"
-                                    lazy-rules
+                                    mask="(###) ### - ####"
+                                    unmasked-value
+                                    fill-mask
+                                    class="q-mb-md"
                                 />
                                 <q-input
                                     filled
                                     v-model="street"
                                     label="улица"
-                                    lazy-rules
+                                    type="text"
+                                    v-show="courier"
+                                    class="q-mb-md"
                                 />
                                 <q-input
                                     filled
                                     v-model="house"
                                     label="дом"
-                                    lazy-rules
+                                    v-show="courier"
+                                    class="q-mb-md"
                                 />
                                 <q-input
                                     filled
                                     v-model="corps"
                                     label="корпус"
-                                    lazy-rules
+                                    v-show="courier"
+                                    class="q-mb-md"
                                 />
                                 <q-input
                                     filled
                                     v-model="flat"
                                     label="квартира"
-                                    lazy-rules
+                                    v-show="courier"
+                                    class="q-mb-md"
                                 />
                                 <div class="flex items-center no-wrap checkbox">
                                     <q-checkbox style="margin-left: -10px;" v-model="subscription" @click="subscription = !subscription"/>
@@ -173,7 +185,7 @@
                                     <span>Соглашение пользователя на обработку персональных данных</span>
                                 </div>
                                 <div>
-                                    <q-btn label="Submit" type="submit" color="primary"/>
+                                    <q-btn label="Оформить заказ" type="submit" color="primary" class="full-width q-mt-md text-weight-bold"/>
                                 </div>
                             </q-form>
                         </div>
@@ -225,6 +237,9 @@
               ]
           }
       },
+      computed: {
+
+      },
       methods: {
           deleteItem(id) {
               this.card_items.splice(id, 1)
@@ -251,7 +266,7 @@
         right 8px
         top 8px
     .price
-        font-size 16px
+        font-size 22px
         color #3c3c3c
     .sail
         color #B61118
@@ -260,6 +275,7 @@
     .not-sail
         color #868686
         text-decoration line-through
+        font-size 16px
     .item-shadow
         box-shadow 0px 2px 6px -2px rgba(0,0,0,0.75)
         border-radius 3px
@@ -283,7 +299,7 @@
 
     @media (max-width $breakpoint-xs)
         .price
-            font-size 14px
+            font-size 18px
             color #3c3c3c
             line-height 18px
         .sail
@@ -293,5 +309,6 @@
         .not-sail
             color #868686
             text-decoration line-through
+            font-size 14px
 
 </style>

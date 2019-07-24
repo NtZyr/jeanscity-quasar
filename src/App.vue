@@ -4,7 +4,7 @@
             <q-header class="bg-white row no-wrap justify-center">
                 <div class="container row q-col-gutter-x-lg header">
                     <q-toolbar class="col-md-2 col-sm-4 col-xs-12 justify-sm-start justify-xs-center mobile-toolbar-height-fix">
-                        <a class="logo-link" href="/"><img src="assets/images/logo.svg" alt=""></a>
+                        <router-link to="/" class="logo-link"><img src="assets/images/logo.svg" alt=""></router-link>
                     </q-toolbar>
                     <q-toolbar class="col-md-10 col-sm-8 col-xs-12 justify-md-between justify-sm-end mobile-toolbar-height-fix">
                         <q-tabs
@@ -14,19 +14,19 @@
                             align="justify"
                             class="bg-white col-md-8 col-xl-8 sm-hide xs-hide"
                         >
-                            <q-tab v-if="$q.screen.gt.sm" name="man" label="Мужское"/>
-                            <q-tab v-if="$q.screen.gt.sm" name="woman" label="Женское" />
-                            <q-tab v-if="$q.screen.gt.sm" name="brands" label="Бренды" />
-                            <q-tab v-if="$q.screen.gt.sm" name="sails" label="Скидки" />
-                            <q-tab v-if="$q.screen.gt.sm" name="contacts" label="Контакты" />
+                            <q-route-tab to="/products" v-if="$q.screen.gt.sm" name="man" label="Мужское"/>
+                            <q-route-tab to="/products"  v-if="$q.screen.gt.sm" name="woman" label="Женское" />
+                            <q-route-tab to="/products"  v-if="$q.screen.gt.sm" name="brands" label="Бренды" />
+                            <q-route-tab to="/products"  v-if="$q.screen.gt.sm" name="sails" label="Скидки" />
+                            <q-route-tab to="/contacts"  v-if="$q.screen.gt.sm" name="contacts" label="Контакты" />
                         </q-tabs>
                         <div class="col-xs-12 col-sm-auto col-lg-4 col-md-4 col-xl-4 flex justify-md-end justify-xs-between header-btns no-wrap">
                             <q-btn router="tel:+79964539303" flat style="color: #3C3C3C" icon="phone" label="+7 (996) 453-93-03" class="icon-hide"/>
                             <q-btn router="/" flat style="color: #3C3C3C" icon="search" label="" />
-                            <q-btn router="/card" flat style="color: #3C3C3C" icon="shopping_cart" label="" />
+                            <q-btn to="/cart" flat style="color: #3C3C3C" icon="shopping_cart" label="" />
                             <q-btn-dropdown v-if="$q.screen.lt.md" style="color: #3C3C3C" auto-close stretch flat icon="menu">
                                 <q-list separator link class="menu-dropdown text-center">
-                                    <q-item clickable @click="tab = 'man'">
+                                    <q-item to="/products" clickable @click="tab = 'man'">
                                         <q-item-section>Мужское</q-item-section>
                                     </q-item>
                                     <q-item clickable @click="tab = 'woman'">
@@ -59,7 +59,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-h6 text-uppercase">Подписка на рассылку</div>
-<!--                                    <h6 class="text-uppercase">Подписка на рассылку</h6>-->
                                 </div>
                                 <div class="col-12">
                                     <div class="row wrap items-sm-center q-col-gutter-x-md">
@@ -77,7 +76,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-h6 text-uppercase">Информация</div>
-<!--                                    <h6 class="text-uppercase">Информация</h6>-->
                                 </div>
                                 <div class="col-12 column q-py-lg">
                                     <a href="">Оплата</a>
@@ -89,7 +87,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="text-h6 text-uppercase">Контакты</div>
-<!--                                    <h6 class="text-uppercase">Контакты</h6>-->
                                 </div>
                                 <div class="col-12 column q-py-lg">
                                     <a href="">+7 (996) 453-93-03</a>
@@ -126,9 +123,9 @@ export default {
     .q-header {
         .q-toolbar {
             a:first-child {
-                display: inline-block;
-                vertical-align: top;
-                line-height: 0;
+                /*display: inline-block;*/
+                /*vertical-align: top;*/
+                /*line-height: 0;*/
             }
         }
     }
@@ -136,14 +133,12 @@ export default {
         color: #E71821;
         height: 4px;
     }
-    .header .q-tabs__content {
-        height: 80px;
-    }
     .q-tab {
         outline: none;
         color: #3C3C3C;
         max-width: 110px;
         padding: 0;
+        min-height: 80px;
     }
     .header-links {
         i {

@@ -1,61 +1,30 @@
-
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: home,
-  //   children: [
-  //     {
-  //       path: '/:pageId',
-  //       name: 'page',
-  //       component: page
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/products',
-  //   name: 'products',
-  //   component: products,
-  //   children: [
-  //     {
-  //         path: '/products/:prodId',
-  //         name: 'product',
-  //         component: product
-  //         // component: () => import ('pages/Product.vue')
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/cart',
-  //   name: 'cart',
-  //   component: cart
-  // },
-  // {
-  //   path: '/contacts',
-  //   name: 'contacts',
-  //   component: contacts
-  // }
-    /*{
-        path: '/',
-        component: () => import('pages/Home.vue')
-    },*/
     {
         path: '/',
-        component: () => import('pages/ShoppingCart.vue'),
+        component: () => import('pages/Home.vue'),
+    },
+    {
+        path: '/products',
+        component: () => import('pages/Menu.vue'),
         children: [
             {
-                path: 'product',
-                component: () => import('pages/Product.vue')
+                path: '/',
+                component: () => import('pages/Product.vue'),
             },
             {
                 path: 'item',
                 component: () => import('pages/Item.vue')
             }
         ]
-        // children: [
-        //   { path: '', component: () => import('pages/Index.vue') }
-        // ]
     },
+    {
+        path: '/cart',
+        component: () => import('pages/ShoppingCart.vue')
+    },
+    {
+        path: '/contacts',
+        component: () => import('pages/Contacts.vue')
+    }
 ]
 
 // Always leave this as last one
