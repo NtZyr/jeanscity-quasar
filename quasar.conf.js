@@ -29,10 +29,10 @@ module.exports = function (ctx) {
     framework: {
       // iconSet: 'ionicons-v4',
       // lang: 'de', // Quasar language
-        cssAddon: true,
+      cssAddon: true,
       all: true, // --- includes everything; for dev only!
 
-        components: [
+      components: [
 
       ],
 
@@ -50,7 +50,7 @@ module.exports = function (ctx) {
 
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history'
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,

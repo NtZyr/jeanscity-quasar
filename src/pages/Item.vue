@@ -8,7 +8,7 @@
                     </div>
                 </q-scroll-area>
                 <div class="col-md-5 col-sm-6 col-xs-8 scroll-item">
-                    <img src="../assets/images/image.png" width="100%" alt="">
+                    <img src="/statics/images/image.png" width="100%" alt="">
                 </div>
                 <div class="col-md-5 col-sm-12 offset-md-0 offset-sm-1 offset-xs-0 q-pt-lg">
                     <div class="row column-md row-sm row-xs q-col-gutter-x-sm">

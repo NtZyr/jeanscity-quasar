@@ -25,7 +25,7 @@
                                     <div class="product-name">{{item.name}}</div>
                                 </div>
                                 <div class="col-md-3 col-xs-5 offset-1 flex justify-xs-center justify-md-start q-py-xs-md q-py-md-xs numbers">
-                                    <img src="../assets/images/image.png" style="max-width: 170px; width: 100%" alt="">
+                                    <img src="/statics/images/image.png" style="max-width: 170px; width: 100%" alt="">
                                     <div class="flex items-center md-hide lg-hide xl-hide q-px-sm-md q-px-xs-sm q-pt-sm">
                                         <q-btn
                                             round

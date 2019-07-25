@@ -3,7 +3,7 @@
         <div class="row justify-center q-py-lg">
             <div class="row container q-col-gutter-x-lg q-pb-md-xl">
                 <div class="col-md-8 col-sm-12">
-                    <img src="../assets/images/map.svg" alt="" width="100%">
+                    <img src="/statics/images/map.svg" alt="" width="100%">
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <p class="icon map q-mb-lg">Адрес будет находитсья здесь</p>
@@ -79,31 +79,31 @@
             background-repeat no-repeat
     .map
         &:before
-            background-image url("../assets/images/icon-map.svg")
+            background-image url("/statics/images/icon-map.svg")
             background-size 18px 24px
     .phone
         &:before
-            background-image url("../assets/images/icon-phone.svg")
+            background-image url("/statics/images/icon-phone.svg")
             background-size 22px 22px
     .mail
         &:before
-            background-image url("../assets/images/icon-mail.svg")
+            background-image url("/statics/images/icon-mail.svg")
             background-size 24px 20px
     .vk
         &:before
-            background-image url("../assets/images/icon-vk.svg")
+            background-image url("/statics/images/icon-vk.svg")
             background-size 24px 16px
 </style>
 
 <script>
-    export default {
-        data() {
-            return {
-                fullName: null,
-                email: null,
-                phone: null,
-                message: null
-            }
-        }
+export default {
+  data () {
+    return {
+      fullName: null,
+      email: null,
+      phone: null,
+      message: null
     }
+  }
+}
 </script>

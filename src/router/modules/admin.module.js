@@ -1,6 +1,6 @@
 export const admin = [
   {
     path: '/admin',
-    component: () => import('pages/Admin.vue')
+    component: () => import('pages/admin/Admin.vue')
   }
 ]

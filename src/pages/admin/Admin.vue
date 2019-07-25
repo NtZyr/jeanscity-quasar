@@ -1,6 +1,7 @@
 <template>
     <div>
         lol
+        <router-view/>
     </div>
 </template>
 
