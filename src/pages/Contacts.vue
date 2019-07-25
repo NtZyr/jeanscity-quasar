@@ -74,21 +74,25 @@
             position: absolute
             height 24px
             width 24px
-            background-size 24px 24px
             left 0
             top 0
+            background-repeat no-repeat
     .map
         &:before
             background-image url("../assets/images/icon-map.svg")
+            background-size 18px 24px
     .phone
         &:before
             background-image url("../assets/images/icon-phone.svg")
+            background-size 22px 22px
     .mail
         &:before
             background-image url("../assets/images/icon-mail.svg")
+            background-size 24px 20px
     .vk
         &:before
             background-image url("../assets/images/icon-vk.svg")
+            background-size 24px 16px
 </style>
 
 <script>

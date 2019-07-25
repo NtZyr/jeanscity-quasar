@@ -12,20 +12,10 @@
                         height="325px"
                         class="slider"
                     >
-                        <q-carousel-slide class="slider-item" :name="1" img-src="https://picsum.photos/568/325">
-                            <q-btn class="slider-btn" to="/contacts" color="primary" size="18px" label="Кнопка"></q-btn>
-                            <div class="text-h4 text-black" style="position:absolute; top: 18px; left: 18px; color: #fff;">Заголовок</div>
+                        <q-carousel-slide v-for="(item, index) in homeslides" :key="item.id" class="slider-item" :name="index" :img-src="item.image">
+                            <q-btn class="slider-btn" type="a" :href="item.link" replace color="primary" size="18px" :label="item.link_label"></q-btn>
+                            <div class="text-h4 text-black" style="position:absolute; top: 18px; left: 18px; color: #fff;">{{item.title}}</div>
                         </q-carousel-slide>
-                        <q-carousel-slide class="slider-item" :name="2" img-src="https://picsum.photos/568/325">
-                            <q-btn class="slider-btn" to="/contacts" color="primary" size="18px" label="Кнопка"></q-btn>
-                        </q-carousel-slide>
-                        <q-carousel-slide class="slider-item" :name="3" img-src="https://picsum.photos/568/325">
-                            <q-btn class="slider-btn" to="/contacts" color="primary" size="18px" label="Кнопка"></q-btn>
-                        </q-carousel-slide>
-                        <q-carousel-slide class="slider-item" :name="4" img-src="https://picsum.photos/568/325">
-                            <q-btn class="slider-btn" to="/contacts" color="primary" size="18px" label="Кнопка"></q-btn>
-                        </q-carousel-slide>
-
                     </q-carousel>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12 q-py-md-none q-py-sm-sm q-py-xs-xs">
@@ -59,7 +49,7 @@
                 >
                     <q-card class="my-card bg-purple text-white col-12">
                         <q-card-section>
-                            <div class="text-subtitle2">by John Doe</div>
+                            <div class="text-subtitle2">item</div>
                         </q-card-section>
                     </q-card>
                 </div>
@@ -132,31 +122,53 @@
 </style>
 
 <script>
-export default {
-    name: 'Home',
-    data() {
-        return {
-            slide: 1,
-            array: [1,2,31,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            show: false
-        }
-    },
-    computed: {
-        getFirstLine() {
-            const arr = this.array.filter((item , index)=>{
-                return index < 6;
-            })
-            return arr;
-        },
-        getArray() {
-            const arr = this.array.filter((item , index)=>{
-                return index > 5;
-            })
-            return arr;
-        }
-    },
-    methods: {
+    import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
 
+    export default {
+        name: 'Home',
+        data() {
+            return {
+                slide: 1,
+                slides: [],
+                array: [1,2,31,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                show: false
+            }
+        },
+        computed: {
+            ...mapGetters({
+                homeslides: 'homeslides/list',
+                homeslide: 'homeslides/item',
+                categories: 'categories/list',
+                category: 'categories/item'
+            }),
+            getFirstLine() {
+                const arr = this.array.filter((item , index)=>{
+                    return index < 6;
+                })
+                return arr;
+            },
+            getArray() {
+                const arr = this.array.filter((item , index)=>{
+                    return index > 5;
+                })
+                return arr;
+            }
+        },
+        methods: {
+            ...mapActions({
+                homeslidesIndex: 'homeslides/index',
+                homeslidesShow: 'homeslides/show',
+                categoriesIndex: 'categories/index',
+                categoriesShow: 'categories/show'
+            })
+        },
+        created () {
+            // this.slides = this.homeslidesIndex()
+            this.homeslidesIndex()
+        },
+        mounted () {
+            // this.homeslidesIndex()
+        }
     }
-}
 </script>

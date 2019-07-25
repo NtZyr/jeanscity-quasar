@@ -56,8 +56,14 @@
                                                 <p class="no-margin">цвет: красный</p>
                                             </div>
                                             <div class="q-pt-sm-xl q-pt-xs-xl q-mt-sm-lg q-mt-xs-md md-hide lg-hide xl-hide">
+                                                <div class="sail-label" v-show="item.sail">{{100 - item.sail_value*100}}%</div>
                                                 <div class="text-h6 q-pt-sm price" :class="{'not-sail': item.sail}">{{item.number*item.price}} руб.</div>
-                                                <div class="text-h6 q-pt-md" :class="{'sail': item.sail}" v-show="item.sail">{{item.number*item.price*item.sail_value}} руб.</div>
+                                                <div class="text-h6 q-pt-md"
+                                                     :class="{'sail': item.sail}"
+                                                     v-show="item.sail"
+                                                >
+                                                    {{item.number*item.price*item.sail_value}} руб.
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4 sm-hide xs-hide q-pt-md flex q-pr-lg numbers">
@@ -70,7 +76,11 @@
                                                 @click="item.number--"
                                                 :disabled="!(item.number-1)"
                                             />
-                                            <input type="text" style="max-width: 35px; max-height: 32px; font-weight: 700;" class="q-mx-sm text-center" :value=item.number>
+                                            <input type="text"
+                                                   style="max-width: 35px; max-height: 32px; font-weight: 700;"
+                                                   class="q-mx-sm text-center"
+                                                   :value=item.number
+                                            >
                                             <q-btn
                                                 round
                                                 color="white"
@@ -82,7 +92,13 @@
                                         </div>
                                         <div class="col-md-4 sm-hide xs-hide q-pr-xl">
                                             <div class="text-h6 q-pt-sm price" :class="{'not-sail': item.sail}">{{item.number*item.price}} руб.</div>
-                                            <div class="text-h6 q-pt-md" :class="{'sail': item.sail}" v-show="item.sail">{{item.number*item.price*item.sail_value}} руб.</div>
+                                            <div class="text-h6 q-pt-md q-mb-sm"
+                                                 :class="{'sail': item.sail}"
+                                                 v-show="item.sail"
+                                            >
+                                                {{item.number*item.price*item.sail_value}} руб.
+                                            </div>
+                                            <div class="sail-label" v-show="item.sail">{{100 - item.sail_value*100}}%</div>
                                         </div>
                                     </div>
                                 </div>
@@ -276,6 +292,12 @@
         color #868686
         text-decoration line-through
         font-size 16px
+    .sail-label
+        background #CC0008
+        padding 3px 5px
+        display initial
+        color #fff
+        font-weight 700
     .item-shadow
         box-shadow 0px 2px 6px -2px rgba(0,0,0,0.75)
         border-radius 3px

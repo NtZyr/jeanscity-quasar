@@ -23,7 +23,9 @@
                         <div class="col-xs-12 col-sm-auto col-lg-4 col-md-4 col-xl-4 flex justify-md-end justify-xs-between header-btns no-wrap">
                             <q-btn router="tel:+79964539303" flat style="color: #3C3C3C" icon="phone" label="+7 (996) 453-93-03" class="icon-hide"/>
                             <q-btn router="/" flat style="color: #3C3C3C" icon="search" label="" />
-                            <q-btn to="/cart" flat style="color: #3C3C3C" icon="shopping_cart" label="" />
+                            <q-btn to="/cart" flat style="color: #3C3C3C" icon="shopping_cart" label="">
+                                <q-badge color="red" floating>22</q-badge>
+                            </q-btn>
                             <q-btn-dropdown v-if="$q.screen.lt.md" style="color: #3C3C3C" auto-close stretch flat icon="menu">
                                 <q-list separator link class="menu-dropdown text-center">
                                     <q-item to="/products" clickable @click="tab = 'man'">

@@ -123,13 +123,14 @@
                 <q-select outlined v-model="model" :options="options" style="min-width: 160px" label="Сортировать" />
             </div>
             <div class="row q-col-gutter-x-lg">
-                <div class="col-md-4 col-sm-6 col-xs-12 q-pb-lg" v-for="(item, index) in paginatedItems">
+                <div class="col-md-4 col-sm-6 col-xs-12 q-pb-lg product-hover" v-for="(item, index) in paginatedItems">
                     <router-link to="products/item" style="text-decoration: none; color: #3C3C3C;">
                         <div class="focused-item">
                             <div class="bg-white q-pa-xs q-mb-sm flex items-center relative-position">
                                 <div class="column wrap sizes" style="position:absolute; top: 4px; left: 4px;">
                                     <div class="bg-black text-white sizes-item" v-for="size in sizes">{{size}}</div>
                                 </div>
+                                <div class="sail-label" v-show="item.sail">{{100 - item.sail_value*100}}%</div>
                                 <img :src="item.img" width="100%" alt="">
                             </div>
                             <div class="info">
@@ -199,8 +200,19 @@
         p
             color #3C3C3C
             font-weight 300
+    .sail-label
+        background #CC0008
+        padding 3px 5px
+        display initial
+        color #fff
+        font-weight 700
+        position absolute
+        right 8px
+        top 8px
+    .product-hover:hover
+        z-index 100
     .focused-item:hover
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+        box-shadow 0px 4px 15px rgba(0, 0, 0, 0.25)
         background #fff
         transform scale(1.15)
         transition transform .3s ease
@@ -267,7 +279,8 @@
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
                         img: '../statics/images/image.png',
-                        sail: true
+                        sail: true,
+                        sail_value: 0.8
                     },
                     {
                         price: 10000,
@@ -281,7 +294,8 @@
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
                         img: '../statics/images/image.png',
-                        sail: true
+                        sail: true,
+                        sail_value: 0.3
                     },
                     {
                         price: 10000,
@@ -295,7 +309,8 @@
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
                         img: '../statics/images/image.png',
-                        sail: true
+                        sail: true,
+                        sail_value: 0.3
                     },
                     {
                         price: 10000,
