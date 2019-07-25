@@ -3,16 +3,6 @@
         <div class="row justify-center q-py-lg">
             <div class="row container gallery-top q-col-gutter-x-lg q-pb-md-xl q-pt-md-md">
                 <div class="col-md-6 col-sm-12 col-xs-12 q-py-md-none q-py-sm-md q-py-xs-xs">
-<!--                    <q-card class="my-card bg-purple text-white col-12 flex column q-px-lg q-py-md">-->
-<!--                        <q-card-section>-->
-<!--                            <div class="text-h4 q-pb-md">Заголовок слайда</div>-->
-<!--                            <div class="text-subtitle2">by John Doe</div>-->
-<!--                        </q-card-section>-->
-
-<!--                        <q-card-actions class="flex card-btn">-->
-<!--                            <q-btn color="primary" size="18px" label="Кнопка"></q-btn>-->
-<!--                        </q-card-actions>-->
-<!--                    </q-card>-->
                     <q-carousel
                         animated
                         v-model="slide"

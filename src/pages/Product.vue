@@ -234,6 +234,13 @@
         text-align center
         opacity .5
 
+    @media (max-width $breakpoint-sm)
+        .focused-item:hover
+            transform scale(1.1)
+
+    @media (max-width $breakpoint-xs)
+        .focused-item:hover
+            transform scale(1.05)
 </style>
 
 <script>
@@ -259,66 +266,66 @@
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image.png',
+                        img: '../statics/images/image.png',
                         sail: true
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image2.png',
+                        img: '../statics/images/image2.png',
                         sail: false
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image.png',
+                        img: '../statics/images/image.png',
                         sail: true
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image2.png',
+                        img: '../statics/images/image2.png',
                         sail: false
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image.png',
+                        img: '../statics/images/image.png',
                         sail: true
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image.png'
+                        img: '../statics/images/image.png'
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image.png'
+                        img: '../statics/images/image.png'
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image.png'
+                        img: '../statics/images/image.png'
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image.png'
+                        img: '../statics/images/image.png'
                     },
                     {
                         price: 10000,
                         name: 'Lamborghiny',
                         type: 'Футболка мужская',
-                        img: '../assets/images/image2.png'
+                        img: '../statics/images/image2.png'
                     }
                 ]
             }

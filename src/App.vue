@@ -4,7 +4,7 @@
             <q-header class="bg-white row no-wrap justify-center">
                 <div class="container row q-col-gutter-x-lg header">
                     <q-toolbar class="col-md-2 col-sm-4 col-xs-12 justify-sm-start justify-xs-center mobile-toolbar-height-fix">
-                        <router-link to="/" class="logo-link"><img src="assets/images/logo.svg" alt=""></router-link>
+                        <router-link to="/" class="logo-link"><img src="./statics/images/logo.svg" alt=""></router-link>
                     </q-toolbar>
                     <q-toolbar class="col-md-10 col-sm-8 col-xs-12 justify-md-between justify-sm-end mobile-toolbar-height-fix">
                         <q-tabs
