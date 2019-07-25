@@ -1,30 +1,9 @@
+import { front } from './modules/front.module'
+import { admin } from './modules/admin.module'
+
 const routes = [
-    {
-        path: '/',
-        component: () => import('pages/Home.vue'),
-    },
-    {
-        path: '/products',
-        component: () => import('pages/Menu.vue'),
-        children: [
-            {
-                path: '/',
-                component: () => import('pages/Product.vue'),
-            },
-            {
-                path: 'item',
-                component: () => import('pages/Item.vue')
-            }
-        ]
-    },
-    {
-        path: '/cart',
-        component: () => import('pages/ShoppingCart.vue')
-    },
-    {
-        path: '/contacts',
-        component: () => import('pages/Contacts.vue')
-    }
+  ...admin,
+  ...front
 ]
 
 // Always leave this as last one
