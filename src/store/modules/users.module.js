@@ -68,7 +68,9 @@ export default {
     },
     roles (context) {
       return new Promise((resolve, reject) => {
-        API.get(`users/roles/`)
+        API.get(`users/roles/`, { headers: {
+          'Authorization': `Bearer ${context.rootState.auth.token}`
+        } })
           .then(response => {
             context.commit('getRoles', response.data.data)
             resolve(response)
