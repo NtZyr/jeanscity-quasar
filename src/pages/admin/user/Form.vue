@@ -1,5 +1,5 @@
 <template>
-    <q-form>
+    <q-form @submit="confirmForm">
         <template v-if="userId">
             <h2 class="text-h6">Редактирование пользователя</h2>
         </template>
@@ -55,7 +55,7 @@
             <q-card-actions>
                 <q-btn to="/admin/users" unelevated>Отменить</q-btn>
                 <q-space/>
-                <q-btn @click="confirmForm" unelevated color="primary">Сохранить</q-btn>
+                <q-btn type="submit" unelevated color="primary">Сохранить</q-btn>
             </q-card-actions>
         </q-card>
     </q-form>
