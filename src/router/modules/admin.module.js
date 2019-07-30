@@ -10,7 +10,9 @@ export const admin = [
         path: 'categories',
         component: () => import('pages/admin/category/index'),
         meta: {
-          access: 'admin'
+          access: [
+            'admin'
+          ]
         },
         children: [
           {
@@ -20,6 +22,22 @@ export const admin = [
           {
             path: 'edit/:id',
             component: () => import('pages/admin/category/form')
+          }
+        ]
+      },
+      {
+        path: 'callbacks',
+        component: () => import('pages/admin/callback/index'),
+        meta: {
+          access: [
+            'admin',
+            'moder'
+          ]
+        },
+        children: [
+          {
+            path: 'answer/:id',
+            component: () => import('pages/admin/callback/form')
           }
         ]
       },

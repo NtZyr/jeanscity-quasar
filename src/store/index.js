@@ -12,6 +12,7 @@ import UsersModule from './modules/users.module'
 import AuthModule from './modules/auth.module'
 // import ProductsModule from './modules/products.module'
 import CallbacksModule from './modules/callbacks.module'
+import AnswersModule from './modules/answers.module'
 import CustomersModule from './modules/customers.module'
 
 Vue.use(Vuex)
@@ -53,6 +54,9 @@ export default function (/* { ssrContext } */) {
             },*/
             callbacks: {
                 ...CallbacksModule
+            },
+            answers: {
+                ...AnswersModule
             },
             customers: {
                 ...CustomersModule

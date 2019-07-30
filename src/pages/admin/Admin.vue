@@ -24,9 +24,9 @@
                 <q-item clickable to="/admin">
                     <q-item-section>Статистика</q-item-section>
                 </q-item>
-                <q-item clickable to="/">
+                <q-item clickable to="/admin/callbacks">
                     <q-item-section>Обратная связь</q-item-section>
-                    <q-item-section side><q-badge align="top" color="red">1</q-badge></q-item-section>
+                    <q-item-section side><q-badge align="top" color="red">{{ unanswered }}</q-badge></q-item-section>
                 </q-item>
                 <q-item to="/">
                     <q-item-section>Заказы</q-item-section>
@@ -114,15 +114,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      auth: 'auth/authUser'
+      auth: 'auth/authUser',
+      unanswered: 'callbacks/unanswered'
     })
   },
   methods: {
     ...mapActions({
-      login: 'auth/login'
+      login: 'auth/login',
+      callbacksUnanswered: 'callbacks/unanswered'
     })
   },
   created () {
+    this.callbacksUnanswered()
     this.login({
       email: 'nikitos@228.su',
       password: '1234qwer'
