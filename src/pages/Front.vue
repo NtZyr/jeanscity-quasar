@@ -11,7 +11,7 @@
                         narrow-indicator
                         :breakpoint="0"
                         align="justify"
-                        class="bg-white col-md-8 col-xl-8 sm-hide xs-hide"
+                        class="bg-white col-md-8 col-xl-8 sm-hide xs-hide tab-links"
                     >
                         <q-route-tab to="/products" v-if="$q.screen.gt.sm" name="man" label="Мужское"/>
                         <q-route-tab to="/products"  v-if="$q.screen.gt.sm" name="woman" label="Женское" />
@@ -39,7 +39,7 @@
                                 <q-item clickable @click="tab = 'sails'">
                                     <q-item-section>Скидки</q-item-section>
                                 </q-item>
-                                <q-item clickable @click="tab = 'contacts'">
+                                <q-item to="/contacts" clickable @click="tab = 'contacts'">
                                     <q-item-section>Контакты</q-item-section>
                                 </q-item>
                             </q-list>
@@ -59,7 +59,7 @@
                     <div class="col-sm-4 col-md-6 col-xs-12">
                         <div class="row">
                             <div class="col-12">
-                                <div class="text-h6 text-uppercase">Подписка на рассылку</div>
+                                <div class="text-h6 text-uppercase title">Подписка на рассылку</div>
                             </div>
                             <div class="col-12">
                                 <div class="row wrap items-sm-center q-col-gutter-x-md">
@@ -76,7 +76,7 @@
                     <div class="col-sm-4 col-md-3 col-xs-12">
                         <div class="row">
                             <div class="col-12">
-                                <div class="text-h6 text-uppercase">Информация</div>
+                                <div class="text-h6 text-uppercase title">Информация</div>
                             </div>
                             <div class="col-12 column q-py-lg">
                                 <a href="">Оплата</a>
@@ -87,7 +87,7 @@
                     <div class="col-sm-4 col-md-3 col-xs-12">
                         <div class="row">
                             <div class="col-12">
-                                <div class="text-h6 text-uppercase">Контакты</div>
+                                <div class="text-h6 text-uppercase title">Контакты</div>
                             </div>
                             <div class="col-12 column q-py-lg">
                                 <a href="">+7 (996) 453-93-03</a>
@@ -116,11 +116,15 @@ export default {
 </script>
 
 <style lang="scss">
+    *{
+        font-family: 'Roboto', sans-serif;
+    }
     .container {
         width: 100%;
         max-width: 1200px;
     }
     .q-header {
+        color: #3C3C3C;
         .q-toolbar {
             a:first-child {
                 /*display: inline-block;*/
@@ -140,22 +144,27 @@ export default {
         padding: 0;
         min-height: 80px;
     }
-    .header-links {
-        i {
-            font-size: 24px;
-        }
-        a {
-            color: #3C3C3C;
-            text-decoration: none;
-            &:first-child {
-                padding-right: 35px;
-                align-items: center;
-            }
-            &:last-child {
-                padding-left: 35px;
-            }
+    .tab-links {
+        .q-tab__label {
+            font-weight: 400;
         }
     }
+    /*.header-links {*/
+    /*    i {*/
+    /*        font-size: 24px;*/
+    /*    }*/
+    /*    a {*/
+    /*        color: #3C3C3C;*/
+    /*        text-decoration: none;*/
+    /*        &:first-child {*/
+    /*            padding-right: 35px;*/
+    /*            align-items: center;*/
+    /*        }*/
+    /*        &:last-child {*/
+    /*            padding-left: 35px;*/
+    /*        }*/
+    /*    }*/
+    /*}*/
     .header-btns {
         a {
             text-decoration: none;
@@ -188,10 +197,17 @@ export default {
         }
     }
     .q-footer {
+        .container {
+            color: #3C3C3C;
+        }
+        .title {
+            font-weight: 400;
+        }
         a {
             text-decoration: none;
-            color: #000;
+            color: #3C3C3C;
             font-size: 16px;
+            font-weight: 300;
             &:hover {
                 text-decoration: underline;
             }
@@ -234,9 +250,8 @@ export default {
             }
         }
         .q-menu {
-            width: 90%;
-            left: auto;
-            right: 8px;
+            left: 15px;
+            right: 15px;
         }
         .subscription-btn {
             .q-btn {

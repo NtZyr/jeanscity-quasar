@@ -1,5 +1,12 @@
 <template>
-    <div class="q-py-md q-px-none row q-col-gutter-x-lg content-margin">
+    <div class="q-px-none row q-col-gutter-x-lg content-margin">
+        <div class="col-12">
+            <q-breadcrumbs class="q-pl-lg q-mb-md">
+                <q-breadcrumbs-el label="Home" to="/products" />
+                <q-breadcrumbs-el label="Components" />
+                <q-breadcrumbs-el label="Breadcrumbs" />
+            </q-breadcrumbs>
+        </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row q-col-gutter-x-lg">
                 <q-scroll-area class='col-md-1 col-sm-2 col-xs-3 offset-md-1 offset-sm-2 offset-xs-0' style="max-height: 500px">
@@ -10,16 +17,16 @@
                 <div class="col-md-5 col-sm-6 col-xs-8 scroll-item">
                     <img src="/statics/images/image.png" width="100%" alt="">
                 </div>
-                <div class="col-md-5 col-sm-12 offset-md-0 offset-sm-1 offset-xs-0 q-pt-lg">
+                <div class="col-md-5 col-sm-11 col-xs-12 offset-md-0 offset-sm-1 offset-xs-0 q-pt-lg">
                     <div class="row column-md row-sm row-xs q-col-gutter-x-sm">
                         <div class="col-md-12 col-sm-6 col-xs-12">
-                            <div class="text-h5">Футболка мужская</div>
+                            <h5 class="no-margin item-name">Футболка мужская</h5>
                             <div class="text-subtitle1 q-pt-sm">Бренд: Lamborghiny</div>
                             <div class="text-h6 q-pt-md" :class="{ 'not-sail': sail}">10000 р.</div>
                             <div class="text-h6 q-pt-md" :class="{ 'sail': sail}" v-show="sail">10000 р.</div>
                             <div class="text-subtitle1 q-pt-md">Размер:</div>
                             <q-select class="q-pb-md" outlined v-model="model" style="max-width: 200px" :options="options" label="Выберите размер" />
-                            <q-btn color="red-8" class="q-mb-xl q-mt-xl" label="Добавить в корзину" />
+                            <q-btn color="red-8 item-btn" style="height: 49px; width: 250px;" class="q-mb-xl q-mt-xl" label="Добавить в корзину" />
                         </div>
                         <div class="col-md-12 col-sm-6 col-xs-12">
                             <div class="product-info q-pt-md-xl q-pt-sm-xs q-pb-xl q-mb-lg">
@@ -42,13 +49,21 @@
 
 <style lang="stylus" scoped>
     .content-margin
-        padding-top 44px
+        padding-top 16px
     .text-subtitle1
         color #3C3C3C
         font-weight 300
+    .item-name
+        color #3C3C3C
+    .item-btn
+        width 250px
+        height 49px
+        font-weight 500
+        font-size 18px
     .product-info
+        color #3C3C3C
+        font-size 16px
         span
-            color #3C3C3C
             font-weight 300
     .sail
         color #B61118
@@ -73,44 +88,44 @@
                 ],
                 small: [
                     {
-                        img: "../assets/images/image.png",
+                        img: "../statics/images/image.png",
                     },
                     {
-                        img: "../assets/images/image2.png",
+                        img: "../statics/images/image2.png",
                     },
                     {
-                        img: "../assets/images/image.png",
+                        img: "../statics/images/image.png",
                     },
                     {
-                        img: "../assets/images/image2.png",
+                        img: "../statics/images/image2.png",
                     },
                     {
-                        img: "../assets/images/image2.png",
+                        img: "../statics/images/image2.png",
                     },
                     {
-                        img: "../assets/images/image2.png",
+                        img: "../statics/images/image2.png",
                     }
                 ],
                 images: [
                     {
                         id: 1,
-                        img: "../assets/images/image.png"
+                        img: "../statics/images/image.png"
                     },
                     {
                         id: 2,
-                        img: "../assets/images/image2.png"
+                        img: "../statics/images/image2.png"
                     },
                     {
                         id: 3,
-                        img: "../assets/images/image.png"
+                        img: "../statics/images/image.png"
                     },
                     {
                         id: 4,
-                        img: "../assets/images/image2.png"
+                        img: "../statics/images/image2.png"
                     },
                     {
                         id: 5,
-                        img: "../assets/images/image.png"
+                        img: "../statics/images/image.png"
                     }
                 ]
             }

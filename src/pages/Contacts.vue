@@ -2,8 +2,8 @@
     <q-page class="bg-grey-2">
         <div class="row justify-center q-py-lg">
             <div class="row container q-col-gutter-x-lg q-pb-md-xl">
-                <div class="col-md-8 col-sm-12">
-                    <img src="/statics/images/map.svg" alt="" width="100%">
+                <div class="col-md-8 col-sm-12 q-pb-xs-lg q-pb-md-none overflow-hidden">
+                    <img src="/statics/images/map.svg" alt="" height="100%">
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <p class="icon map q-mb-lg">Адрес будет находитсья здесь</p>
@@ -15,7 +15,7 @@
                         @reset="onReset"
                         class="form-background q-pa-lg flex justify-center"
                     >
-                        <div class="text-uppercase text-h5 q-pb-md flex justify-center">Заказать звонок</div>
+                        <h5 class="text-uppercase no-margin q-pb-md flex justify-center">Заказать звонок</h5>
                         <q-input
                             required
                             filled
@@ -37,7 +37,7 @@
                             v-model="phone"
                             type="tel"
                             label="телефон"
-                            mask="(###) ### - ####"
+                            mask="+7 (###) ### - ####"
                             unmasked-value
                             fill-mask
                             class="q-mb-md full-width"
@@ -48,10 +48,9 @@
                             v-model="message"
                             label="сообщение"
                             type="textarea"
-                            autogrow
                             class="full-width"
                         />
-                        <q-btn class="q-mt-lg text-weight-bold" type="submit" outline color="primary" label="Отправить заявку" />
+                        <q-btn class="q-mt-lg text-weight-medium" type="submit" outline color="primary" label="Отправить заявку" />
                     </q-form>
                 </div>
             </div>
@@ -63,12 +62,15 @@
     .form-background
         background #FAFAFA
         border-radius 4px
-        box-shadow: 0px 0.883469px 4.41734px rgba(0, 0, 0, 0.2), 0px 2.65041px 3.53388px rgba(0, 0, 0, 0.12), 0px 1.76694px 3.53388px rgba(0, 0, 0, 0.14);
+        box-shadow 0px 0.883469px 4.41734px rgba(0, 0, 0, 0.2), 0px 2.65041px 3.53388px rgba(0, 0, 0, 0.12), 0px 1.76694px 3.53388px rgba(0, 0, 0, 0.14)
+        h5
+            color #3C3C3C
     .icon
         position: relative
         padding-left 40px
         width 100%
         color #3C3C3C
+        font-size 15px
         &:before
             content: ''
             position: absolute

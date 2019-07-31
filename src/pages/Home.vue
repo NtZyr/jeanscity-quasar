@@ -13,22 +13,22 @@
                         class="slider"
                     >
                         <q-carousel-slide v-for="(item, index) in homeslides" :key="item.id" class="slider-item" :name="index" :img-src="item.image">
-                            <q-btn class="slider-btn" type="a" :href="item.link" replace color="primary" size="18px" :label="item.link_label"></q-btn>
+                            <q-btn class="slider-btn" type="a" :href="item.link" replace color="primary text-white" size="18px" :label="item.link_label"></q-btn>
                             <div class="text-h4 text-black" style="position:absolute; top: 18px; left: 18px; color: #fff;">{{item.title}}</div>
                         </q-carousel-slide>
                     </q-carousel>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12 q-py-md-none q-py-sm-sm q-py-xs-xs">
-                    <q-card class="my-card bg-purple text-white col-12 flex items-end">
+                    <q-card class="my-card bg-purple col-12 flex items-end">
                         <q-card-section>
-                            <div class="text-h5 q-pb-lg">Мужской каталог</div>
+                            <div class="text-h5 q-pb-lg text-white">Мужской каталог</div>
                         </q-card-section>
                     </q-card>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12 q-py-md-none q-py-sm-sm q-py-xs-xs">
-                    <q-card class="my-card bg-purple text-white col-12 flex items-end">
+                    <q-card class="my-card bg-purple col-12 flex items-end">
                         <q-card-section>
-                            <div class="text-h5 q-pb-lg">Женский каталог</div>
+                            <div class="text-h5 q-pb-lg text-white">Женский каталог</div>
                         </q-card-section>
                     </q-card>
                 </div>
@@ -65,6 +65,9 @@
 </template>
 
 <style lang="scss" scoped>
+    * {
+        color: #3C3C3C;
+    }
     .container {
         max-width: 1200px;
         width: 100%;

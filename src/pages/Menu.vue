@@ -7,7 +7,7 @@
                     <q-tabs
                         v-model="tab"
                         dense
-                        class="text-grey"
+                        class="text-grey type-links"
                         indicator-color="grey-2"
                         align="justify"
                         active-bg-color="grey-2"
@@ -26,7 +26,7 @@
 
 <style lang="stylus" scoped>
     .white-line
-        height 44px
+        height 45px
         width 100%
         position fixed
         background #fff
@@ -41,7 +41,7 @@
             min-width 100px
             text-transform none
         .q-tabs
-            height 44px
+            height 45px
             position fixed
             z-index 5
         .q-focusable
