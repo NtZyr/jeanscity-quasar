@@ -67,6 +67,7 @@ export default {
           .then(response => {
             context.commit('getMail', response.data.data)
             context.commit('getMessage', response.data.message)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {
@@ -82,6 +83,7 @@ export default {
           .then(response => {
             context.commit('getMail', response.data.data)
             context.commit('getMessage', response.data.message)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {
@@ -96,6 +98,7 @@ export default {
         })
           .then(response => {
             context.commit('getMail', response.data.data)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {

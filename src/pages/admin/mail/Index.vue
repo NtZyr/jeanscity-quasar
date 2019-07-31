@@ -36,7 +36,7 @@
                                     <q-btn-group outline rounded>
                                         <q-btn size="sm" :to="`/admin/mails/edit/${mail.id}`" outline color="primary" round icon="edit"/>
                                         <q-btn size="sm" @click="sendMail(mail.id)" outline color="primary" round icon="send"/>
-                                        <q-btn size="sm" @click="deleteMail(mail.id)" outline color="negative" round icon="delete"/>
+                                        <q-btn size="sm" @click="confirmDelete(mail)" outline color="negative" round icon="delete"/>
                                     </q-btn-group>
                                 </q-item-section>
                             </q-item>
@@ -111,7 +111,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      mailIndex: 'mails/index'
+      mailIndex: 'mails/index',
+      mailDestroy: 'mails/destroy'
     }),
     filterMails () {
       this.mailIndex(this.filter)
@@ -122,8 +123,12 @@ export default {
     resetFilter () {
       this.filter = {}
     },
+    confirmDelete (mail) {
+      this.localMail = mail
+      this.confirm = !!confirm
+    },
     deleteMail () {
-
+      this.mailDestroy(this.localMail.id)
     },
     sendMail (mailId) {
 
