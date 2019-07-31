@@ -26,6 +26,20 @@ export const admin = [
         ]
       },
       {
+        path: 'mails',
+        component: () => import('pages/admin/mail/index'),
+        children: [
+          {
+            path: 'new',
+            component: () => import('pages/admin/mail/form')
+          },
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/mail/form')
+          },
+        ]
+      },
+      {
         path: 'callbacks',
         component: () => import('pages/admin/callback/index'),
         meta: {
