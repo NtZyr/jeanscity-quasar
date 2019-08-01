@@ -1,12 +1,10 @@
 <template>
     <q-layout view="lhh lpR lFf" class="bg-blue-grey-1">
-        <q-header class="bg-blue-grey-14">
-            <q-toolbar>
+        <q-header class="bg-blue-grey-2 text-black q-pl-lg q-pr-lg">
+            <q-toolbar class="q-gutter-lg">
                 <q-btn dense flat round icon="menu" @click="left = !left" />
-                <q-breadcrumbs>
-                    <q-breadcrumbs-el label="Home" />
-                    <q-breadcrumbs-el label="Components" />
-                    <q-breadcrumbs-el label="Breadcrumbs" />
+                <q-breadcrumbs active-color="blue-10">
+                    <q-breadcrumbs-el :to="breadcrumb.path" v-for="breadcrumb in breadcrumbs" :key="breadcrumb.path" :label="breadcrumb.meta.label" />
                 </q-breadcrumbs>
             </q-toolbar>
         </q-header>
@@ -141,14 +139,18 @@ export default {
   name: 'Admin',
   data () {
     return {
-      left: true
+      left: true,
     }
   },
   computed: {
     ...mapGetters({
       auth: 'auth/authUser',
       unanswered: 'callbacks/unanswered'
-    })
+    }),
+    breadcrumbs () {
+      console.log(this.$route.matched)
+      return this.$route.matched
+    }
   },
   methods: {
     ...mapActions({
