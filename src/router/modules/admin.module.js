@@ -1,11 +1,30 @@
 export const admin = [
   {
+    name: 'auth.login',
+    path: '/login',
+    component: () => import('pages/admin/login')
+  },
+  {
     path: '/admin',
     component: () => import('pages/admin/Admin.vue'),
     meta: {
-      isAuth: true
+      auth: true
     },
     children: [
+      {
+        path: 'orders',
+        component: () => import('pages/admin/order/index'),
+        children: [
+          {
+            path: 'new',
+            component: () => import('pages/admin/order/form')
+          },
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/order/form')
+          }
+        ]
+      },
       {
         path: 'categories',
         component: () => import('pages/admin/category/index'),
@@ -26,6 +45,54 @@ export const admin = [
         ]
       },
       {
+        path: 'homepage',
+        component: () => import('pages/admin/homepage/index'),
+        children: [
+          {
+            path: 'slider',
+            component: () => import('pages/admin/homepage/slider/index'),
+            children: [
+              {
+                path: 'new',
+                component: () => import('pages/admin/homepage/slider/form')
+              },
+              {
+                path: 'edit/:id',
+                component: () => import('pages/admin/homepage/slider/form')
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'attributes',
+        component: () => import('pages/admin/attribute/index'),
+        children: [
+          {
+            path: 'new',
+            component: () => import('pages/admin/attribute/form')
+          },
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/attribute/form')
+          }
+        ]
+      },
+      {
+        path: 'shippings',
+        component: () => import('pages/admin/shipping/index'),
+        children: [
+          {
+            path: 'new',
+            component: () => import('pages/admin/shipping/form')
+          },
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/shipping/form')
+          }
+        ]
+      },
+      {
         path: 'mails',
         component: () => import('pages/admin/mail/index'),
         children: [
@@ -36,7 +103,7 @@ export const admin = [
           {
             path: 'edit/:id',
             component: () => import('pages/admin/mail/form')
-          },
+          }
         ]
       },
       {

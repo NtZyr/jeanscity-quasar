@@ -10,10 +10,11 @@ import MailsModule from './modules/mails.module'
 import ShippingsModule from './modules/shippings.module'
 import UsersModule from './modules/users.module'
 import AuthModule from './modules/auth.module'
-// import ProductsModule from './modules/products.module'
 import CallbacksModule from './modules/callbacks.module'
 import AnswersModule from './modules/answers.module'
 import CustomersModule from './modules/customers.module'
+import OrdersModule from './modules/orders.module'
+// import ProductsModule from './modules/products.module'
 
 Vue.use(Vuex)
 
@@ -23,54 +24,57 @@ Vue.use(Vuex)
  */
 
 export default function (/* { ssrContext } */) {
-  	const Store = new Vuex.Store({
-        modules: {
-            categories: {
-                ...CategoriesModule
-            },
-            attributes: {
-                ...AttributesModule
-            },
-            values: {
-                ...ValuesModule
-            },
-            faqs: {
-                ...FaqsModule
-            },
-            homeslides: {
-                ...HomeslidesModule
-            },
-            mails: {
-                ...MailsModule
-            },
-            shippings: {
-                ...ShippingsModule
-            },
-            users: {
-                ...UsersModule
-            },
-            /*products: {
-                ...ProductsModule
-            },*/
-            callbacks: {
-                ...CallbacksModule
-            },
-            answers: {
-                ...AnswersModule
-            },
-            customers: {
-                ...CustomersModule
-            },
-            auth: {
-                ...AuthModule
-            }
-    	},
+  const Store = new Vuex.Store({
+    modules: {
+      categories: {
+        ...CategoriesModule
+      },
+      attributes: {
+        ...AttributesModule
+      },
+      values: {
+        ...ValuesModule
+      },
+      faqs: {
+        ...FaqsModule
+      },
+      homeslides: {
+        ...HomeslidesModule
+      },
+      mails: {
+        ...MailsModule
+      },
+      shippings: {
+        ...ShippingsModule
+      },
+      users: {
+        ...UsersModule
+      },
+      orders: {
+        ...OrdersModule
+      },
+      /* products: {
+                    ...ProductsModule
+                }, */
+      callbacks: {
+        ...CallbacksModule
+      },
+      answers: {
+        ...AnswersModule
+      },
+      customers: {
+        ...CustomersModule
+      },
+      auth: {
+        ...AuthModule
+      }
+    },
 
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: process.env.DEV
     // eslint-disable-next-line no-mixed-spaces-and-tabs
-  	})
+  })
 
   return Store
 }

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 import routes from './routes'
 
+import { getUser } from '../helpers/auth'
+
 Vue.use(VueRouter)
 
 /*
@@ -21,6 +23,29 @@ export default function (/* { store, ssrContext } */) {
     // mode: 'history',
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
+  })
+
+  Router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem('token')
+    to.matched.filter(async route => {
+      if (route.path === to.fullPath) {
+        if (route.name === 'auth.login' && token) {
+          next('/admin')
+        }
+
+        if (route.parent.meta.auth && !token) {
+          next('/login')
+        } else if (route.parent.meta.auth && token) {
+          const user = await getUser()
+          if (user.data.data) {
+            if (route.meta.access.includes(user.data.data.role.name) === false) {
+              next('/admin')
+            }
+          }
+        }
+      }
+    })
+    next()
   })
 
   return Router

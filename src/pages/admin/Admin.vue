@@ -28,7 +28,7 @@
                     <q-item-section>Обратная связь</q-item-section>
                     <q-item-section side><q-badge align="top" color="red">{{ unanswered }}</q-badge></q-item-section>
                 </q-item>
-                <q-item to="/">
+                <q-item to="/admin/orders">
                     <q-item-section>Заказы</q-item-section>
                     <q-item-section side><q-badge align="top" color="red">20</q-badge></q-item-section>
                 </q-item>
@@ -41,12 +41,12 @@
                             <q-btn to="/admin/categories/new" unelevated color="primary" outline icon="add" size="sm" round></q-btn>
                         </q-item-section>
                     </q-item>
-                    <q-item to="/">
+                    <q-item to="/admin/attributes">
                         <q-item-section>
                             Атрибуты
                         </q-item-section>
                         <q-item-section side>
-                            <q-btn unelevated color="primary" outline icon="add" size="sm" round></q-btn>
+                            <q-btn to="/admin/attributes/new" unelevated color="primary" outline icon="add" size="sm" round></q-btn>
                         </q-item-section>
                     </q-item>
                     <q-item to="/admin/products">
@@ -57,12 +57,39 @@
                             <q-btn unelevated color="primary" outline icon="add" size="sm" round></q-btn>
                         </q-item-section>
                     </q-item>
-                    <q-item to="/">
+                    <q-item to="/admin/shippings">
+                        <q-item-section>
+                            Методы доставки
+                        </q-item-section>
+                        <q-item-section side>
+                            <q-btn to="/admin/shippings/new" unelevated color="primary" outline icon="add" size="sm" round></q-btn>
+                        </q-item-section>
+                    </q-item>
+                    <q-expansion-item
+                        to="/admin/homepage/"
+                        label="Главная страница"
+                    >
+                        <q-item-section>
+                            <q-list class="bg-grey-2">
+                                <q-item to="/admin/homepage/slider">
+                                    <q-item-section>
+                                        Слайдер
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                        </q-item-section>
+                    </q-expansion-item>
+<!--                    <q-item to="/admin/homepage">-->
+<!--                        <q-item-section>-->
+<!--                            Главная страница-->
+<!--                        </q-item-section>-->
+<!--                    </q-item>-->
+                    <q-item to="/admin/mails">
                         <q-item-section>
                             Email-рассылка
                         </q-item-section>
                         <q-item-section side>
-                            <q-btn unelevated color="primary" outline icon="add" size="sm" round></q-btn>
+                            <q-btn to="/admin/mails/new" unelevated color="primary" outline icon="add" size="sm" round></q-btn>
                         </q-item-section>
                     </q-item>
                     <q-item to="/admin/users">
@@ -74,6 +101,11 @@
                         </q-item-section>
                     </q-item>
                 </template>
+                <q-item clickable @click="logoutRedirect">
+                    <q-item-section>
+                        <q-item-label class="text-red">Выйти</q-item-label>
+                    </q-item-section>
+                </q-item>
             </q-list>
         </q-drawer>
         <q-page-container>
@@ -121,15 +153,20 @@ export default {
   methods: {
     ...mapActions({
       login: 'auth/login',
+      logout: 'auth/logout',
+      checkUser: 'auth/me',
       callbacksUnanswered: 'callbacks/unanswered'
-    })
+    }),
+    logoutRedirect () {
+      this.logout()
+        .then(response => {
+          this.$router.push('/login')
+        })
+    }
   },
   created () {
+    this.checkUser()
     this.callbacksUnanswered()
-    this.login({
-      email: 'nikitos@228.su',
-      password: '1234qwer'
-    })
   }
 }
 </script>

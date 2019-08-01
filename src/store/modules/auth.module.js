@@ -1,6 +1,5 @@
 import API from '../../api.js'
-
-import { getLocalToken } from '../../helpers/auth'
+import { getLocalToken, getUser } from '../../helpers/auth'
 
 const token = getLocalToken()
 
@@ -32,7 +31,12 @@ export default {
       state.authUser = payload.data.user
       state.isAuth = true
       state.token = payload.data.token
-      localStorage.setItem('token', payload.data.token)
+    },
+    setUser (state, payload) {
+      state.authUser = payload
+    },
+    rememberUser (state, payload) {
+      localStorage.setItem('token', payload.token)
     },
     getMessage (state, payload) {
       state.message = payload
@@ -50,6 +54,9 @@ export default {
         API.post(`auth/login/`, data)
           .then(response => {
             commit('loginSuccess', response.data)
+            if (data.remember) {
+              commit('rememberUser', response.data.data)
+            }
             resolve(response)
           })
           .catch(error => {
@@ -57,6 +64,12 @@ export default {
             reject(error)
           })
       })
+    },
+    me (context) {
+      getUser()
+        .then(response => {
+          context.commit('setUser', response.data.data)
+        })
     },
     logout (context) {
       return new Promise((resolve, reject) => {
@@ -69,7 +82,7 @@ export default {
             resolve(response)
           })
           .catch(error => {
-            commit('getMessage', error.data.message)
+            context.commit('getMessage', error.data.message)
             reject(error)
           })
       })
