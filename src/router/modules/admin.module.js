@@ -8,6 +8,7 @@ export const admin = [
     }
   },
   {
+    name: 'admin.home',
     path: '/admin',
     component: () => import('pages/admin/Admin.vue'),
     meta: {
@@ -42,6 +43,7 @@ export const admin = [
         path: 'categories',
         component: () => import('pages/admin/category/index'),
         meta: {
+          label: 'Категории',
           access: [
             'admin'
           ]
@@ -49,11 +51,17 @@ export const admin = [
         children: [
           {
             path: 'new',
-            component: () => import('pages/admin/category/form')
+            component: () => import('pages/admin/category/form'),
+            meta: {
+              label: 'Создание категории'
+            }
           },
           {
             path: 'edit/:id',
-            component: () => import('pages/admin/category/form')
+            component: () => import('pages/admin/category/form'),
+            meta: {
+              label: 'Редактирование категории'
+            }
           }
         ]
       },

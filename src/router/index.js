@@ -31,13 +31,15 @@ export default function (/* { store, ssrContext } */) {
       if (route.path === to.fullPath) {
         if (route.name === 'auth.login' && token) {
           next('/admin')
+        } else if (route.name === 'admin.home' && token === null) {
+          next('/login')
         }
 
-        if (route.parent.meta.auth && !token) {
+        if (route.parent.meta.auth && token === null) {
           next('/login')
         } else if (route.parent.meta.auth && token) {
           const user = await getUser()
-          if (user.data.data) {
+          if (user.data.data && route.meta.access) {
             if (route.meta.access.includes(user.data.data.role.name) === false) {
               next('/admin')
             }

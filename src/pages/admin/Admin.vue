@@ -15,6 +15,9 @@
                         <q-item-label>{{ auth.full_name }}</q-item-label>
                         <q-item-label caption>{{ auth.role.label }}</q-item-label>
                     </q-item-section>
+                    <q-item-section side>
+                        <q-btn @click="logoutRedirect" color="red" round flat icon="logout"/>
+                    </q-item-section>
                 </q-item>
             </q-сard>
             <q-separator></q-separator>
@@ -28,7 +31,7 @@
                 </q-item>
                 <q-item to="/admin/orders">
                     <q-item-section>Заказы</q-item-section>
-                    <q-item-section side><q-badge align="top" color="red">20</q-badge></q-item-section>
+                    <q-item-section side><q-badge align="top" color="red">{{ onhold }}</q-badge></q-item-section>
                 </q-item>
                 <template v-if="auth.role.name === 'admin'">
                     <q-item to="/admin/categories">
@@ -99,11 +102,6 @@
                         </q-item-section>
                     </q-item>
                 </template>
-                <q-item clickable @click="logoutRedirect">
-                    <q-item-section>
-                        <q-item-label class="text-red">Выйти</q-item-label>
-                    </q-item-section>
-                </q-item>
             </q-list>
         </q-drawer>
         <q-page-container>
@@ -145,10 +143,10 @@ export default {
   computed: {
     ...mapGetters({
       auth: 'auth/authUser',
-      unanswered: 'callbacks/unanswered'
+      unanswered: 'callbacks/unanswered',
+      onhold: 'orders/onhold',
     }),
     breadcrumbs () {
-      console.log(this.$route.matched)
       return this.$route.matched
     }
   },
@@ -157,7 +155,8 @@ export default {
       login: 'auth/login',
       logout: 'auth/logout',
       checkUser: 'auth/me',
-      callbacksUnanswered: 'callbacks/unanswered'
+      callbacksUnanswered: 'callbacks/unanswered',
+      ordersOnHold: 'orders/onhold'
     }),
     logoutRedirect () {
       this.logout()
@@ -169,6 +168,7 @@ export default {
   created () {
     this.checkUser()
     this.callbacksUnanswered()
+    this.ordersOnHold()
   }
 }
 </script>
