@@ -76,6 +76,9 @@
                                     <q-item-section>
                                         Слайдер
                                     </q-item-section>
+                                    <q-item-section side>
+                                        <q-btn to="/admin/homepage/slider/new" unelevated color="primary" outline icon="add" size="sm" round/>
+                                    </q-item-section>
                                 </q-item>
                             </q-list>
                         </q-item-section>
