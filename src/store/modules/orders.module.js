@@ -3,10 +3,12 @@ import API from '../../api.js'
 export default {
   namespaced: true,
   state: {
+    statuses: [],
     list: [],
     item: {},
     message: null,
-    types: {}
+    errors: {},
+    onhold: null
   },
   getters: {
     item (state) {
@@ -15,33 +17,37 @@ export default {
     list (state) {
       return state.list
     },
-    message (state) {
-      return state.message
+    statuses (state) {
+      return state.roles
     },
-    types (state) {
-      return state.types
+    onhold (state) {
+      return state.onhold
     }
   },
   mutations: {
-    getAttribute (state, payload) {
+    getOrder (state, payload) {
       return state.item = Object.assign({}, payload)
     },
-    getAttributes (state, payload) {
+    getOrders (state, payload) {
       return state.list = Object.assign({}, payload)
     },
-    getMessage (state, payload) {
-      return state.message = Object.assign({}, payload)
+    getStatuses (state, payload) {
+      return state.statuses = Object.assign({}, payload)
     },
-    getTypes (state, payload) {
-      return state.types = Object.assign({}, payload)
+    getOnHold (state, payload) {
+      return state.onhold = payload
     }
   },
   actions: {
-    index (context) {
+    onhold (context) {
       return new Promise((resolve, reject) => {
-        API.get(`attributes/`)
+        API.get(`orders/onhold`, {
+          headers: {
+            'Authorization': `Bearer ${context.rootState.auth.token}`
+          }
+        })
           .then(response => {
-            context.commit('getAttributes', response.data.data)
+            context.commit('getOnHold', response.data.data)
             resolve(response)
           })
           .catch(error => {
@@ -49,13 +55,43 @@ export default {
           })
       })
     },
-    show (context, attributeId) {
+    index (context, filter) {
       return new Promise((resolve, reject) => {
-        API.get(`attributes/${attributeId}`, { headers: {
+        API.get(`orders/`, {
+          headers: {
+            'Authorization': `Bearer ${context.rootState.auth.token}`
+          },
+          params: filter
+        })
+          .then(response => {
+            context.commit('getOrders', response.data.data)
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    statuses (context) {
+      return new Promise((resolve, reject) => {
+        API.get(`orders/statuses/`, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            context.commit('getAttribute', response.data.data)
+            context.commit('getStatuses', response.data.data)
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    show (context, orderId) {
+      return new Promise((resolve, reject) => {
+        API.get(`orders/${orderId}`, { headers: {
+          'Authorization': `Bearer ${context.rootState.auth.token}`
+        } })
+          .then(response => {
             resolve(response)
           })
           .catch(error => {
@@ -65,12 +101,10 @@ export default {
     },
     store (context, newItem) {
       return new Promise((resolve, reject) => {
-        API.post(`attributes/`, newItem, { headers: {
-          'Authorization': `Bearer ${context.rootState.auth.token}`
-        } })
+        API.post(`orders/`, newItem)
           .then(response => {
-            context.commit('getAttribute', response.data.data)
-            context.commit('getMessage', response.data.message)
+            context.commit('getOrder', response.data.data)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {
@@ -78,29 +112,14 @@ export default {
           })
       })
     },
-    update (context, attribute) {
+    update (context, data) {
       return new Promise((resolve, reject) => {
-        API.put(`attributes/${attribute.id}`, attribute, { headers: {
+        API.put(`orders/${data.id}`, data, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            context.commit('getAttribute', response.data.data)
-            context.commit('getMessage', response.data.message)
-            resolve(response)
-          })
-          .catch(error => {
-            context.commit('getMessage', error.data.message)
-            reject(error)
-          })
-      })
-    },
-    destroy (context, attributeId) {
-      return new Promise((resolve, reject) => {
-        API.delete(`attributes/${attributeId}`, { headers: {
-          'Authorization': `Bearer ${context.rootState.auth.token}`
-        } })
-          .then(response => {
-            context.commit('getAttribute', response.data.data)
+            context.commit('getOrder', response.data.data)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {
@@ -108,13 +127,14 @@ export default {
           })
       })
     },
-    types (context) {
+    destroy (context, userId) {
       return new Promise((resolve, reject) => {
-        API.get('/attributes/types', { headers: {
+        API.delete(`orders/${userId}`, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            context.commit('getTypes', response.data.data)
+            context.commit('getOrder', response.data.data)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {
