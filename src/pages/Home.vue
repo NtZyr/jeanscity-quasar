@@ -7,14 +7,13 @@
                         animated
                         v-model="slide"
                         :autoplay="5500"
-                        arrows
                         infinite
                         height="325px"
                         class="slider"
                     >
                         <q-carousel-slide v-for="(item, index) in homeslides" :key="item.id" class="slider-item" :name="index" :img-src="item.image">
-                            <q-btn class="slider-btn" type="a" :href="item.link" replace color="primary text-white" size="18px" :label="item.link_label"></q-btn>
-                            <div class="text-h4 text-black" style="position:absolute; top: 18px; left: 18px; color: #fff;">{{item.title}}</div>
+                            <q-btn class="slider-btn" style="z-index: 99;" type="a" :href="item.link" replace color="primary text-white" size="18px" :label="item.link_label"></q-btn>
+                            <div class="text-h4 text-white" style="position:absolute; top: 18px; left: 18px; color: #fff; z-index: 99;">{{item.title}}</div>
                         </q-carousel-slide>
                     </q-carousel>
                 </div>
@@ -110,6 +109,24 @@
         padding: 0px;
         opacity: 0;
     }
+    .q-carousel {
+      position: relative;
+    }
+    .q-carousel:after {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: -moz-linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%); /* ff3.6+ */
+      background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(100%, rgba(255,255,255,1))); /* safari4+,chrome */
+      background: -webkit-linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%); /* safari5.1+,chrome10+ */
+      background: -o-linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%); /* opera 11.10+ */
+      background: -ms-linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%); /* ie10+ */
+      background: linear-gradient(315deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%); /* w3c */
+      opacity: 0.5;
+    }
     .slider {
         border-radius: 4px;
         .slider-item {
@@ -125,53 +142,53 @@
 </style>
 
 <script>
-    import { mapGetters } from 'vuex';
-    import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
-    export default {
-        name: 'Home',
-        data() {
-            return {
-                slide: 1,
-                slides: [],
-                array: [1,2,31,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                show: false
-            }
-        },
-        computed: {
-            ...mapGetters({
-                homeslides: 'homeslides/list',
-                homeslide: 'homeslides/item',
-                categories: 'categories/list',
-                category: 'categories/item'
-            }),
-            getFirstLine() {
-                const arr = this.array.filter((item , index)=>{
-                    return index < 6;
-                })
-                return arr;
-            },
-            getArray() {
-                const arr = this.array.filter((item , index)=>{
-                    return index > 5;
-                })
-                return arr;
-            }
-        },
-        methods: {
-            ...mapActions({
-                homeslidesIndex: 'homeslides/index',
-                homeslidesShow: 'homeslides/show',
-                categoriesIndex: 'categories/index',
-                categoriesShow: 'categories/show'
-            })
-        },
-        created () {
-            // this.slides = this.homeslidesIndex()
-            this.homeslidesIndex()
-        },
-        mounted () {
-            // this.homeslidesIndex()
-        }
+export default {
+  name: 'Home',
+  data () {
+    return {
+      slide: 1,
+      slides: [],
+      array: [1,2,31,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      show: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      homeslides: 'homeslides/list',
+      homeslide: 'homeslides/item',
+      categories: 'categories/list',
+      category: 'categories/item'
+    }),
+    getFirstLine () {
+      const arr = this.array.filter((item, index) => {
+        return index < 6
+      })
+      return arr
+    },
+    getArray () {
+      const arr = this.array.filter((item, index) => {
+        return index > 5
+      })
+      return arr
+    }
+  },
+  methods: {
+    ...mapActions({
+      homeslidesIndex: 'homeslides/index',
+      homeslidesShow: 'homeslides/show',
+      categoriesIndex: 'categories/index',
+      categoriesShow: 'categories/show'
+    })
+  },
+  created () {
+    // this.slides = this.homeslidesIndex()
+    this.homeslidesIndex()
+  },
+  mounted () {
+    // this.homeslidesIndex()
+  }
+}
 </script>

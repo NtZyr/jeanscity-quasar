@@ -1,10 +1,8 @@
 <template>
     <div class="q-px-none row q-col-gutter-x-lg content-margin">
-        <div class="col-12">
-            <q-breadcrumbs class="q-pl-lg q-mb-md">
-                <q-breadcrumbs-el label="Home" to="/products" />
-                <q-breadcrumbs-el label="Components" />
-                <q-breadcrumbs-el label="Breadcrumbs" />
+        <div class="col-12 q-pb-lg">
+            <q-breadcrumbs active-color="blue-10">
+                <q-breadcrumbs-el v-for="breadcrumb in breadcrumbs" :to="breadcrumb.path" :key="breadcrumb.path" :label="breadcrumb.meta.label" />
             </q-breadcrumbs>
         </div>
         <div class="col-sm-12 col-xs-12">
@@ -79,7 +77,7 @@
 
 <script>
     export default {
-        data() {
+        data () {
             return {
                 model: null,
                 sail: true,
@@ -129,6 +127,12 @@
                     }
                 ]
             }
+        },
+        computed: {
+          breadcrumbs () {
+            console.log(this.$route.matched)
+            return this.$route.matched
+          }
         }
     }
 </script>

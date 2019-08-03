@@ -1,10 +1,8 @@
 <template>
     <div class="q-py-md q-px-none row q-col-gutter-x-lg content-margin">
-        <div class="col-12">
-            <q-breadcrumbs class="q-pl-lg q-mb-md">
-                <q-breadcrumbs-el label="Home" to="/products" />
-                <q-breadcrumbs-el label="Components" />
-                <q-breadcrumbs-el label="Breadcrumbs" />
+        <div class="col-12 q-pb-lg">
+            <q-breadcrumbs active-color="blue-10">
+              <q-breadcrumbs-el v-for="breadcrumb in breadcrumbs" :to="breadcrumb.path" :key="breadcrumb.path" :label="breadcrumb.meta.label" />
             </q-breadcrumbs>
         </div>
         <div class="col-md-3 col-sm-4 col-xs-12 q-mb-xs-xl">
@@ -398,108 +396,112 @@
 </style>
 
 <script>
-    export default {
-        data () {
-            return {
-                tab: 'mails',
-                teal: false,
-                pageNumber: 1,
-                size: 9,
-                standard: {
-                    min: 10,
-                    max: 111175
-                },
-                model: null,
-                options: [
-                    'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-                ],
-                sizes: ['xs','s','m','l','xl','s','m','l','xl','s','m','l','xl','xl','s','m','l','xl'],
-                listData: [
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image.png',
-                        sail: true,
-                        sail_value: 0.8
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image2.png',
-                        sail: false
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image.png',
-                        sail: true,
-                        sail_value: 0.3
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image2.png',
-                        sail: false
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image.png',
-                        sail: true,
-                        sail_value: 0.3
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image.png'
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image.png'
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image.png'
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image.png'
-                    },
-                    {
-                        price: 10000,
-                        name: 'Lamborghiny',
-                        type: 'Футболка мужская',
-                        img: '../statics/images/image2.png'
-                    }
-                ]
-            }
+export default {
+  data () {
+    return {
+      tab: 'mails',
+      teal: false,
+      pageNumber: 1,
+      size: 9,
+      standard: {
+        min: 10,
+        max: 111175
+      },
+      model: null,
+      options: [
+        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+      ],
+      sizes: ['xs','s','m','l','xl','s','m','l','xl','s','m','l','xl','xl','s','m','l','xl'],
+      listData: [
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image.png',
+          sail: true,
+          sail_value: 0.8
         },
-        methods: {
-            maxPages() {
-                let pages = Math.floor(this.listData.length / this.size);
-                if (this.listData.length % this.size > 0)
-                    pages = pages + 1;
-                return pages;
-            }
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image2.png',
+          sail: false
         },
-        computed: {
-            paginatedItems() {
-                const start = (this.pageNumber-1) * this.size,
-                    end = start + this.size;
-                return this.listData.slice(start, end);
-            }
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image.png',
+          sail: true,
+          sail_value: 0.3
+        },
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image2.png',
+          sail: false
+        },
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image.png',
+          sail: true,
+          sail_value: 0.3
+        },
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image.png'
+        },
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image.png'
+        },
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image.png'
+        },
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image.png'
+        },
+        {
+          price: 10000,
+          name: 'Lamborghiny',
+          type: 'Футболка мужская',
+          img: '../statics/images/image2.png'
         }
+      ]
     }
+  },
+  methods: {
+    maxPages () {
+      let pages = Math.floor(this.listData.length / this.size)
+      if (this.listData.length % this.size > 0)
+        pages = pages + 1
+      return pages
+    }
+  },
+  computed: {
+    paginatedItems () {
+      const start = (this.pageNumber - 1) * this.size,
+        end = start + this.size
+      return this.listData.slice(start, end)
+    },
+    breadcrumbs () {
+      console.log(this.$route.matched)
+      return this.$route.matched
+    }
+  }
+}
 </script>

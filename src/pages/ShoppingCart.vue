@@ -122,8 +122,6 @@
                                 <div class="text-subtitle1 q-pb-sm" style="font-size: 18px;">Способ доставки</div>
                                 <q-radio v-model="pickup" val="pickup" label="Самовывоз: 0 руб." />
                                 <q-radio v-model="pickup" val="courier" label="Доставка: 1350 руб." />
-<!--                                <q-toggle v-model="pickup" @click="pickup = !pickup" :disable="courier" label="Самовывоз: 0 руб." />-->
-<!--                                <q-toggle v-model="courier" @click="courier = !courier" :disable="pickup" label="Доставка курьером: 1350 руб." />-->
                                 <div class="q-my-md total" style="position: relative;">
                                     Итоговая сумма: <br>
                                     <span>(с учётом доставки)</span>
@@ -213,72 +211,86 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                firstName: null,
-                lastName: null,
-                email: null,
-                phone: null,
-                street: null,
-                house: null,
-                corps: null,
-                flat: null,
-                pickup: 'pickup',
-                subscription: false,
-                personal: false,
-                total: null,
-                card_items: [
-                    {
-                        sail: true,
-                        name: "Футболка мужкая новая и красивая",
-                        number: 1,
-                        price: 111110000,
-                        sail_value: 0.8
-                    },
-                    {
-                        sail: false,
-                        name: "Футболка мужкая новая",
-                        number: 1,
-                        price: 8000,
-                        sail_value: 0.9
-                    },
-                    {
-                        sail: true,
-                        name: "Красивая очень настолько что даже ок",
-                        number: 1,
-                        price: 15000,
-                        sail_value: 0.5
-                    }
-                ]
-            }
-        },
-        computed: {
-            countTotal() {
-                this.total = 0;
-                for (let i = 0; i < this.card_items.length; i++) {
-                    if(this.card_items[i].sail)
-                        this.total = this.total + (this.card_items[i].price * this.card_items[i].sail_value) * this.card_items[i].number
-                    else
-                        this.total = this.total + this.card_items[i].price * this.card_items[i].number
-                }
-                if (this.pickup === 'courier')
-                    this.total = this.total + 1350
-                return (this.total + "").split("").reverse().join("").replace(/(\d{3})/g, "$1 ").split("").reverse().join("").replace(/^ /, "");
-            }
-        },
-        methods: {
-            deleteItem(id) {
-                this.card_items.splice(id, 1)
-            },
-            onSubmit() {
+import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
-            },
-            onReset() {
-
-            }
+export default {
+  data () {
+    return {
+      firstName: null,
+      lastName: null,
+      email: null,
+      phone: null,
+      street: null,
+      house: null,
+      corps: null,
+      flat: null,
+      pickup: 'pickup',
+      subscription: false,
+      personal: false,
+      // total: null,
+      card_items: [
+        {
+          sail: true,
+          name: 'Футболка мужкая новая и красивая',
+          number: 1,
+          price: 111110000,
+          sail_value: 0.8
+        },
+        {
+          sail: false,
+          name: 'Футболка мужкая новая',
+          number: 1,
+          price: 8000,
+          sail_value: 0.9
+        },
+        {
+          sail: true,
+          name: 'Красивая очень настолько что даже ок',
+          number: 1,
+          price: 15000,
+          sail_value: 0.5
         }
+      ]
     }
+  },
+  computed: {
+    ...mapGetters({
+      shippings: 'shippings/list',
+      shipping: 'shippings/item'
+    }),
+    countTotal () {
+      let total = 0
+      for (let i = 0; i < this.card_items.length; i++) {
+        if (this.card_items[i].sail)
+          total = total + (this.card_items[i].price * this.card_items[i].sail_value) * this.card_items[i].number
+        else
+          total = total + this.card_items[i].price * this.card_items[i].number
+      }
+      if (this.pickup === 'courier')
+        total = total + 1350
+      return (total + "").split("").reverse().join("").replace(/(\d{3})/g, "$1 ").split("").reverse().join("").replace(/^ /, "");
+    }
+  },
+  methods: {
+    ...mapActions({
+      shippingsIndex: 'shippings/index',
+      shippingsShow: 'shippings/show',
+      shippingsStore: 'shippings/store',
+      shippingsUpdate: 'shippings/update',
+      shippingsDestroy: 'shippings/destroy'
+    }),
+    deleteItem (id) {
+      this.card_items.splice(id, 1)
+    },
+    onSubmit () {
+
+    },
+    onReset () {
+
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>

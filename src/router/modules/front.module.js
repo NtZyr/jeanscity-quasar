@@ -2,6 +2,9 @@ export const front = [
   {
     path: '/',
     component: () => import('pages/Front.vue'),
+    meta: {
+      label: 'Главная'
+    },
     children: [
       {
         path: '',
@@ -10,6 +13,9 @@ export const front = [
       {
         path: '/products',
         component: () => import('pages/Menu.vue'),
+        meta: {
+          label: 'Мужское'
+        },
         children: [
           {
             path: '/',
@@ -17,7 +23,11 @@ export const front = [
           },
           {
             path: 'item',
-            component: () => import('pages/Item.vue')
+            component: () => import('pages/Item.vue'),
+            meta: {
+              type: null,
+              label: 'Футболка мужская'
+            }
           }
         ]
       },
