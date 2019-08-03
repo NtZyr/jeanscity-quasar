@@ -30,11 +30,14 @@ export default {
     }
   },
   actions: {
-    parents (context) {
+    parents (context, filter) {
       return new Promise((resolve, reject) => {
-        API.get(`categories/parents`, { headers: {
-          'Authorization': `Bearer ${context.rootState.auth.token}`
-        } })
+        API.get(`categories/parents`, {
+          headers: {
+            'Authorization': `Bearer ${context.rootState.auth.token}`
+          },
+          params: filter
+        })
           .then(response => {
             // context.commit('getCategories', response.data.data)
             resolve(response)
