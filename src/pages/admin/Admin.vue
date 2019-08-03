@@ -33,7 +33,7 @@
                     <q-item-section>Заказы</q-item-section>
                     <q-item-section side><q-badge align="top" color="red">{{ onhold }}</q-badge></q-item-section>
                 </q-item>
-                <template v-if="auth.role.name === 'admin'">
+                <template v-if="auth.role.name === 'admin' || auth.role.name === 'superadmin'">
                     <q-item to="/admin/categories">
                         <q-item-section>
                             Категории

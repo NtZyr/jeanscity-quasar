@@ -45,7 +45,8 @@ export const admin = [
         meta: {
           label: 'Категории',
           access: [
-            'admin'
+            'admin',
+            'superadmin'
           ]
         },
         children: [
@@ -166,6 +167,7 @@ export const admin = [
         meta: {
           label: 'Запросы',
           access: [
+            'superadmin',
             'admin',
             'moder'
           ]
@@ -185,7 +187,8 @@ export const admin = [
         component: () => import('pages/admin/products/index'),
         meta: {
           access: [
-            'admin'
+            'admin',
+            'superadmin'
           ],
           label: 'Рассылки'
         }
@@ -195,7 +198,8 @@ export const admin = [
         component: () => import('pages/admin/user/index'),
         meta: {
           access: [
-            'admin'
+            'admin',
+            'superadmin'
           ],
           label: 'Пользователи'
         },

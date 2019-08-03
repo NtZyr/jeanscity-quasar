@@ -48,7 +48,7 @@
                                 <q-item-section side>
                                     <q-btn-group outline rounded>
                                         <q-btn size="sm" :to="`/admin/users/edit/${user.id}`" outline color="primary" round icon="edit"/>
-                                        <template v-if="user.role.name !== 'admin' || auth.role.name === 'superadmin'">
+                                        <template v-if="auth.role.name === 'superadmin'">
                                             <q-btn size="sm" @click="confirmDelete(user)" outline color="negative" round icon="delete"/>
                                         </template>
                                     </q-btn-group>
