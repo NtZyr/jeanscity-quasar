@@ -2,7 +2,7 @@ export const admin = [
   {
     name: 'auth.login',
     path: '/login',
-    component: () => import('pages/admin/login'),
+    component: () => import('pages/admin/Login.vue'),
     meta: {
       label: 'Страница входа'
     }
@@ -18,21 +18,21 @@ export const admin = [
     children: [
       {
         path: 'orders',
-        component: () => import('pages/admin/order/index'),
+        component: () => import('pages/admin/order/Index.vue'),
         meta: {
           label: 'Заказы'
         },
         children: [
           {
             path: 'new',
-            component: () => import('pages/admin/order/form'),
+            component: () => import('pages/admin/order/Form.vue'),
             meta: {
               label: 'Новый заказ'
             }
           },
           {
             path: 'edit/:id',
-            component: () => import('pages/admin/order/form'),
+            component: () => import('pages/admin/order/Form.vue'),
             meta: {
               label: 'Редактирование заказа'
             }
@@ -41,7 +41,7 @@ export const admin = [
       },
       {
         path: 'categories',
-        component: () => import('pages/admin/category/index'),
+        component: () => import('pages/admin/category/Index.vue'),
         meta: {
           label: 'Категории',
           access: [
@@ -51,14 +51,14 @@ export const admin = [
         children: [
           {
             path: 'new',
-            component: () => import('pages/admin/category/form'),
+            component: () => import('pages/admin/category/Form.vue'),
             meta: {
               label: 'Создание категории'
             }
           },
           {
             path: 'edit/:id',
-            component: () => import('pages/admin/category/form'),
+            component: () => import('pages/admin/category/Form.vue'),
             meta: {
               label: 'Редактирование категории'
             }
@@ -67,25 +67,25 @@ export const admin = [
       },
       {
         path: 'homepage',
-        component: () => import('pages/admin/homepage/index'),
+        component: () => import('pages/admin/homepage/Index.vue'),
         meta: {
           label: 'Настройки главной страницы'
         },
         children: [
           {
             path: 'slider',
-            component: () => import('pages/admin/homepage/slider/index'),
+            component: () => import('pages/admin/homepage/slider/Index.vue'),
             meta: {
               label: 'Слайдер'
             },
             children: [
               {
                 path: 'new',
-                component: () => import('pages/admin/homepage/slider/form')
+                component: () => import('pages/admin/homepage/slider/Form.vue')
               },
               {
                 path: 'edit/:id',
-                component: () => import('pages/admin/homepage/slider/form')
+                component: () => import('pages/admin/homepage/slider/Form.vue')
               }
             ]
           }
@@ -93,21 +93,21 @@ export const admin = [
       },
       {
         path: 'attributes',
-        component: () => import('pages/admin/attribute/index'),
+        component: () => import('pages/admin/attribute/Index.vue'),
         meta: {
           label: 'Атрибуты товаров'
         },
         children: [
           {
             path: 'new',
-            component: () => import('pages/admin/attribute/form'),
+            component: () => import('pages/admin/attribute/Form.vue'),
             meta: {
               label: 'Создать атрибут'
             }
           },
           {
             path: 'edit/:id',
-            component: () => import('pages/admin/attribute/form'),
+            component: () => import('pages/admin/attribute/Form.vue'),
             meta: {
               label: 'Редактировать атрибут'
             }
@@ -116,21 +116,21 @@ export const admin = [
       },
       {
         path: 'shippings',
-        component: () => import('pages/admin/shipping/index'),
+        component: () => import('pages/admin/shipping/Index.vue'),
         meta: {
           label: 'Методы доставки'
         },
         children: [
           {
             path: 'new',
-            component: () => import('pages/admin/shipping/form'),
+            component: () => import('pages/admin/shipping/Form.vue'),
             meta: {
               label: 'Создать метод доставки'
             }
           },
           {
             path: 'edit/:id',
-            component: () => import('pages/admin/shipping/form'),
+            component: () => import('pages/admin/shipping/Form.vue'),
             meta: {
               label: 'Редактировать метод доставки'
             }
@@ -139,21 +139,21 @@ export const admin = [
       },
       {
         path: 'mails',
-        component: () => import('pages/admin/mail/index'),
+        component: () => import('pages/admin/mail/Index.vue'),
         meta: {
           label: 'Рассылки'
         },
         children: [
           {
             path: 'new',
-            component: () => import('pages/admin/mail/form'),
+            component: () => import('pages/admin/mail/Form.vue'),
             meta: {
               label: 'Добавить рассылку'
             }
           },
           {
             path: 'edit/:id',
-            component: () => import('pages/admin/mail/form'),
+            component: () => import('pages/admin/mail/Form.vue'),
             meta: {
               label: 'Редактировать рассылку'
             }
@@ -162,7 +162,7 @@ export const admin = [
       },
       {
         path: 'callbacks',
-        component: () => import('pages/admin/callback/index'),
+        component: () => import('pages/admin/callback/Index.vue'),
         meta: {
           label: 'Запросы',
           access: [
@@ -173,7 +173,7 @@ export const admin = [
         children: [
           {
             path: 'answer/:id',
-            component: () => import('pages/admin/callback/form'),
+            component: () => import('pages/admin/callback/Form.vue'),
             meta: {
               label: 'Ответ'
             }
@@ -182,7 +182,7 @@ export const admin = [
       },
       {
         path: 'products',
-        component: () => import('pages/admin/products/index'),
+        component: () => import('pages/admin/products/Index.vue'),
         meta: {
           access: [
             'admin'
@@ -192,7 +192,7 @@ export const admin = [
       },
       {
         path: 'users',
-        component: () => import('pages/admin/user/index'),
+        component: () => import('pages/admin/user/Index.vue'),
         meta: {
           access: [
             'admin'
@@ -202,14 +202,14 @@ export const admin = [
         children: [
           {
             path: 'new',
-            component: () => import('pages/admin/user/form'),
+            component: () => import('pages/admin/user/Form.vue'),
             meta: {
               label: 'Создать пользователя'
             }
           },
           {
             path: 'edit/:id',
-            component: () => import('pages/admin/user/form'),
+            component: () => import('pages/admin/user/Form.vue'),
             meta: {
               label: 'Редактировать пользователя'
             }

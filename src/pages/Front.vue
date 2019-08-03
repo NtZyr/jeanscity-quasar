@@ -104,14 +104,21 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-    name: 'App',
-    data() {
-        return {
-            tab: '',
-            email: ''
-        }
+  name: 'App',
+  data () {
+    return {
+      tab: '',
+      email: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      shippings: 'shippings/list'
+    })
+  }
 }
 </script>
 
