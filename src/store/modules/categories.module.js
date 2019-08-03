@@ -79,6 +79,7 @@ export default {
             // console.log(response)
             context.commit('getCategory', response.data.data)
             context.commit('getMessage', response.data.message)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {

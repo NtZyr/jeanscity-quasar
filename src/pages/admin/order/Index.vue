@@ -63,20 +63,6 @@
                     <span>Заказы не найдены</span>
                 </template>
             </div>
-            <q-dialog v-model="confirm" persistent>
-                <q-card>
-                    <q-card-section class="row items-center">
-                        <template v-if="order">
-                            <span>Удалить заказ {{ order.id }}?</span>
-                        </template>
-                    </q-card-section>
-
-                    <q-card-actions align="right">
-                        <q-btn flat label="Отмена" color="primary" v-close-popup />
-                        <q-btn flat label="Удалить" @click="deleteOrder" color="negative" v-close-popup />
-                    </q-card-actions>
-                </q-card>
-            </q-dialog>
             <div class="col-lg-6">
                 <transition name="fade" mode="out-in">
                     <router-view/>
@@ -97,7 +83,6 @@ export default {
   },
   data () {
     return {
-      confirm: false,
       filter: {
         page: 1
       },
@@ -117,7 +102,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // statuses: 'orders/statuses',
       orders: 'orders/list'
     }),
     issetOrders () {
