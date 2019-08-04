@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="col-12 q-py-xs-sm q-py-md-none">
-                            <div class="row margin-fix q-py-xs-sm item-shadow" style="min-height: 265px; position:relative; background: #FAFAFA;" v-for="(item, index) in localStorage.card_items">
+                            <div class="row margin-fix q-py-xs-sm item-shadow" style="min-height: 265px; position:relative; background: #FAFAFA;" v-for="(item, index) in card_items">
                                 <div class="close">
                                     <i class="material-icons" style="font-size: 24px; cursor: pointer;" @click="deleteItem(item.id)">
                                         close
@@ -230,29 +230,6 @@ export default {
             variantId: 1,
             qty: 1
           }
-        ],
-        card_items: [
-          {
-            sail: true,
-            name: 'Футболка мужкая новая и красивая',
-            number: 1,
-            price: 111110000,
-            sail_value: 0.8
-          },
-          {
-            sail: false,
-            name: 'Футболка мужкая новая',
-            number: 1,
-            price: 8000,
-            sail_value: 0.9
-          },
-          {
-            sail: true,
-            name: 'Красивая очень настолько что даже ок',
-            number: 1,
-            price: 15000,
-            sail_value: 0.5
-          }
         ]
       },
       firstName: null,
@@ -265,7 +242,30 @@ export default {
       flat: null,
       pickup: 'pickup',
       subscription: false,
-      personal: false
+      personal: false,
+      card_items: [
+        {
+          sail: true,
+          name: 'Футболка мужкая новая и красивая',
+          number: 1,
+          price: 111110000,
+          sail_value: 0.8
+        },
+        {
+          sail: false,
+          name: 'Футболка мужкая новая',
+          number: 1,
+          price: 8000,
+          sail_value: 0.9
+        },
+        {
+          sail: true,
+          name: 'Красивая очень настолько что даже ок',
+          number: 1,
+          price: 15000,
+          sail_value: 0.5
+        }
+      ]
       // total: null,
     }
   },
@@ -278,11 +278,11 @@ export default {
     }),
     countTotal () {
       let total = 0
-      for (let i = 0; i < this.localStorage.card_items.length; i++) {
-        if (this.localStorage.card_items[i].sail) {
-          total = total + (this.localStorage.card_items[i].price * this.localStorage.card_items[i].sail_value) * this.localStorage.card_items[i].number
+      for (let i = 0; i < this.card_items.length; i++) {
+        if (this.card_items[i].sail) {
+          total = total + (this.card_items[i].price * this.card_items[i].sail_value) * this.card_items[i].number
         } else {
-          total = total + this.localStorage.card_items[i].price * this.localStorage.card_items[i].number
+          total = total + this.card_items[i].price * this.card_items[i].number
         }
       }
       if (this.pickup === 'courier') {
@@ -303,12 +303,12 @@ export default {
       ordersUpdate: 'orders/update',
       ordersDestroy: 'orders/destroy'
     }),
-    /*deleteItem (id) {
-      this.ordersDestroy(id)
-    },*/
     deleteItem (id) {
-      this.localStorage.card_items.splice(id, 1)
+      this.ordersDestroy(id)
     },
+    /*deleteItem (id) {
+      this.card_items.splice(id, 1)
+    },*/
     onSubmit () {
 
     },
