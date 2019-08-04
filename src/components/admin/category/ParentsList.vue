@@ -3,9 +3,9 @@
         <template v-for="category in categories">
             <q-expansion-item :key="category.id">
                 <template v-slot:header>
-                    <q-item-section side>
+                    <q-item-section v-if="category.thumbnail" side>
                         <q-avatar square>
-                            <img :src="category.thumbnail" :alt="category.name">
+                            <img :src="category.thumbnail_image" :alt="category.name">
                         </q-avatar>
                     </q-item-section>
                     <q-item-section>

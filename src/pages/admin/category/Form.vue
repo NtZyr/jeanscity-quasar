@@ -17,15 +17,29 @@
                 </q-banner>
             </transition>
             <q-card-section>
+                <div class="q-pa-none">
+                    <div class="row items-center q-col-gutter-md" v-if="localCategory.thumbnail">
+                        <div class="col-auto">
+                            <q-avatar size="100px" square>
+                                <q-img :src="localCategory.thumbnail_image"/>
+                            </q-avatar>
+                        </div>
+                        <div class="col">
+                            <h6 class="q-ma-none">
+                                {{ localCategory.thumbnail.file_name }}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
                 <q-uploader
                     label="Миниатюра категории"
+                    ref="uploader"
                     accept="image/png, image/jpg, image/jpeg"
                     class="full-width q-mt-md q-mb-md"
                     flat
                     bordered
                     :multiple="false"
-                    hide-upload-btn
-                    @added="attachThumbnail"
+                    :factory="uploadFile"
                 />
                 <q-input
                     v-model="localCategory.name"
@@ -71,7 +85,7 @@ export default {
       localErrors: [],
       localParents: [],
       rules: {
-        name: [ value => !!value || 'Поле обязательно' ],
+        name: [ value => !!value || 'Поле обязательно' ]
       }
     }
   },
@@ -99,10 +113,22 @@ export default {
       parents: 'categories/parents',
       categoryShow: 'categories/show',
       categoryUpdate: 'categories/update',
-      categoryStore: 'categories/store'
+      categoryStore: 'categories/store',
+      mediaStore: 'media/store',
+      mediaShow: 'media/show'
     }),
-    attachThumbnail (file) {
-      this.localCategory.thumbnail_file = file
+    uploadFile (files) {
+      let formData = new FormData()
+      formData.append('media', files[0])
+      this.mediaStore(formData)
+        .then(response => {
+          console.log(response)
+          this.localMessage = {
+            text: response.data.message,
+            status: response.status
+          }
+          this.localCategory.thumbnail_id = response.data.data.id
+        })
     },
     loadCategory (categoryId) {
       this.localCategory = {}
