@@ -1,12 +1,13 @@
 export default {
   namespaced: true,
   state: {
-    card: {
-      shippingId: null,
-      customerId: null,
-      customer: [],
+    cart: {
+      shipping_id: null,
+      customer_id: null,
+      customer: {},
       lines: []
-    }
+    },
+    message: null
   },
   getters: {
     cart (state) {
@@ -21,22 +22,24 @@ export default {
   },
   mutations: {
     addItem (state, { newItem }) {
-      if (state.cart.lines.find(item => item.variantId === newItem.variantId)) {
-        //?
-      } else {
-        return state.cart.lines.push(newItem)
-      }
+      state.cart.lines.push(newItem)
+    },
+    countPlus (state, { newItem }) {
+      state.cart.lines.variant.qty += newItem.qty
     },
     removeItem (state, { variantId }) {
       state.cart.lines = state.cart.lines.filter(el =>
-        el.variantId !== variantId
+        el.variant_id !== variantId
       )
+    },
+    getMessage (state, payload) {
+      state.message = payload
     },
     updateLocal (state) {
       localStorage.setItem('cart', state.cart)
     },
     addCustomer (state, payload) {
-      state.cart.customer.push(payload)
+      state.cart.customer = payload
     },
     addShipping (state, payload) {
       state.cart.shippingId = payload
@@ -44,11 +47,24 @@ export default {
   },
   actions: {
     addItem (context, newItem) {
-      context.commit('addItem', { newItem })
+      let item = context.state.cart.lines.find(item => item.variant_id === newItem.variant.id)
+      if (item) {
+        if (item.qty + newItem.qty < newItem.variant.in_stock && item.qty + newItem.qty > 0) {
+          context.commit('countPlus', { newItem })
+          context.commit('getMessage', 'Товар успешно добавлен')
+        } else {
+          // context.state.message = 'Не удалось добавить товар в корзину'
+        }
+      } else if (newItem.qty < newItem.variant.in_stock) {
+        context.commit('addItem', { newItem })
+        context.commit('getMessage', 'Товар успешно добавлен')
+      } else {
+        context.commit('getMessage', 'Недостаточно товара')
+      }
       context.dispatch('updateLocal')
     },
     removeItem (context, id) {
-      context.commit('removeItem', { variantId: id })
+      context.commit('removeItem', { variant_id: id })
       context.dispatch('updateLocal')
     },
     addCustomer (context, customer) {
