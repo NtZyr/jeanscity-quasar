@@ -129,9 +129,6 @@ export default {
       setTimeout(() => {
         this.localMessage = {}
       }, 2000)
-    },
-    'localCategory.thumbnail': function (value) {
-      console.log(value)
     }
   },
   methods: {
