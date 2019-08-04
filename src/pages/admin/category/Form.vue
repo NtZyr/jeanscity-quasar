@@ -127,7 +127,7 @@ export default {
             text: response.data.message,
             status: response.status
           }
-          this.localCategory.thumbnail_id = response.data.data.id
+          this.localCategory.media_id = response.data.data.id
         })
     },
     loadCategory (categoryId) {
