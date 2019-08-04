@@ -24,7 +24,7 @@
                             <div class="text-h6 q-pt-md" :class="{ 'sail': sail}" v-show="sail">10000 р.</div>
                             <div class="text-subtitle1 q-pt-md">Размер:</div>
                             <q-select class="q-pb-md" outlined v-model="model" style="max-width: 200px" :options="options" label="Выберите размер" />
-                            <q-btn color="red-8 item-btn" style="height: 49px; width: 250px;" class="q-mb-xl q-mt-xl" label="Добавить в корзину" />
+                            <q-btn @click="itemStore(item)" color="red-8 item-btn" style="height: 49px; width: 250px;" class="q-mb-xl q-mt-xl" label="Добавить в корзину" />
                         </div>
                         <div class="col-md-12 col-sm-6 col-xs-12">
                             <div class="product-info q-pt-md-xl q-pt-sm-xs q-pb-xl q-mb-lg">
@@ -76,63 +76,72 @@
 </style>
 
 <script>
-    export default {
-        data () {
-            return {
-                model: null,
-                sail: true,
-                options: [
-                    'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-                ],
-                small: [
-                    {
-                        img: "../statics/images/image.png",
-                    },
-                    {
-                        img: "../statics/images/image2.png",
-                    },
-                    {
-                        img: "../statics/images/image.png",
-                    },
-                    {
-                        img: "../statics/images/image2.png",
-                    },
-                    {
-                        img: "../statics/images/image2.png",
-                    },
-                    {
-                        img: "../statics/images/image2.png",
-                    }
-                ],
-                images: [
-                    {
-                        id: 1,
-                        img: "../statics/images/image.png"
-                    },
-                    {
-                        id: 2,
-                        img: "../statics/images/image2.png"
-                    },
-                    {
-                        id: 3,
-                        img: "../statics/images/image.png"
-                    },
-                    {
-                        id: 4,
-                        img: "../statics/images/image2.png"
-                    },
-                    {
-                        id: 5,
-                        img: "../statics/images/image.png"
-                    }
-                ]
-            }
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  data () {
+    return {
+      model: null,
+      sail: true,
+      options: [
+        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+      ],
+      errors: [],
+      item: {
+        name: 'Футболка мужская'
+      },
+      small: [
+        {
+          img: "../statics/images/image.png",
         },
-        computed: {
-          breadcrumbs () {
-            console.log(this.$route.matched)
-            return this.$route.matched
-          }
+        {
+          img: "../statics/images/image2.png",
+        },
+        {
+          img: "../statics/images/image.png",
+        },
+        {
+          img: "../statics/images/image2.png",
+        },
+        {
+          img: "../statics/images/image2.png",
+        },
+        {
+          img: "../statics/images/image2.png",
         }
+      ],
+      images: [
+        {
+          id: 1,
+          img: "../statics/images/image.png"
+        },
+        {
+          id: 2,
+          img: "../statics/images/image2.png"
+        },
+        {
+          id: 3,
+          img: "../statics/images/image.png"
+        },
+        {
+          id: 4,
+          img: "../statics/images/image2.png"
+        },
+        {
+          id: 5,
+          img: "../statics/images/image.png"
+        }
+      ]
     }
+  },
+  computed: {
+    breadcrumbs () {
+      console.log(this.$route.matched)
+      return this.$route.matched
+    }
+  },
+  methods: {
+
+  }
+}
 </script>

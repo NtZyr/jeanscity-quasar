@@ -17,7 +17,7 @@
                         <div class="col-12 q-py-xs-sm q-py-md-none">
                             <div class="row margin-fix q-py-xs-sm item-shadow" style="min-height: 265px; position:relative; background: #FAFAFA;" v-for="(item, index) in card_items">
                                 <div class="close">
-                                    <i class="material-icons" style="font-size: 24px; cursor: pointer;" @click="deleteItem(index)">
+                                    <i class="material-icons" style="font-size: 24px; cursor: pointer;" @click="deleteItem(item.id)">
                                         close
                                     </i>
                                 </div>
@@ -211,12 +211,27 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
     return {
+      localStorage: {
+        shippingId: 1,
+        customerId: null,
+        customer: {
+          name: null,
+          email: null,
+          phone: null,
+          address: null
+        },
+        lines: [
+          {
+            variantId: 1,
+            qty: 1
+          }
+        ]
+      },
       firstName: null,
       lastName: null,
       email: null,
@@ -228,7 +243,6 @@ export default {
       pickup: 'pickup',
       subscription: false,
       personal: false,
-      // total: null,
       card_items: [
         {
           sail: true,
@@ -252,23 +266,28 @@ export default {
           sail_value: 0.5
         }
       ]
+      // total: null,
     }
   },
   computed: {
     ...mapGetters({
       shippings: 'shippings/list',
-      shipping: 'shippings/item'
+      shipping: 'shippings/item',
+      orders: 'orders/list',
+      order: 'orders/item'
     }),
     countTotal () {
       let total = 0
       for (let i = 0; i < this.card_items.length; i++) {
-        if (this.card_items[i].sail)
+        if (this.card_items[i].sail) {
           total = total + (this.card_items[i].price * this.card_items[i].sail_value) * this.card_items[i].number
-        else
+        } else {
           total = total + this.card_items[i].price * this.card_items[i].number
+        }
       }
-      if (this.pickup === 'courier')
+      if (this.pickup === 'courier') {
         total = total + 1350
+      }
       return (total + "").split("").reverse().join("").replace(/(\d{3})/g, "$1 ").split("").reverse().join("").replace(/^ /, "");
     }
   },
@@ -276,13 +295,20 @@ export default {
     ...mapActions({
       shippingsIndex: 'shippings/index',
       shippingsShow: 'shippings/show',
-      shippingsStore: 'shippings/store',
       shippingsUpdate: 'shippings/update',
-      shippingsDestroy: 'shippings/destroy'
+      shippingsStore: 'shippings/store',
+      shippingsDestroy: 'shippings/destroy',
+      ordersIndex: 'orders/index',
+      ordersShow: 'orders/show',
+      ordersUpdate: 'orders/update',
+      ordersDestroy: 'orders/destroy'
     }),
     deleteItem (id) {
-      this.card_items.splice(id, 1)
+      this.ordersDestroy(id)
     },
+    /*deleteItem (id) {
+      this.card_items.splice(id, 1)
+    },*/
     onSubmit () {
 
     },
