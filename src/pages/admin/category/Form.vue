@@ -156,7 +156,6 @@ export default {
       formData.append('media', files[0])
       this.mediaStore(formData)
         .then(response => {
-          console.log(response)
           this.localMessage = {
             text: response.data.message,
             status: response.status

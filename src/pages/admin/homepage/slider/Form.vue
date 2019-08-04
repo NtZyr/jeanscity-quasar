@@ -127,6 +127,7 @@ export default {
                 status: response.status
               }
               this.errors = []
+              this.loadSlide(this.slideId)
             },
             error => {
               console.log(error)
