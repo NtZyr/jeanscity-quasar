@@ -183,15 +183,49 @@ export const admin = [
         ]
       },
       {
+        path: 'customers',
+        component: () => import('pages/admin/customers/Index.vue'),
+        meta: {
+          label: 'Покупатели',
+          access: [
+            'moder',
+            'admin',
+            'superadmin'
+          ]
+        },
+        children: [
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/customers/Form.vue'),
+            meta: {
+              label: 'Редактирование покупателя'
+            }
+          }
+        ]
+      },
+      {
         path: 'products',
-        component: () => import('pages/admin/products/Index.vue'),
+        component: () => import('pages/admin/products/Products.vue'),
         meta: {
           access: [
             'admin',
             'superadmin'
           ],
-          label: 'Рассылки'
-        }
+          label: 'Товары'
+        },
+        children: [
+          {
+            path: '/',
+            component: () => import('pages/admin/products/Index.vue')
+          },
+          {
+            path: 'new',
+            component: () => import('pages/admin/products/Form.vue'),
+            meta: {
+              label: 'Создание товара'
+            }
+          }
+        ]
       },
       {
         path: 'users',
