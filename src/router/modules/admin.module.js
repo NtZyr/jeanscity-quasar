@@ -45,7 +45,8 @@ export const admin = [
         meta: {
           label: 'Категории',
           access: [
-            'admin'
+            'admin',
+            'superadmin'
           ]
         },
         children: [
@@ -166,6 +167,7 @@ export const admin = [
         meta: {
           label: 'Запросы',
           access: [
+            'superadmin',
             'admin',
             'moder'
           ]
@@ -181,21 +183,67 @@ export const admin = [
         ]
       },
       {
+        path: 'customers',
+        component: () => import('pages/admin/customers/Index.vue'),
+        meta: {
+          label: 'Покупатели',
+          access: [
+            'moder',
+            'admin',
+            'superadmin'
+          ]
+        },
+        children: [
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/customers/Form.vue'),
+            meta: {
+              label: 'Редактирование покупателя'
+            }
+          }
+        ]
+      },
+      {
         path: 'products',
-        component: () => import('pages/admin/products/Index.vue'),
+        component: () => import('pages/admin/products/Products.vue'),
         meta: {
           access: [
-            'admin'
+            'admin',
+            'superadmin'
           ],
-          label: 'Рассылки'
-        }
+          label: 'Товары'
+        },
+        children: [
+          {
+            path: '/',
+            component: () => import('pages/admin/products/Index.vue'),
+            meta: {
+              label: 'Все товары'
+            }
+          },
+          {
+            path: 'new',
+            component: () => import('pages/admin/products/Form.vue'),
+            meta: {
+              label: 'Создание товара'
+            }
+          },
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/products/Form.vue'),
+            meta: {
+              label: 'Редактирование товара'
+            }
+          }
+        ]
       },
       {
         path: 'users',
         component: () => import('pages/admin/user/Index.vue'),
         meta: {
           access: [
-            'admin'
+            'admin',
+            'superadmin'
           ],
           label: 'Пользователи'
         },

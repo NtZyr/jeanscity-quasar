@@ -2,9 +2,9 @@
     <q-list bordered class="rounded-borders bg-white">
         <template v-for="category in categories">
             <q-item :key="category.id">
-                <q-item-section side>
+                <q-item-section v-if="category.thumbnail" side>
                     <q-avatar square>
-                        <img :src="category.thumbnail" :alt="category.name">
+                        <img :src="category.thumbnail_image" :alt="category.name">
                     </q-avatar>
                 </q-item-section>
                 <q-item-section>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { STORAGE_URL } from '../../../api'
+
 export default {
   name: 'AllList',
   props: {

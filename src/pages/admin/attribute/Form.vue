@@ -1,4 +1,5 @@
 <template>
+  <div>
     <q-form @submit="confirmForm">
         <template v-if="attributeId">
             <h2 class="text-h6">Редактирование атрибута</h2>
@@ -39,6 +40,41 @@
             </q-card-actions>
         </q-card>
     </q-form>
+    <q-card class="q-mt-lg q-mb-lg" v-if="attribute.categories">
+      <q-card-section>
+        <q-card-label class="text-h6">Категории атрибута:</q-card-label>
+      </q-card-section>
+      <q-separator/>
+      <q-list separator>
+        <q-expansion-item v-for="category in categories" :label="category.label" :key="category.id">
+          <q-option-group
+            :options="category.children"
+            v-model="attribute.categories"
+            type="checkbox"
+          />
+        </q-expansion-item>
+      </q-list>
+    </q-card>
+<!--    todo valuev-->
+<!--    <q-card style="height: 400px; overflow-y: auto" class="q-mt-lg q-mb-lg" v-if="attribute.values">-->
+<!--      <q-card-section>-->
+<!--        <q-card-label class="text-h6">Значения атрибута:</q-card-label>-->
+<!--      </q-card-section>-->
+<!--      <q-separator/>-->
+<!--      <q-list separator>-->
+<!--        <q-item :key="value.id" v-for="value in attribute.values">-->
+<!--          <q-item-section>-->
+<!--            {{ value.content }}-->
+<!--          </q-item-section>-->
+<!--          <q-item-section side>-->
+<!--            <q-btn-group unelevated rounded>-->
+<!--              <q-btn color="negative" size="sm" round outline icon="delete"/>-->
+<!--            </q-btn-group>-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
+<!--      </q-list>-->
+<!--    </q-card>-->
+  </div>
 </template>
 
 <script>
@@ -52,7 +88,8 @@ export default {
       attribute: {},
       types: [],
       message: {},
-      errors: []
+      errors: [],
+      categories: []
     }
   },
   watch: {
@@ -65,12 +102,19 @@ export default {
       }, 2000)
     }
   },
+  computed: {
+    ...mapGetters({
+      values: 'values/list'
+    })
+  },
   methods: {
     ...mapActions({
       attributeShow: 'attributes/show',
       attributeStore: 'attributes/store',
       attributeUpdate: 'attributes/update',
-      attributeTypes: 'attributes/types'
+      attributeTypes: 'attributes/types',
+      valuesIndex: 'values/index',
+      categoriesArray: 'categories/parents'
     }),
     loadAttribute (attributeId) {
       this.attribute = {}
@@ -125,6 +169,12 @@ export default {
     }
   },
   created () {
+    this.categoriesArray({
+      return: 'parents'
+    })
+      .then(response => {
+        this.categories = response.data.data
+      })
     this.loadAttribute(this.$route.params.id)
     this.attributeTypes()
       .then(response => {

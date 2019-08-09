@@ -11,7 +11,7 @@
                 height="325px"
                 class="slider"
             >
-                <q-carousel-slide v-for="(item, index) in slider" :key="item.id" class="slider-item" :name="index" :img-src="item.image">
+                <q-carousel-slide v-for="(item, index) in slider" :key="item.id" class="slider-item" :name="index" :img-src="item.media_image">
                     <q-btn-group unelevated class="actions-group">
                         <q-badge color="grey">{{ slide + 1 }} / {{ slider.length }}</q-badge>
                         <q-btn :to="`/admin/homepage/slider/edit/${item.id}`" replace color="primary" size="sm" icon="edit"/>

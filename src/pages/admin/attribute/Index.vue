@@ -104,7 +104,7 @@ export default {
       attributeDestroy: 'attributes/destroy'
     }),
     filterAttributes () {
-      this.attributeIndex()
+      this.attributeIndex(this.filter)
     },
     resetFilter () {
       this.filter = {

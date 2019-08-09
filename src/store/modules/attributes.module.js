@@ -24,22 +24,24 @@ export default {
   },
   mutations: {
     getAttribute (state, payload) {
-      return state.item = Object.assign({}, payload)
+      state.item = Object.assign({}, payload)
     },
     getAttributes (state, payload) {
-      return state.list = Object.assign({}, payload)
+      state.list = Object.values(payload)
     },
     getMessage (state, payload) {
-      return state.message = Object.assign({}, payload)
+      state.message = Object.assign({}, payload)
     },
     getTypes (state, payload) {
-      return state.types = Object.assign({}, payload)
+      state.types = Object.values(payload)
     }
   },
   actions: {
-    index (context) {
+    index (context, filter) {
       return new Promise((resolve, reject) => {
-        API.get(`attributes/`)
+        API.get(`attributes/`, {
+          params: filter
+        })
           .then(response => {
             context.commit('getAttributes', response.data.data)
             resolve(response)

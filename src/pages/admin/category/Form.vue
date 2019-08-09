@@ -17,15 +17,39 @@
                 </q-banner>
             </transition>
             <q-card-section>
+                <div class="q-pa-none">
+                    <div class="row items-center q-col-gutter-md" v-if="localCategory.thumbnail">
+                        <div class="col-auto">
+                            <q-avatar size="100px" square>
+                                <q-img :src="localCategory.thumbnail_image"/>
+                            </q-avatar>
+                        </div>
+                        <div class="col">
+                            <h6 class="q-ma-none">
+                                {{ localCategory.thumbnail.file_name }}
+                            </h6>
+                        </div>
+                        <div class="col-auto">
+                            <q-btn
+                                round
+                                unelevated
+                                icon="delete"
+                                size="sm"
+                                color="negative"
+                                @click="confirm = true"
+                            />
+                        </div>
+                    </div>
+                </div>
                 <q-uploader
                     label="Миниатюра категории"
+                    ref="uploader"
                     accept="image/png, image/jpg, image/jpeg"
                     class="full-width q-mt-md q-mb-md"
                     flat
                     bordered
                     :multiple="false"
-                    hide-upload-btn
-                    @added="attachThumbnail"
+                    :factory="uploadFile"
                 />
                 <q-input
                     v-model="localCategory.name"
@@ -55,6 +79,18 @@
                 <q-btn @click="confirmForm" unelevated color="primary">Сохранить</q-btn>
             </q-card-actions>
         </q-card>
+        <q-dialog v-model="confirm" persistent>
+            <q-card>
+                <q-card-section class="row items-center">
+                    <span>Удалить миниатюру?</span>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                    <q-btn flat label="Отмена" color="primary" v-close-popup />
+                    <q-btn flat label="Удалить" @click="dispatchMediaDestroy" color="negative" v-close-popup />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
     </q-form>
 </template>
 
@@ -65,13 +101,14 @@ export default {
   name: 'CategoryForm',
   data () {
     return {
+      confirm: false,
       categoryId: null,
       localCategory: {},
       localMessage: {},
       localErrors: [],
       localParents: [],
       rules: {
-        name: [ value => !!value || 'Поле обязательно' ],
+        name: [ value => !!value || 'Поле обязательно' ]
       }
     }
   },
@@ -99,10 +136,32 @@ export default {
       parents: 'categories/parents',
       categoryShow: 'categories/show',
       categoryUpdate: 'categories/update',
-      categoryStore: 'categories/store'
+      categoryStore: 'categories/store',
+      mediaStore: 'media/store',
+      mediaDestroy: 'media/destroy',
+      mediaShow: 'media/show'
     }),
-    attachThumbnail (file) {
-      this.localCategory.thumbnail_file = file
+    dispatchMediaDestroy () {
+      this.mediaDestroy(this.localCategory.thumbnail.id)
+        .then(response => {
+          this.localMessage = {
+            text: response.data.message,
+            status: response.status
+          }
+          this.loadCategory(this.categoryId)
+        })
+    },
+    uploadFile (files) {
+      let formData = new FormData()
+      formData.append('media', files[0])
+      this.mediaStore(formData)
+        .then(response => {
+          this.localMessage = {
+            text: response.data.message,
+            status: response.status
+          }
+          this.localCategory.media = response.data.data.id
+        })
     },
     loadCategory (categoryId) {
       this.localCategory = {}
@@ -127,6 +186,7 @@ export default {
                 status: response.status
               }
               this.localErrors = []
+              this.loadCategory(this.categoryId)
             },
             error => {
               this.localMessage = {

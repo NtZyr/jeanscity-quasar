@@ -19,10 +19,10 @@ export default {
     }
   },
   mutations: {
-    getCategory (state, payload) {
+    getProduct (state, payload) {
       state.item = Object.assign({}, payload)
     },
-    getCategories (state, payload) {
+    getProducts (state, payload) {
       state.list = Object.values(payload)
     },
     getMessage (state, payload) {
@@ -30,30 +30,13 @@ export default {
     }
   },
   actions: {
-    parents (context, filter) {
-      return new Promise((resolve, reject) => {
-        API.get(`categories/parents`, {
-          headers: {
-            'Authorization': `Bearer ${context.rootState.auth.token}`
-          },
-          params: filter
-        })
-          .then(response => {
-            // context.commit('getCategories', response.data.data)
-            resolve(response)
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
-    },
     index (context, filter) {
       return new Promise((resolve, reject) => {
-        API.get(`categories/`, {
+        API.get(`products/`, {
           params: filter
         })
           .then(response => {
-            context.commit('getCategories', response.data.data)
+            context.commit('getProducts', response.data.data)
             resolve(response)
           })
           .catch(error => {
@@ -61,11 +44,11 @@ export default {
           })
       })
     },
-    show ({ commit }, categoryId) {
+    show ({ commit }, id) {
       return new Promise((resolve, reject) => {
-        API.get(`categories/${categoryId}`)
+        API.get(`products/${id}`)
           .then(response => {
-            commit('getCategory', response.data.data)
+            commit('getProduct', response.data.data)
             resolve(response)
           })
           .catch(error => {
@@ -75,31 +58,12 @@ export default {
     },
     store (context, newItem) {
       return new Promise((resolve, reject) => {
-        API.post(`categories/`, newItem, { headers: {
+        API.post(`products/`, newItem, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            // console.log(response)
-            context.commit('getCategory', response.data.data)
+            context.commit('getProduct', response.data.data)
             context.commit('getMessage', response.data.message)
-            context.dispatch('index')
-            resolve(response)
-          })
-          .catch(error => {
-            // commit('getMessage', error.data.message)
-            reject(error)
-          })
-      })
-    },
-    update (context, category) {
-      return new Promise((resolve, reject) => {
-        API.put(`categories/${category.id}`, category, { headers: {
-          'Authorization': `Bearer ${context.rootState.auth.token}`
-        } })
-          .then(response => {
-            context.commit('getCategory', response.data.data)
-            context.commit('getMessage', response.data.message)
-            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {
@@ -107,13 +71,29 @@ export default {
           })
       })
     },
-    destroy (context, categoryId) {
+    update (context, product) {
       return new Promise((resolve, reject) => {
-        API.delete(`categories/${categoryId}`, { headers: {
+        API.put(`products/${product.id}`, product, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            context.commit('getCategory', response.data.data)
+            context.commit('getProduct', response.data.data)
+            context.commit('getMessage', response.data.message)
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    destroy (context, id) {
+      return new Promise((resolve, reject) => {
+        API.delete(`products/${id}`, { headers: {
+          'Authorization': `Bearer ${context.rootState.auth.token}`
+        } })
+          .then(response => {
+            context.commit('getProduct', response.data.data)
+            context.commit('getMessage', response.data.message)
             context.dispatch('index')
             resolve(response)
           })

@@ -17,6 +17,16 @@
                 </q-banner>
             </transition>
             <q-card-section>
+                <q-uploader
+                        label="Картинка слайда"
+                        ref="uploader"
+                        accept="image/png, image/jpg, image/jpeg"
+                        class="full-width q-mt-md q-mb-md"
+                        flat
+                        bordered
+                        :multiple="false"
+                        :factory="uploadFile"
+                />
                 <q-input
                     v-model="slide.title"
                     label="Заголовок слайда"
@@ -75,7 +85,9 @@ export default {
     ...mapActions({
       slideStore: 'homeslides/store',
       slideUpdate: 'homeslides/update',
-      slideShow: 'homeslides/show'
+      slideShow: 'homeslides/show',
+      mediaStore: 'media/store',
+      mediaShow: 'media/show'
     }),
     loadSlide (slideId) {
       this.slide = {}
@@ -91,6 +103,19 @@ export default {
         }
       }
     },
+    uploadFile (files) {
+      let formData = new FormData()
+      formData.append('media', files[0])
+      this.mediaStore(formData)
+        .then(response => {
+          console.log(response)
+          this.message = {
+            text: response.data.message,
+            status: response.status
+          }
+          this.slide.media = response.data.data.id
+        })
+    },
     confirmForm () {
       if (this.slideId) {
         this.slide.creator_id = this.slide.creator.id
@@ -102,6 +127,7 @@ export default {
                 status: response.status
               }
               this.errors = []
+              this.loadSlide(this.slideId)
             },
             error => {
               console.log(error)
