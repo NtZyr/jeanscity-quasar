@@ -113,7 +113,7 @@ export default {
             text: response.data.message,
             status: response.status
           }
-          this.slide.media_id = response.data.data.id
+          this.slide.media = response.data.data.id
         })
     },
     confirmForm () {
