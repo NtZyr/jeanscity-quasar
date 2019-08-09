@@ -17,6 +17,7 @@ import OrdersModule from './modules/orders.module'
 import LinesModule from './modules/lines.module'
 import MediaModule from './modules/media.module'
 import ProductsModule from './modules/products.module'
+import VariantsModule from './modules/variants.module'
 
 Vue.use(Vuex)
 
@@ -63,6 +64,9 @@ export default function (/* { ssrContext } */) {
       },
       products: {
         ...ProductsModule
+      },
+      variants: {
+        ...VariantsModule
       },
       callbacks: {
         ...CallbacksModule

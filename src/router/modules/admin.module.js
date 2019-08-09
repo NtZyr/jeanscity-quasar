@@ -216,13 +216,23 @@ export const admin = [
         children: [
           {
             path: '/',
-            component: () => import('pages/admin/products/Index.vue')
+            component: () => import('pages/admin/products/Index.vue'),
+            meta: {
+              label: 'Все товары'
+            }
           },
           {
             path: 'new',
             component: () => import('pages/admin/products/Form.vue'),
             meta: {
               label: 'Создание товара'
+            }
+          },
+          {
+            path: 'edit/:id',
+            component: () => import('pages/admin/products/Form.vue'),
+            meta: {
+              label: 'Редактирование товара'
             }
           }
         ]

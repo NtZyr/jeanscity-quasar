@@ -1,33 +1,42 @@
-import API from '../../api'
+import API from '../../api.js'
 
 export default {
   namespaced: true,
   state: {
     list: [],
-    item: {}
+    item: {},
+    message: null
   },
   getters: {
+    item (state) {
+      return state.item
+    },
     list (state) {
       return state.list
     },
-    item (state) {
-      return state.item
+    message (state) {
+      return state.message
     }
   },
   mutations: {
-    // setList (state, payload) {
-    //   state.list = Object.values(payload)
-    // },
-    setItem (state, payload) {
+    getProduct (state, payload) {
       state.item = Object.assign({}, payload)
+    },
+    getProducts (state, payload) {
+      state.list = Object.values(payload)
+    },
+    getMessage (state, payload) {
+      state.message = Object.assign({}, payload)
     }
   },
   actions: {
-    index (context, productId) {
+    index (context, filter) {
       return new Promise((resolve, reject) => {
-        API.get(`products/${productId}/variants`)
+        API.get(`products/`, {
+          params: filter
+        })
           .then(response => {
-            // context.commit('setList', response.data.data)
+            context.commit('getProducts', response.data.data)
             resolve(response)
           })
           .catch(error => {
@@ -35,11 +44,11 @@ export default {
           })
       })
     },
-    show (context, data) {
+    show ({ commit }, id) {
       return new Promise((resolve, reject) => {
-        API.get(`products/${data.product_id}/variants/${data.variant_id}`)
+        API.get(`products/${id}`)
           .then(response => {
-            context.commit('setItem', response.data.data)
+            commit('getProduct', response.data.data)
             resolve(response)
           })
           .catch(error => {
@@ -47,13 +56,14 @@ export default {
           })
       })
     },
-    store (context, variant) {
+    store (context, newItem) {
       return new Promise((resolve, reject) => {
-        API.post(`products/${variant.product_id}/variants/`, variant, { headers: {
+        API.post(`products/`, newItem, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            context.commit('setItem', response.data.data)
+            context.commit('getProduct', response.data.data)
+            context.commit('getMessage', response.data.message)
             resolve(response)
           })
           .catch(error => {
@@ -61,13 +71,14 @@ export default {
           })
       })
     },
-    update (context, variant) {
+    update (context, product) {
       return new Promise((resolve, reject) => {
-        API.put(`products/${variant.product_id}/variants/${variant.id}`, variant, { headers: {
+        API.put(`products/${product.id}`, product, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            context.commit('setItem', response.data.data)
+            context.commit('getProduct', response.data.data)
+            context.commit('getMessage', response.data.message)
             resolve(response)
           })
           .catch(error => {
@@ -75,13 +86,15 @@ export default {
           })
       })
     },
-    destroy (context, data) {
+    destroy (context, id) {
       return new Promise((resolve, reject) => {
-        API.delete(`products/${data.product_id}/variants/${data.variant_id}`, { headers: {
+        API.delete(`products/${id}`, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
-            context.commit('setItem', response.data.data)
+            context.commit('getProduct', response.data.data)
+            context.commit('getMessage', response.data.message)
+            context.dispatch('index')
             resolve(response)
           })
           .catch(error => {
