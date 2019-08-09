@@ -20,13 +20,13 @@ export default {
   },
   mutations: {
     getCategory (state, payload) {
-      return state.item = Object.assign({}, payload)
+      state.item = Object.assign({}, payload)
     },
     getCategories (state, payload) {
-      return state.list = Object.assign({}, payload)
+      state.list = Object.values(payload)
     },
     getMessage (state, payload) {
-      return state.message = Object.assign({}, payload)
+      state.message = Object.assign({}, payload)
     }
   },
   actions: {
