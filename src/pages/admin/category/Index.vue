@@ -112,7 +112,7 @@ export default {
       this.confirm = !!confirm
     },
     deleteCategory () {
-      this.destroyCategory(this.localCategory.id)
+      this.destroyCategory(this.localCategory.slug)
     }
   },
   mounted () {

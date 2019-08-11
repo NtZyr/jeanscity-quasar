@@ -161,6 +161,7 @@ export default {
       attrs: [],
       filter: {
         page: 1,
+        rowsPerPage: 10,
         categories: [],
         inSale: true,
         sale: false,

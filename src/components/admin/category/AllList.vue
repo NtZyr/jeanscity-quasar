@@ -19,7 +19,7 @@
                 </q-item-section>
                 <q-item-section side>
                     <q-btn-group outline rounded>
-                        <q-btn size="sm" :to="`/admin/categories/edit/${category.id}`" outline color="primary" round icon="edit"/>
+                        <q-btn size="sm" :to="`/admin/categories/edit/${category.slug}`" outline color="primary" round icon="edit"/>
                         <q-btn size="sm" @click="confirmDelete(category)" outline color="negative" round icon="delete"/>
                     </q-btn-group>
                 </q-item-section>
