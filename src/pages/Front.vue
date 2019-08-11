@@ -6,41 +6,33 @@
                     <router-link to="/" class="logo-link"><img src="/statics/images/logo.svg" alt=""></router-link>
                 </q-toolbar>
                 <q-toolbar class="col-md-10 col-sm-8 col-xs-12 justify-md-between justify-sm-end mobile-toolbar-height-fix">
-                    <q-tabs
-                        v-model="tab"
-                        narrow-indicator
-                        :breakpoint="0"
-                        align="justify"
-                        class="bg-white col-md-8 col-xl-8 sm-hide xs-hide tab-links"
-                    >
-                        <q-route-tab to="/products" v-if="$q.screen.gt.sm" name="man" label="Мужское"/>
-                        <q-route-tab to="/products"  v-if="$q.screen.gt.sm" name="woman" label="Женское" />
-                        <q-route-tab to="/products"  v-if="$q.screen.gt.sm" name="brands" label="Бренды" />
-                        <q-route-tab to="/products"  v-if="$q.screen.gt.sm" name="sails" label="Скидки" />
-                        <q-route-tab to="/contacts"  v-if="$q.screen.gt.sm" name="contacts" label="Контакты" />
-                    </q-tabs>
+                    <div class="col-md-8 col-xl-8 sm-hide xs-hide">
+                        <q-tabs
+                                inline-label
+                                v-model="tab"
+                                narrow-indicator
+                                :breakpoint="0"
+                                align="justify"
+                                class="bg-white full-width tab-links"
+                        >
+                            <q-route-tab :name="category.slug" v-for="category in categories" :key="category.id" :to="{ name: 'catalog', params: { parent: category.slug } }" :label="category.name"/>
+                            <!-- todo сделать модалку на весь экран с брендами. загрузку брендов подсмотреть на главной -->
+                            <q-tab name="brands" label="Бренды" />
+                            <q-tab name="sails" label="Скидки" />
+                            <q-route-tab to="/contacts" name="contacts" label="Контакты" />
+                        </q-tabs>
+                    </div>
                     <div class="col-xs-12 col-sm-auto col-lg-4 col-md-4 col-xl-4 flex justify-md-end justify-xs-between header-btns no-wrap">
                         <q-btn router="tel:+79964539303" flat style="color: #3C3C3C" icon="phone" label="+7 (996) 453-93-03" class="icon-hide"/>
+                        <!-- todo поиск по сайту: модалка с выбором – сайт/каталог -->
                         <q-btn router="/" flat style="color: #3C3C3C" icon="search" label="" />
                         <q-btn to="/cart" flat style="color: #3C3C3C" icon="shopping_cart" label="">
                             <q-badge color="red" floating>22</q-badge>
                         </q-btn>
                         <q-btn-dropdown v-if="$q.screen.lt.md" style="color: #3C3C3C" auto-close stretch flat icon="menu">
-                            <q-list separator link class="menu-dropdown text-center">
-                                <q-item to="/products" clickable @click="tab = 'man'">
-                                    <q-item-section>Мужское</q-item-section>
-                                </q-item>
-                                <q-item clickable @click="tab = 'woman'">
-                                    <q-item-section>Женское</q-item-section>
-                                </q-item>
-                                <q-item clickable @click="tab = 'brands'">
-                                    <q-item-section>Бренды</q-item-section>
-                                </q-item>
-                                <q-item clickable @click="tab = 'sails'">
-                                    <q-item-section>Скидки</q-item-section>
-                                </q-item>
-                                <q-item to="/contacts" clickable @click="tab = 'contacts'">
-                                    <q-item-section>Контакты</q-item-section>
+                            <q-list separator link class="menu-dropdown">
+                                <q-item v-for="category in categories" :key="category.id">
+                                    <q-item-section>{{ category.name }}</q-item-section>
                                 </q-item>
                             </q-list>
                         </q-btn-dropdown>
@@ -49,75 +41,40 @@
             </div>
         </q-header>
 
-        <q-page-container>
-            <router-view />
-        </q-page-container>
+        <router-view />
 
-        <q-footer class="bg-white text-white">
-            <q-toolbar class="row justify-center text-black q-py-md">
-                <div class="row container q-col-gutter-x-lg">
-                    <div class="col-sm-4 col-md-6 col-xs-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="text-h6 text-uppercase title">Подписка на рассылку</div>
-                            </div>
-                            <div class="col-12">
-                                <div class="row wrap items-sm-center q-col-gutter-x-md">
-                                    <div class="col-xs-12 col-sm-12 col-md-7 col-sm-7 q-py-xs-lg">
-                                        <q-input style="height: 40px" v-model="email" type="email" label="email"></q-input>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-4 self-md-end q-py-md-lg q-pb-xs-xl subscription-btn">
-                                        <q-btn color="red-8" text-color="white" label="Подписаться" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-xs-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="text-h6 text-uppercase title">Информация</div>
-                            </div>
-                            <div class="col-12 column q-py-lg">
-                                <a href="">Оплата</a>
-                                <a href="" class="q-py-sm">Доставка</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-xs-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="text-h6 text-uppercase title">Контакты</div>
-                            </div>
-                            <div class="col-12 column q-py-lg">
-                                <a href="">+7 (996) 453-93-03</a>
-                                <a href="" class="q-py-sm text-">jeanscity@gmail.com </a>
-                                <a href="">jeanscity@gmail.com </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </q-toolbar>
-        </q-footer>
+        <app-footer/>
 
     </q-layout>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import AppFooter from '../components/front/app/Footer'
 
 export default {
   name: 'App',
   data () {
     return {
-      tab: '',
-      email: ''
+      tab: null,
     }
+  },
+  components: {
+    AppFooter
   },
   computed: {
     ...mapGetters({
-      shippings: 'shippings/list'
+      shippings: 'shippings/list',
+      categories: 'categories/list'
     })
+  },
+  methods: {
+    ...mapActions({
+      categoriesIndex: 'categories/index'
+    })
+  },
+  created () {
+    this.categoriesIndex({ return: 'parents' })
   }
 }
 </script>
@@ -147,8 +104,8 @@ export default {
     .q-tab {
         outline: none;
         color: #3C3C3C;
-        max-width: 110px;
-        padding: 0;
+        padding-top: 0;
+        padding-bottom: 0;
         min-height: 80px;
     }
     .tab-links {

@@ -1,5 +1,5 @@
 <template>
-    <div class="q-px-none row q-col-gutter-x-lg content-margin">
+    <div class="q-px-none container row q-col-gutter-x-lg">
         <div class="col-12 q-pb-lg">
             <q-breadcrumbs active-color="blue-10">
                 <q-breadcrumbs-el v-for="breadcrumb in breadcrumbs" :to="breadcrumb.path" :key="breadcrumb.path" :label="breadcrumb.meta.label" />
@@ -7,6 +7,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row q-col-gutter-x-lg">
+                <!-- todo галерея не работает -->
                 <q-scroll-area class='col-md-1 col-sm-2 col-xs-3 offset-md-1 offset-sm-2 offset-xs-0' style="max-height: 500px">
                     <div class="">
                         <div class="" v-for="(item, index) in small"><img class='q-pb-sm-xl q-pb-xs-xs' :src="item.img" width="100%" alt=""></div>
@@ -46,8 +47,6 @@
 </template>
 
 <style lang="stylus" scoped>
-    .content-margin
-        padding-top 16px
     .text-subtitle1
         color #3C3C3C
         font-weight 300
@@ -81,6 +80,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      product: {},
       model: null,
       sail: true,
       options: [
@@ -92,46 +92,55 @@ export default {
       },
       small: [
         {
-          img: "../statics/images/image.png",
+          img: '../statics/images/image.png'
         },
         {
-          img: "../statics/images/image2.png",
+          img: '../statics/images/image2.png'
         },
         {
-          img: "../statics/images/image.png",
+          img: '../statics/images/image.png'
         },
         {
-          img: "../statics/images/image2.png",
+          img: '../statics/images/image2.png'
         },
         {
-          img: "../statics/images/image2.png",
+          img: '../statics/images/image2.png'
         },
         {
-          img: "../statics/images/image2.png",
+          img: '../statics/images/image2.png'
         }
       ],
       images: [
         {
           id: 1,
-          img: "../statics/images/image.png"
+          img: '../statics/images/image.png'
         },
         {
           id: 2,
-          img: "../statics/images/image2.png"
+          img: '../statics/images/image2.png'
         },
         {
           id: 3,
-          img: "../statics/images/image.png"
+          img: '../statics/images/image.png'
         },
         {
           id: 4,
-          img: "../statics/images/image2.png"
+          img: '../statics/images/image2.png'
         },
         {
           id: 5,
-          img: "../statics/images/image.png"
+          img: '../statics/images/image.png'
         }
       ]
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    // todo запросить товар перед заходом?
+    next()
+  },
+  watch: {
+    '$route.params.product_slug': function (productSlug) {
+      this.loadProduct(productSlug)
     }
   },
   computed: {
@@ -141,7 +150,15 @@ export default {
     }
   },
   methods: {
-
+    ...mapActions({
+      productShow: 'products/show'
+    }),
+    loadProduct(productSlug) {
+      this.productShow(productSlug)
+    }
+  },
+  created () {
+    this.loadProduct(this.$route.params.product_slug)
   }
 }
 </script>

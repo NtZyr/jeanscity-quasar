@@ -11,23 +11,26 @@ export const front = [
         component: () => import('pages/Home.vue')
       },
       {
-        path: '/products',
-        component: () => import('pages/Menu.vue'),
-        meta: {
-          label: 'Мужское'
+        path: 'products',
+        component: () => import('pages/Products.vue'),
+        beforeEnter: (to, from, next) => {
+          console.log(to)
+          next()
         },
         children: [
           {
-            path: '/',
-            component: () => import('pages/Product.vue')
-          },
-          {
-            path: 'item',
+            path: 'product/:product_slug',
             component: () => import('pages/Item.vue'),
+            name: 'product',
             meta: {
               type: null,
               label: 'Футболка мужская'
             }
+          },
+          {
+            path: ':parent?/:child?',
+            name: 'catalog',
+            component: () => import('pages/Catalog.vue')
           }
         ]
       },
