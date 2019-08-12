@@ -26,12 +26,14 @@ export default {
     }
   },
   actions: {
-    filterFromQuery ({ commit }, filter) {
+    filterFromQuery ({ commit, dispatch }, filter) {
       commit('SET_FILTER', filter)
       dispatch('filterQuery')
     },
     filterQuery ({ state }) {
-      this.$router.push({query: state.filter})
+      let filter = Object.assign({}, state.filter)
+      delete filter.categories
+      this.$router.push({ query: filter })
     },
     categories ({ commit, dispatch }, categories) {
       commit('SET_CATEGORIES', categories)

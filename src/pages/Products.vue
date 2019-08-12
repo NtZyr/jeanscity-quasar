@@ -31,6 +31,11 @@
                     </q-tabs>
                 </div>
             </div>
+            <div class="col-12 q-pb-lg">
+                <q-breadcrumbs active-color="blue-10">
+                    <q-breadcrumbs-el v-for="breadcrumb in breadcrumbs" :to="breadcrumb.path" :key="breadcrumb.path" :label="breadcrumb.meta.label" />
+                </q-breadcrumbs>
+            </div>
             <router-view/>
         </q-page>
     </q-page-container>
@@ -44,14 +49,33 @@ export default {
   data () {
     return {
       parent: this.$route.params.parent,
+      child: this.$route.params.child,
       children: [],
       tab: null
     }
   },
   watch: {
-    '$route.params': function (value) {
-      this.parent = value.parent
-      this.loadChildren()
+    '$route.params': {
+      handler (value) {
+        if (typeof value.parent !== 'undefined') {
+          this.parent = value.parent
+          this.loadChildren()
+        }
+      },
+      immediate: true
+    },
+    categories: {
+      handler (value) {
+        if (typeof this.parent === 'undefined') {
+          let categories = value.filter(category => {
+            return category.children
+          })
+            .map(child => {
+              return child.id
+            })
+          this.filterCategories(categories)
+        }
+      }
     }
   },
   methods: {
@@ -60,15 +84,18 @@ export default {
       categoriesShow: 'categories/show',
       filterCategories: 'filter/categories'
     }),
+    breadcrumbs () {
+      return this.$route.matched
+    },
     setCategoriesFilter () {
       let categories = []
-      if (this.$route.params.parent && typeof this.$route.params.child === 'undefined') {
+
+      if (typeof this.parent !== 'undefined' && typeof this.child === 'undefined') {
         categories = this.children.map(child => {
           return child.id
         })
-      } else if (this.$route.params.parent && this.$route.params.child) {
-        categories = this.children
-          .filter(child => { if (child.slug === this.$route.params.child) { return child } })
+      } else if (typeof this.parent !== 'undefined' && typeof this.child !== 'undefined') {
+        categories = this.children.filter(child => { if (child.slug === this.child) { return child } })
           .map(child => { return child.id })
       }
 
@@ -82,12 +109,17 @@ export default {
         })
     }
   },
+  computed: {
+    ...mapGetters({
+      categories: 'categories/list'
+    })
+  },
   beforeMount () {
     // todo направлять с запроса на все фильтры
     this.filterFromQuery(this.$route.query)
   },
   mounted () {
-    this.loadChildren()
+    // this.loadChildren()
   }
 }
 </script>
