@@ -16,6 +16,7 @@ import CustomersModule from './modules/customers.module'
 import OrdersModule from './modules/orders.module'
 import LinesModule from './modules/lines.module'
 import MediaModule from './modules/media.module'
+import FilterModule from './modules/filter.module'
 import ProductsModule from './modules/products.module'
 import VariantsModule from './modules/variants.module'
 
@@ -49,6 +50,9 @@ export default function (/* { ssrContext } */) {
       },
       shippings: {
         ...ShippingsModule
+      },
+      filter: {
+        ...FilterModule
       },
       users: {
         ...UsersModule

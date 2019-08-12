@@ -18,6 +18,40 @@
                 </q-banner>
             </transition>
             <q-card-section>
+                <div class="q-pa-none">
+                    <div class="row items-center q-col-gutter-md" v-if="attribute.thumbnail">
+                        <div class="col-auto">
+                            <q-avatar size="100px" square>
+                                <q-img :src="attribute.thumbnail_image"/>
+                            </q-avatar>
+                        </div>
+                        <div class="col">
+                            <h6 class="q-ma-none">
+                                {{ attribute.thumbnail.file_name }}
+                            </h6>
+                        </div>
+                        <div class="col-auto">
+                            <q-btn
+                                    round
+                                    unelevated
+                                    icon="delete"
+                                    size="sm"
+                                    color="negative"
+                                    @click="confirm = true"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <q-uploader
+                        label="Миниатюра атрибута"
+                        ref="uploader"
+                        accept="image/png, image/jpg, image/jpeg"
+                        class="full-width q-mt-md q-mb-md"
+                        flat
+                        bordered
+                        :multiple="false"
+                        :factory="uploadFile"
+                />
                 <q-input
                     v-model="attribute.name"
                     label="Название"
@@ -74,6 +108,18 @@
 <!--        </q-item>-->
 <!--      </q-list>-->
 <!--    </q-card>-->
+      <q-dialog v-model="confirm" persistent>
+          <q-card>
+              <q-card-section class="row items-center">
+                  <span>Удалить миниатюру?</span>
+              </q-card-section>
+
+              <q-card-actions align="right">
+                  <q-btn flat label="Отмена" color="primary" v-close-popup />
+                  <q-btn flat label="Удалить" @click="dispatchMediaDestroy" color="negative" v-close-popup />
+              </q-card-actions>
+          </q-card>
+      </q-dialog>
   </div>
 </template>
 
@@ -114,8 +160,33 @@ export default {
       attributeUpdate: 'attributes/update',
       attributeTypes: 'attributes/types',
       valuesIndex: 'values/index',
-      categoriesArray: 'categories/parents'
+      categoriesArray: 'categories/parents',
+      mediaStore: 'media/store',
+      mediaDestroy: 'media/destroy',
+      mediaShow: 'media/show'
     }),
+    dispatchMediaDestroy () {
+      this.mediaDestroy(this.attribute.thumbnail.id)
+        .then(response => {
+          this.message = {
+            text: response.data.message,
+            status: response.status
+          }
+          this.loadAttribute(this.attributeId)
+        })
+    },
+    uploadFile (files) {
+      let formData = new FormData()
+      formData.append('media', files[0])
+      this.mediaStore(formData)
+        .then(response => {
+          this.message = {
+            text: response.data.message,
+            status: response.status
+          }
+          this.attribute.media = response.data.data.id
+        })
+    },
     loadAttribute (attributeId) {
       this.attribute = {}
       this.attributeId = attributeId

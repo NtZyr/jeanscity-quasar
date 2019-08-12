@@ -14,7 +14,7 @@
                         <q-space />
                         <q-btn to="/admin/products/new" outline dense unelevated color="primary" label=" Добавить" icon="add"/>
                         <template v-if="selected.length === 1">
-                            <q-btn flat dense color="primary" :disable="loading" label="Редактировать товар" :to="`/admin/products/edit/${selected[0].id}`" />
+                            <q-btn flat dense color="primary" :disable="loading" label="Редактировать товар" :to="`/admin/products/edit/${selected[0].slug}`" />
                         </template>
                         <template v-if="selected.length > 0">
                             <q-btn class="on-right" flat dense color="negative" :disable="loading" label="Удалить товары" @click="confirm = true" />
@@ -161,6 +161,7 @@ export default {
       attrs: [],
       filter: {
         page: 1,
+        rowsPerPage: 10,
         categories: [],
         inSale: true,
         sale: false,
@@ -225,7 +226,7 @@ export default {
     },
     removeRows () {
       this.selected.forEach(product => {
-        this.productDestroy(product.id)
+        this.productDestroy(product.slug)
       })
     },
     acceptAttributes (attr, value) {

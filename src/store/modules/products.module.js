@@ -73,7 +73,7 @@ export default {
     },
     update (context, product) {
       return new Promise((resolve, reject) => {
-        API.put(`products/${product.id}`, product, { headers: {
+        API.put(`products/${product.slug}`, product, { headers: {
           'Authorization': `Bearer ${context.rootState.auth.token}`
         } })
           .then(response => {
