@@ -1,10 +1,5 @@
 <template>
     <div class="q-py-md q-px-none row container items-start q-col-gutter-x-lg">
-        <div class="col-12 q-pb-lg">
-            <q-breadcrumbs active-color="blue-10">
-              <q-breadcrumbs-el v-for="breadcrumb in breadcrumbs" :to="breadcrumb.path" :key="breadcrumb.path" :label="breadcrumb.meta.label" />
-            </q-breadcrumbs>
-        </div>
         <div class="col-md-3 col-sm-4 col-xs-12 q-mb-xs-xl">
             <div class="expansion-shadow sm-hide md-hide lg-hide xl-hide">
                 <q-expansion-item
@@ -268,10 +263,7 @@ export default {
     ...mapGetters({
       products: 'products/list',
       filter: 'filter/filter'
-    }),
-    breadcrumbs () {
-      return this.$route.matched
-    }
+    })
   },
   methods: {
     ...mapActions({

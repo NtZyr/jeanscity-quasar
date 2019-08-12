@@ -7,6 +7,7 @@
                 </q-toolbar>
                 <q-toolbar class="col-md-10 col-sm-8 col-xs-12 justify-md-between justify-sm-end mobile-toolbar-height-fix">
                     <div class="col-md-8 col-xl-8 sm-hide xs-hide">
+                        <!-- todo не всегда появляются стрелки, посмотреть, в чем дело -->
                         <q-tabs
                                 inline-label
                                 v-model="tab"
@@ -18,7 +19,7 @@
                             <q-route-tab :name="category.slug" v-for="category in categories" :key="category.id" :to="{ name: 'catalog', params: { parent: category.slug } }" :label="category.name"/>
                             <!-- todo сделать модалку на весь экран с брендами. загрузку брендов подсмотреть на главной -->
                             <q-tab name="brands" label="Бренды" />
-                            <q-tab name="sails" label="Скидки" />
+                            <q-route-tab :to="{ name: 'catalog', query: { sale: true } }" name="sales" label="Скидки" />
                             <q-route-tab to="/contacts" name="contacts" label="Контакты" />
                         </q-tabs>
                     </div>
