@@ -1,85 +1,20 @@
 <template>
     <div class="q-py-md q-px-none row container items-start q-col-gutter-x-lg">
         <div class="col-md-3 col-sm-4 col-xs-12 q-mb-xs-xl">
-            <!--<div class="expansion-shadow" v-if="$q.screen.xs">
-                <q-expansion-item
-                        class="bg-white expansion-item"
-                        icon="sort"
-                        label="Фильтры"
-                        default-opened
-                        dense-toggle
-                >
-                    <q-separator />
-                    <q-expansion-item
-                        expand-separator
-                        label="Цена"
-                        class="bg-white expansion-item"
-                        v-if="range.min !== null && range.max !== null"
-                    >
-                        <product-price
-                          :range="range"
-                        />
-                    </q-expansion-item>
-                    <q-expansion-item
-                        v-for="attribute in attributes"
-                        :key="attribute.id"
-                        :label="attribute.name"
-                        expand-separator
-                        class="bg-white expansion-item"
-                    >
-                        <q-card>
-                            <component
-                              :values="filter[attribute.slug]"
-                              :attribute="attribute"
-                              :is="`type-${attribute.type}`"
-                            />
-                        </q-card>
-                    </q-expansion-item>
-                </q-expansion-item>
-            </div>-->
-          <div class="expansion-shadow" v-show="!$q.screen.xs">
+          <div class="expansion-shadow" v-if="!$q.screen.xs">
             <filters></filters>
           </div>
-          <div class="expansion-shadow" v-show="$q.screen.xs">
+          <div class="expansion-shadow" v-if="$q.screen.xs">
             <q-expansion-item
                     class="bg-white expansion-item"
                     icon="sort"
                     label="Фильтры"
-                    default-opened
                     dense-toggle
             >
               <q-separator />
               <filters></filters>
             </q-expansion-item>
           </div>
-            <!--<div class="expansion-shadow" v-if="!$q.screen.xs">
-                <q-expansion-item
-                    expand-separator
-                    label="Цена"
-                    class="bg-white expansion-item"
-                    default-opened
-                    v-if="range.min !== null && range.max !== null"
-                >
-                    <product-price
-                            :range="range"
-                    />
-                </q-expansion-item>
-                <q-expansion-item
-                        v-for="attribute in attributes"
-                        :key="attribute.id"
-                        :label="attribute.name"
-                        expand-separator
-                        class="bg-white expansion-item"
-                >
-                    <q-card>
-                        <component
-                                :values="filter[attribute.slug]"
-                                :attribute="attribute"
-                                :is="`type-${attribute.type}`"
-                        />
-                    </q-card>
-                </q-expansion-item>
-            </div>-->
         </div>
         <div class="row q-col-gutter-x-sm items-stretch col-md-9 col-sm-8 col-xs-12 product-items">
             <template v-if="products.length > 0">
@@ -94,41 +29,12 @@
                       v-model="meta.current_page"
                       :maxPages="5"
                       class="full-width justify-sm-end justify-xs-center"
-                      @input="filterPage"
-                >
-                </q-pagination>
+                      @input="preFilterPage"
+                />
             </template>
             <template v-else>
                 Товары не найдены
             </template>
-
-<!--            <div class="row justify-between q-pb-md">-->
-<!--                <h1 class="text-uppercase text-h6 heading">Все товары</h1>-->
-<!--                <q-select dense outlined v-model="model" :options="options" label="Сортировать" />-->
-<!--            </div>-->
-<!--            <div class="row q-col-gutter-x-lg">-->
-<!--                <div class="col-md-4 col-sm-6 col-xs-12 q-pb-lg product-hover" v-for="product in products">-->
-<!--                    <router-link :to="product.slug" style="text-decoration: none; color: #3C3C3C;">-->
-<!--                        <div class="focused-item">-->
-<!--                            <div class="bg-white q-mb-sm flex items-center relative-position card-item">-->
-<!--                                <div class="column wrap sizes" style="position:absolute; top: 4px; left: 4px;">-->
-<!--                                    <div class="bg-black text-white sizes-item" v-for="size in sizes">{{size}}</div>-->
-<!--                                </div>-->
-<!--                                <div class="sail-label" v-show="product.sale">{{ product.sale }}%</div>-->
-<!--                                <img src="" width="100%" alt="">-->
-<!--                            </div>-->
-<!--                            <div class="info">-->
-<!--                                <div class="flex">-->
-<!--                                    <div class="text-weight-bold price" :class="{ 'sail': item.sail}" v-show="item.sail">{{item.price}} руб.</div>-->
-<!--                                    <div class="text-weight-bold price" :class="{ 'not-sail': item.sail}">{{item.price}} руб.</div>-->
-<!--                                </div>-->
-<!--                                <p class="no-margin q-pb-sm">{{item.name}}</p>-->
-<!--                                <div class="text-h6 q-pb-lg">{{item.type}}</div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </router-link>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
     </div>
 </template>
@@ -149,17 +55,12 @@ export default {
       attributes: [],
       meta: {},
       model: null,
-      current: 1
     }
   },
   watch: {
     filter: {
       handler (value) {
         this.debouncedProductFilter()
-        this.categoryAttributes({ categories: value.categories })
-          .then(response => {
-            this.attributes = response.data.data
-          })
       },
       deep: true
     }
@@ -174,15 +75,25 @@ export default {
     ...mapActions({
       productIndex: 'products/index',
       categoryAttributes: 'attributes/index',
-      filterPage: 'filter/page'
+      filterPage: 'filter/page',
+      filterAttrs: 'filter/attrs'
       // filterPrice: 'filter/price'
     }),
+    preFilterPage (value) {
+      if (typeof value === 'number') {
+        console.log(typeof value)
+        this.filterPage(value)
+      }
+    },
     productFilter () {
       this.productIndex(this.filter)
         .then(response => {
           this.meta = response.data.meta
-          console.log(this.meta)
           // this.range = response.data.prices
+        })
+      this.categoryAttributes({ categories: this.filter.categories })
+        .then(response => {
+          this.filterAttrs(response.data.data)
         })
     },
   },

@@ -12,7 +12,7 @@
             />
         </q-expansion-item>
         <q-expansion-item
-                v-for="attribute in attributes"
+                v-for="attribute in attrs"
                 :key="attribute.id"
                 :label="attribute.name"
                 expand-separator
@@ -31,7 +31,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import _ from 'lodash'
 import TypeColor from './type/Color'
 import TypeText from './type/Text'
 import ProductPrice from './Price'
@@ -47,43 +46,19 @@ export default {
     return {
       attributes: [],
       range: {},
-      model: null
-    }
-  },
-  watch: {
-    filter: {
-      handler (value) {
-        this.debouncedProductFilter()
-        this.categoryAttributes({ categories: value.categories })
-          .then(response => {
-            this.attributes = response.data.data
-          })
-      },
-      deep: true
     }
   },
   computed: {
     ...mapGetters({
-      products: 'products/list',
-      filter: 'filter/filter'
+      filter: 'filter/filter',
+      attrs: 'filter/attrs'
     })
   },
   methods: {
     ...mapActions({
-      productIndex: 'products/index',
       categoryAttributes: 'attributes/index',
       filterPrice: 'filter/price'
-    }),
-    productFilter () {
-      this.productIndex(this.filter)
-        .then(response => {
-          this.meta = response.data.meta
-          this.range = response.data.prices
-        })
-    },
-  },
-  created () {
-    this.debouncedProductFilter = _.debounce(this.productFilter, 500)
+    })
   }
 }
 </script>

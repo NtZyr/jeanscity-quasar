@@ -14,7 +14,6 @@ export const front = [
         path: 'products',
         component: () => import('pages/Products.vue'),
         beforeEnter: (to, from, next) => {
-          console.log(to)
           next()
         },
         children: [

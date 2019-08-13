@@ -5,7 +5,7 @@
                 <q-card-section class="info q-pt-none">
                     <ul class="absolute-top-left sizes">
                         <li @click="setActiveVariant(variant)" v-for="variant in product.variants" :key="variant.id">
-                            {{ variant.values.nam_optio }}
+                            {{ variant.values.dolore_sunt }}
                         </li>
                     </ul>
                     <template v-if="typeof activeVariant.gallery !== 'undefined' && activeVariant.gallery.length > 0">

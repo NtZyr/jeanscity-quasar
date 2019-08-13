@@ -1,14 +1,21 @@
 export default {
   namespaced: true,
   state: {
-    filter: {}
+    filter: {},
+    attrs: []
   },
   getters: {
     filter (state) {
       return state.filter
+    },
+    attrs (state) {
+      return state.attrs
     }
   },
   mutations: {
+    SET_ATTRS (state, payload) {
+      state.attrs = Object.assign({}, payload)
+    },
     SET_FILTER (state, payload) {
       state.filter = Object.assign({}, payload)
     },
@@ -29,6 +36,9 @@ export default {
     }
   },
   actions: {
+    attrs ({ commit, dispatch }, attrs) {
+      commit('SET_ATTRS', attrs)
+    },
     filterFromQuery ({ commit, dispatch }, filter) {
       commit('SET_FILTER', filter)
       dispatch('filterQuery')
