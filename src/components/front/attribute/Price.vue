@@ -18,6 +18,7 @@
                                 v-model.number="localPrice.min"
                                 type="number"
                                 style="max-width: 65px"
+                                @change="debouncedPriceFilter(localPrice)"
                         />
                         <p class="no-margin">&#8381;</p>
                     </div>
@@ -27,6 +28,7 @@
                                 v-model.number="localPrice.max"
                                 type="number"
                                 style="max-width: 65px;"
+                                @change="debouncedPriceFilter(localPrice)"
                         />
                         <p class="no-margin">&#8381;</p>
                     </div>
@@ -57,7 +59,7 @@ export default {
   watch: {
     range: {
       handler (newval, oldval) {
-        // todo диапазон меняется только при изменении категории, цена не меняется
+        // todo диапазон меняется только при изменении категории, цена не меняется !исправлено
         if (Object.entries(oldval).length === 0) {
           this.localPrice = newval
         }

@@ -12,9 +12,9 @@
                             height="325px"
                             class="slider"
                         >
-                            <!-- todo кнопки упали за :before -->
+                            <!-- todo кнопки упали за :before  !исправлено-->
                             <q-carousel-slide v-for="(item, index) in homeslides" :key="item.id" class="slider-item" :name="index" :img-src="item.image">
-                                <q-btn class="slider-btn" style="z-index: 99;" type="a" :href="item.link" replace color="primary text-white" size="18px" :label="item.link_label"></q-btn>
+                                <q-btn class="slider-btn" type="a" :href="item.link" replace color="primary text-white" size="18px" :label="item.link_label"></q-btn>
                                 <div class="text-h4 text-white" style="position:absolute; top: 18px; left: 18px; color: #fff; z-index: 99;">{{item.title}}</div>
                             </q-carousel-slide>
                         </q-carousel>

@@ -57,6 +57,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+    .q-btn-group
+        flex-wrap wrap
 </style>

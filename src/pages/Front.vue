@@ -18,7 +18,7 @@
                         >
                             <q-route-tab :name="category.slug" v-for="category in categories" :key="category.id" :to="{ name: 'catalog', params: { parent: category.slug } }" :label="category.name"/>
                             <!-- todo сделать модалку на весь экран с брендами. загрузку брендов подсмотреть на главной -->
-                            <q-tab name="brands" label="Бренды" />
+                            <q-tab name="brands" label="Бренды" @click="scrollToElement()"/>
                             <q-route-tab :to="{ name: 'catalog', query: { sale: true } }" name="sales" label="Скидки" />
                             <q-route-tab to="/contacts" name="contacts" label="Контакты" />
                         </q-tabs>
@@ -52,6 +52,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import AppFooter from '../components/front/app/Footer'
+import { scroll } from 'quasar'
+const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
   name: 'App',
@@ -72,7 +74,13 @@ export default {
   methods: {
     ...mapActions({
       categoriesIndex: 'categories/index'
-    })
+    }),
+    scrollToElement (el) {
+      const target = getScrollTarget(el)
+      const offset = el.offsetTop
+      const duration = 1000
+      setScrollPosition(target, offset, duration)
+    }
   },
   created () {
     this.categoriesIndex({ return: 'parents' })
@@ -176,6 +184,11 @@ export default {
             &:hover {
                 text-decoration: underline;
             }
+        }
+    }
+    .slider {
+        .q-btn {
+            z-index: 99;
         }
     }
 
