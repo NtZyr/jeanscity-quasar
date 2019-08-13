@@ -23,6 +23,9 @@ export default {
     },
     SET_SALE (state, payload) {
       state.filter = Object.assign({}, state.filter, { sale: payload })
+    },
+    SET_PAGE (state, payload) {
+      state.filter = Object.assign({}, state.filter, { page: payload })
     }
   },
   actions: {
@@ -49,6 +52,10 @@ export default {
     },
     sale ({ commit, dispatch }, sale) {
       commit('SET_SALE', sale)
+      dispatch('filterQuery')
+    },
+    page ({ commit, dispatch }, page) {
+      commit('SET_PAGE', page)
       dispatch('filterQuery')
     }
   }
