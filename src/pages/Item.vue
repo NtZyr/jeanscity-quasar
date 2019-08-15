@@ -2,15 +2,6 @@
     <div class="q-px-none container row q-col-gutter-x-lg">
         <div class="col-sm-12 col-xs-12">
             <div class="row q-col-gutter-x-lg">
-                <!-- todo галерея не работает !исправлено -->
-<!--                <q-scroll-area class='col-md-1 col-sm-2 col-xs-3 offset-md-1 offset-sm-2 offset-xs-0' style="max-height: 500px">-->
-<!--                    <div class="" v-for="(item, index) in small">-->
-<!--                        <img class='q-mb-sm-xl q-mb-xs-xs'-->
-<!--                             :src="'../statics/images/' + item.img" width="100%"-->
-<!--                             alt=""-->
-<!--                             @click="changeImage(item.img)">-->
-<!--                    </div>-->
-<!--                </q-scroll-area>-->
                 <div class="col-md-6 col-sm-12 col-xs-12 scroll-item flex no-wrap justify-between">
                     <div class="row full-width">
                         <q-scroll-area
@@ -34,7 +25,7 @@
                     <div class="row column-md row-sm row-xs q-col-gutter-x-sm">
                         <div class="col-md-12 col-sm-6 col-xs-12">
                             <h5 class="no-margin item-name">{{ product.name }}</h5>
-                            <div class="text-subtitle1 q-pt-sm">Бренд: {{ activeVariant.values.quaerat }}</div>
+                            <div class="text-subtitle1 q-pt-sm">Бренд: {{ activeVariant.values.brand }}</div>
                             <template v-if="activeVariant.sale_price > 0">
                                 <div class="text-h6 q-pt-md price old">{{ activeVariant.price }} р.</div>
                                 <div class="text-h6 q-pt-md price sale">{{ activeVariant.sale_price }} р.</div>
@@ -54,9 +45,8 @@
                                     label="Выберите размер"
                             />
                             <q-btn
-                                    @click="itemStore(item)"
+                                    @click="itemStore(activeVariant)"
                                     color="red-8 item-btn"
-                                    style="height: 49px; width: 250px;"
                                     class="q-mb-xl q-mt-xl"
                                     label="Добавить в корзину"
                             />
@@ -120,16 +110,9 @@ export default {
     return {
       product: {},
       activeVariantId: null,
-      model: null,
-      sail: true,
       image: 'image2.png',
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
       errors: [],
-      item: {
-        name: 'Футболка мужская'
-      },
+      // todo placeholder for gallery
       small: [
         {
           img: 'image.png'
@@ -171,16 +154,19 @@ export default {
       })
     },
     activeVariant () {
-      return this.product.variants.find(variant => {
-        if (variant.id === this.activeVariantId) {
-          return variant
-        }
-      })
+      if (typeof this.product.variants !== 'undefined') {
+        return this.product.variants.find(variant => {
+          if (variant.id === this.activeVariantId) {
+            return variant
+          }
+        })
+      }
     }
   },
   methods: {
     ...mapActions({
-      productShow: 'products/show'
+      productShow: 'products/show',
+      addToCart: 'cart/addToCart'
     }),
     loadProduct (productSlug) {
       this.productShow(productSlug)
@@ -188,6 +174,9 @@ export default {
           this.product = response.data.data
           this.activeVariantId = this.product.variants[0].id
         })
+    },
+    itemStore (variant) {
+      this.addToCart(variant)
     },
     changeImage (img) {
       this.image = img

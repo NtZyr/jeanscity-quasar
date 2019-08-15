@@ -19,6 +19,7 @@ import MediaModule from './modules/media.module'
 import FilterModule from './modules/filter.module'
 import ProductsModule from './modules/products.module'
 import VariantsModule from './modules/variants.module'
+import CartModule from './modules/cart.module'
 
 Vue.use(Vuex)
 
@@ -83,6 +84,9 @@ export default function (/* { ssrContext } */) {
       },
       auth: {
         ...AuthModule
+      },
+      cart: {
+        ...CartModule
       }
     },
 
