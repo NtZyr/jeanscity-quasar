@@ -34,7 +34,8 @@ export const front = [
         ]
       },
       {
-        path: '/cart',
+        path: 'cart',
+        name: 'app.cart',
         component: () => import('pages/ShoppingCart.vue')
       },
       {

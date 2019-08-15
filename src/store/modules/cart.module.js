@@ -1,12 +1,10 @@
+import { Notify } from 'quasar'
+import { getCart } from '../../helpers/cart'
+
 export default {
   namespaced: true,
   state: {
-    cart: {
-      shipping_id: null,
-      customer_id: null,
-      customer: {},
-      lines: []
-    },
+    cart: getCart(),
     message: null
   },
   getters: {
@@ -16,56 +14,103 @@ export default {
     lines (state) {
       return state.cart.lines
     },
+    count (state) {
+      let count = 0
+      state.cart.lines.find(line => {
+        count += line.qty
+        return count
+      })
+
+      return count
+    },
     customer (state) {
       return state.cart.customer
     }
   },
   mutations: {
-    addItem (state, { newItem }) {
+    ADD_TO_CART (state, newItem) {
       state.cart.lines.push(newItem)
     },
-    countPlus (state, { newItem }) {
-      state.cart.lines.variant.qty += newItem.qty
+    CHANGE_ITEM (state, data) {
+      state.cart.lines.find(line => {
+        if (line.variant.id === data.id) {
+          return line.qty += data.qty
+        }
+      })
     },
-    removeItem (state, { variantId }) {
-      state.cart.lines = state.cart.lines.filter(el =>
-        el.variant_id !== variantId
-      )
+    REMOVE_ITEM (state, variantId) {
+      state.cart.lines = state.cart.lines.filter((element, index) => {
+        if (element.variant_id === variantId) {
+          delete state.cart.lines[index]
+        }
+      })
     },
-    getMessage (state, payload) {
-      state.message = payload
-    },
-    updateLocal (state) {
-      localStorage.setItem('cart', state.cart)
-    },
-    addCustomer (state, payload) {
+    ADD_CUSTOMER (state, payload) {
       state.cart.customer = payload
     },
-    addShipping (state, payload) {
+    ADD_SHIPPING (state, payload) {
       state.cart.shippingId = payload
     }
   },
   actions: {
-    addItem (context, newItem) {
-      let item = context.state.cart.lines.find(item => item.variant_id === newItem.variant.id)
-      if (item) {
-        if (item.qty + newItem.qty < newItem.variant.in_stock && item.qty + newItem.qty > 0) {
-          context.commit('countPlus', { newItem })
-          context.commit('getMessage', 'Товар успешно добавлен')
-        } else {
-          // context.state.message = 'Не удалось добавить товар в корзину'
-        }
-      } else if (newItem.qty < newItem.variant.in_stock) {
-        context.commit('addItem', { newItem })
-        context.commit('getMessage', 'Товар успешно добавлен')
-      } else {
-        context.commit('getMessage', 'Недостаточно товара')
-      }
+    reduce (context, id) {
+      context.commit('CHANGE_ITEM', {
+        id: id,
+        qty: -1
+      })
       context.dispatch('updateLocal')
     },
-    removeItem (context, id) {
-      context.commit('removeItem', { variant_id: id })
+    increase (context, id) {
+      context.commit('CHANGE_ITEM', {
+        id: id,
+        qty: 1
+      })
       context.dispatch('updateLocal')
+    },
+    updateLocal ({ state }) {
+      localStorage.setItem('cart', JSON.stringify(state.cart))
+    },
+    addToCart (context, variant) {
+      let line = null
+      line = context.state.cart.lines.filter(element => element.variant.id === variant.id)
+
+      if (line.length === 0) {
+        Notify.create({
+          message: `Товар '${variant.product.name}' добавлен в корзину`,
+          position: 'top',
+          color: 'positive'
+        })
+        context.commit('ADD_TO_CART', {
+          variant: variant,
+          qty: 1
+        })
+      } else {
+        if (line[0].qty < variant.in_stock) {
+          Notify.create({
+            message: `Количество товара в корзине увеличилось`,
+            position: 'top',
+            color: 'positive'
+          })
+          context.commit('CHANGE_ITEM', variant.id)
+        } else if (line.qty === variant.in_stock) {
+          Notify.create({
+            message: `Товара больше нет в наличии`,
+            position: 'top',
+            color: 'negative'
+          })
+        }
+      }
+
+      context.dispatch('updateLocal')
+    },
+    remove (context, id) {
+      context.commit('REMOVE_ITEM', id)
+      context.dispatch('updateLocal')
+      Notify.create({
+        message: `Товара удален из корзины`,
+        position: 'top',
+        color: 'negative'
+      })
     },
     addCustomer (context, customer) {
       context.commit('addCustomer', customer)

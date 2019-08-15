@@ -16,94 +16,11 @@
                                 </div>
                             </div>
                             <div class="col-12 q-py-xs-sm q-py-md-none">
-                                <div class="row margin-fix q-py-xs-sm item-shadow" style="min-height: 265px; position:relative; background: #FAFAFA;" v-for="(item, index) in card_items">
-                                    <div class="close">
-                                        <i class="material-icons" style="font-size: 24px; cursor: pointer;" @click="deleteItem(item.id)">
-                                            close
-                                        </i>
-                                    </div>
-                                    <div class="col-11 offset-1 q-pr-xl q-pt-sm-lg q-pt-md-xs q-pt-xs-xl q-pb-sm-sm q-pb-xs-sm">
-                                        <div class="product-name">{{item.name}}</div>
-                                    </div>
-                                    <div class="col-md-3 col-xs-5 offset-1 flex justify-xs-center justify-md-start q-py-xs-md q-py-md-xs numbers">
-                                        <img src="/statics/images/image.png" style="max-width: 170px; width: 100%" alt="">
-                                        <div class="flex items-center md-hide lg-hide xl-hide q-px-sm-none q-px-xs-none q-pt-sm">
-                                            <q-btn
-                                                round
-                                                color="white"
-                                                text-color="black"
-                                                size="0.53rem"
-                                                icon="remove"
-                                                @click="item.number--"
-                                                :disabled="!(item.number-1)"
-                                            />
-                                            <input type="text" style="max-width: 35px; max-height: 32px; font-weight: 700;" class="q-mx-sm-sm q-mx-xs-xs text-center" :value="item.number">
-                                            <q-btn
-                                                round
-                                                color="white"
-                                                text-color="black"
-                                                size='0.53rem'
-                                                icon="add"
-                                                @click="item.number++"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8 col-xs-6">
-                                        <div class="row" style="height: 100%">
-                                            <div class="col-md-4 col-xs-12 q-pr-xs-sm q-pt-md-md q-pl-md q-pl-md-md q-pl-sm-xl q-pl-xs-md q-pt-sm-md q-pt-xs-sm product-info flex column justify-between">
-                                                <div>
-                                                    <p class="no-margin q-pb-xs">бренд: Lamborghini</p>
-                                                    <p class="no-margin q-pb-xs">размер: one size</p>
-                                                    <p class="no-margin">цвет: красный</p>
-                                                </div>
-                                                <div class="q-pt-sm-xl q-pt-xs-md q-my-sm-md q-my-xs-md md-hide lg-hide xl-hide">
-                                                    <div class="sail-label q-mb-xl" v-show="item.sail">{{100 - item.sail_value*100}}%</div>
-                                                    <div class="text-h6 q-pt-sm price" :class="{'not-sail': item.sail}">{{item.number*item.price}} руб.</div>
-                                                    <div class="text-h6 q-pt-md"
-                                                         :class="{'sail': item.sail}"
-                                                         v-show="item.sail"
-                                                    >
-                                                        {{item.number*item.price*item.sail_value}} руб.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 sm-hide xs-hide q-pt-md flex q-pr-lg numbers">
-                                                <q-btn
-                                                    round
-                                                    color="white"
-                                                    text-color="black"
-                                                    size="sm"
-                                                    icon="remove"
-                                                    @click="item.number--"
-                                                    :disabled="!(item.number-1)"
-                                                />
-                                                <input type="text"
-                                                       style="max-width: 35px; max-height: 32px; font-weight: 700;"
-                                                       class="q-mx-sm text-center"
-                                                       :value=item.number
-                                                >
-                                                <q-btn
-                                                    round
-                                                    color="white"
-                                                    text-color="black"
-                                                    size='sm'
-                                                    icon="add"
-                                                    @click="item.number++"
-                                                />
-                                            </div>
-                                            <div class="col-md-4 sm-hide xs-hide q-pr-xl">
-                                                <div class="text-h6 q-pt-sm price" :class="{'not-sail': item.sail}">{{item.number*item.price}} руб.</div>
-                                                <div class="text-h6 q-pt-md q-mb-sm"
-                                                     :class="{'sail': item.sail}"
-                                                     v-show="item.sail"
-                                                >
-                                                    {{item.number*item.price*item.sail_value}} руб.
-                                                </div>
-                                                <div class="sail-label" v-show="item.sail">{{100 - item.sail_value*100}}%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <cart-item
+                                        v-for="line in cart.lines"
+                                        :key="line.variant_id"
+                                        :line="line"
+                                />
                             </div>
                         </div>
                     </div>
@@ -116,13 +33,12 @@
                             </div>
                             <div class="col-12 item-shadow q-pa-md" style="background: #FAFAFA; color: #3C3C3C;">
                                 <q-form
-                                    @submit="onSubmit"
-                                    @reset="onReset"
-                                    class=""
                                 >
                                     <div class="text-subtitle1 q-pb-sm" style="font-size: 18px;">Способ доставки</div>
-                                    <q-radio v-model="pickup" val="pickup" label="Самовывоз: 0 руб." />
-                                    <q-radio v-model="pickup" val="courier" label="Доставка: 1350 руб." />
+                                    <q-option-group
+                                            :options="shippings"
+                                            v-model="shipping_id"
+                                    />
                                     <div class="q-my-md total" style="position: relative;">
                                         Итоговая сумма: <br>
                                         <span>(с учётом доставки)</span>
@@ -133,7 +49,7 @@
                                     <q-input
                                         required
                                         filled
-                                        v-model="firstName"
+                                        v-model="customer.firstName"
                                         label="имя"
                                         type="text"
                                         class="q-mb-md"
@@ -141,14 +57,14 @@
                                     <q-input
                                         required
                                         filled
-                                        v-model="lastName"
+                                        v-model="customer.lastName"
                                         label="фамилия"
                                         type="text"
                                         class="q-mb-md"
                                     />
                                     <q-input
                                         filled
-                                        v-model="email"
+                                        v-model="customer.email"
                                         label="email"
                                         type="email"
                                         class="q-mb-md"
@@ -156,7 +72,7 @@
                                     <q-input
                                         required
                                         filled
-                                        v-model="phone"
+                                        v-model="customer.phone"
                                         type="tel"
                                         label="телефон"
                                         mask="+7 (###) ### - ####"
@@ -164,29 +80,29 @@
                                         fill-mask
                                         class="q-mb-md"
                                     />
-                                    <template v-if="pickup !== 'pickup'">
+                                    <template v-if="typeof activeShipping !== 'undefined' && activeShipping !== null && activeShipping[0].need_address == true">
                                         <q-input
                                             filled
-                                            v-model="street"
+                                            v-model="customer.street"
                                             label="улица"
                                             type="text"
                                             class="q-mb-md"
                                         />
                                         <q-input
                                             filled
-                                            v-model="house"
+                                            v-model="customer.house"
                                             label="дом"
                                             class="q-mb-md"
                                         />
                                         <q-input
                                             filled
-                                            v-model="corps"
+                                            v-model="customer.corps"
                                             label="корпус"
                                             class="q-mb-md"
                                         />
                                         <q-input
                                             filled
-                                            v-model="flat"
+                                            v-model="customer.flat"
                                             label="квартира"
                                             class="q-mb-md"
                                         />
@@ -214,109 +130,68 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import CartItem from '../components/front/cart/Item'
 
 export default {
   data () {
     return {
-      localStorage: {
-        shippingId: 1,
-        customerId: null,
-        customer: {
-          name: null,
-          email: null,
-          phone: null,
-          address: null
-        },
-        lines: [
-          {
-            variantId: 1,
-            qty: 1
-          }
-        ]
+      customer: {
+        first_name: null,
+        last_name: null,
+        email: null,
+        phone: null,
+        street: null,
+        house: null,
+        corpus: null,
+        flat: null
       },
-      firstName: null,
-      lastName: null,
-      email: null,
-      phone: null,
-      street: null,
-      house: null,
-      corps: null,
-      flat: null,
-      pickup: 'pickup',
-      subscription: false,
-      personal: false,
-      card_items: [
-        {
-          sail: true,
-          name: 'Футболка мужкая новая и красивая',
-          number: 1,
-          price: 111110000,
-          sail_value: 0.8
-        },
-        {
-          sail: false,
-          name: 'Футболка мужкая новая',
-          number: 1,
-          price: 8000,
-          sail_value: 0.9
-        },
-        {
-          sail: true,
-          name: 'Красивая очень настолько что даже ок',
-          number: 1,
-          price: 15000,
-          sail_value: 0.5
-        }
-      ]
-      // total: null,
+      activeShipping: null,
+      shippings: [],
+      shipping_id: null,
+      personal: true,
+      subscription: true
+    }
+  },
+  components: {
+    CartItem
+  },
+  watch: {
+    shipping_id (value) {
+      this.activeShipping = this.shippings.filter(shipping => shipping.value === value)
     }
   },
   computed: {
     ...mapGetters({
       shippings: 'shippings/list',
-      shipping: 'shippings/item',
-      orders: 'orders/list',
-      order: 'orders/item'
+      cart: 'cart/cart'
     }),
     countTotal () {
       let total = 0
-      for (let i = 0; i < this.card_items.length; i++) {
-        if (this.card_items[i].sail) {
-          total = total + (this.card_items[i].price * this.card_items[i].sail_value) * this.card_items[i].number
+
+      total = this.cart.lines.map(line => {
+        console.log(line)
+        if (line.variant.sale_price > 0) {
+          total += line.variant.sale_price * line.qty
         } else {
-          total = total + this.card_items[i].price * this.card_items[i].number
+          total += line.variant.price * line.qty
         }
-      }
-      if (this.pickup === 'courier') {
-        total = total + 1350
-      }
-      return (total + "").split("").reverse().join("").replace(/(\d{3})/g, "$1 ").split("").reverse().join("").replace(/^ /, "");
+        return total
+      })
+
+      return total[0].toFixed(2)
     }
   },
   methods: {
     ...mapActions({
-      shippingsIndex: 'shippings/index',
-      shippingsShow: 'shippings/show',
-      shippingsUpdate: 'shippings/update',
-      shippingsStore: 'shippings/store',
-      shippingsDestroy: 'shippings/destroy',
-      ordersIndex: 'orders/index',
-      ordersShow: 'orders/show',
-      ordersUpdate: 'orders/update',
-      ordersDestroy: 'orders/destroy'
-    }),
-    deleteItem (id) {
-      this.ordersDestroy(id)
-    },
-    /*deleteItem (id) {
-      this.card_items.splice(id, 1)
-    },*/
-    onSubmit () {
-
-    },
-    onReset () {
-
-    }
+      shippingsIndex: 'shippings/index'
+    })
+  },
+  created () {
+    this.shippingsIndex()
+      .then(response => {
+        this.shippings = response.data.data
+        this.shipping_id = this.shippings[0].value
+      })
   }
 }
 </script>

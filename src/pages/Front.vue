@@ -27,9 +27,7 @@
                         <q-btn router="tel:+79964539303" flat style="color: #3C3C3C" icon="phone" label="+7 (996) 453-93-03" class="icon-hide"/>
                         <!-- todo поиск по сайту: модалка с выбором – сайт/каталог -->
                         <q-btn router="/" flat style="color: #3C3C3C" icon="search" label="" />
-                        <q-btn to="/cart" flat style="color: #3C3C3C" icon="shopping_cart" label="">
-                            <q-badge color="red" floating>22</q-badge>
-                        </q-btn>
+                        <app-cart/>
                         <q-btn-dropdown v-if="$q.screen.lt.md" style="color: #3C3C3C" auto-close stretch flat icon="menu">
                             <q-list separator link class="menu-dropdown">
                                 <q-item v-for="category in categories" :key="category.id">
@@ -51,8 +49,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import AppFooter from '../components/front/app/Footer'
 import { scroll } from 'quasar'
+import AppFooter from '../components/front/app/Footer'
+import AppCart from '../components/front/app/Cart'
 const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
@@ -63,7 +62,8 @@ export default {
     }
   },
   components: {
-    AppFooter
+    AppFooter,
+    AppCart
   },
   computed: {
     ...mapGetters({
