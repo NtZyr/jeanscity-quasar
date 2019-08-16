@@ -30,6 +30,9 @@ export default {
     }
   },
   actions: {
+    localCustomer (context) {
+      localStorage.setItem('customer_id', context.state.item.id)
+    },
     index (context, filter) {
       return new Promise((resolve, reject) => {
         API.get(`customers/`, {
@@ -66,6 +69,7 @@ export default {
             context.commit('getCustomer', response.data.data)
             context.commit('getMessage', response.data.message)
             context.dispatch('index')
+            context.dispatch('localCustomer')
             resolve(response)
           })
           .catch(error => {
