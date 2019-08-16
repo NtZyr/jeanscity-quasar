@@ -33,6 +33,7 @@
                             </div>
                             <div class="col-12 item-shadow q-pa-md" style="background: #FAFAFA; color: #3C3C3C;">
                                 <q-form
+                                        @submit="sendOrder"
                                 >
                                     <div class="text-subtitle1 q-pb-sm" style="font-size: 18px;">Способ доставки</div>
                                     <q-option-group
@@ -40,16 +41,18 @@
                                             v-model="shipping_id"
                                     />
                                     <div class="q-my-md total" style="position: relative;">
-                                        Итоговая сумма: <br>
-                                        <span>(с учётом доставки)</span>
+                                        Доставка: {{ activeShipping[0].cost }} руб.
                                     </div>
-                                    <div class="text-h5 q-pb-sm q-mt-xl text-weight-bold">{{countTotal}} руб.</div>
+                                    <div class="q-my-md text-weight-bold total" style="position: relative;">
+                                        Cумма:
+                                    </div>
+                                    <div class="text-h5 q-mt-lg-none q-pb-sm q-mt-xl text-weight-bold">{{ countTotal }} руб.</div>
                                     <q-separator class="q-mb-sm"/>
                                     <div class="text-subtitle1 q-pb-sm" style="font-size: 18px;">Контактная информация</div>
                                     <q-input
                                         required
                                         filled
-                                        v-model="customer.firstName"
+                                        v-model="customer.first_name"
                                         label="имя"
                                         type="text"
                                         class="q-mb-md"
@@ -57,7 +60,7 @@
                                     <q-input
                                         required
                                         filled
-                                        v-model="customer.lastName"
+                                        v-model="customer.last_name"
                                         label="фамилия"
                                         type="text"
                                         class="q-mb-md"
@@ -108,12 +111,10 @@
                                         />
                                     </template>
                                     <div class="flex items-center no-wrap checkbox">
-                                        <q-checkbox style="margin-left: -10px;" v-model="subscription" @click="subscription = !subscription"/>
-                                        <span>Подписка на рассылку</span>
+                                        <q-checkbox label="Подписка на рассылку" style="margin-left: -10px;" v-model="customer.is_subscribe" @click="customer.is_subscribe = !customer.is_subscribe"/>
                                     </div>
                                     <div class="flex items-center no-wrap checkbox q-pb-sm">
-                                        <q-checkbox style="margin-left: -10px;" v-model="personal" @click="personal = !personal"/>
-                                        <span>Соглашение пользователя на обработку персональных данных</span>
+                                        <q-checkbox label="Соглашение пользователя на обработку персональных данных" style="margin-left: -10px;" v-model="personal" @click="personal = !personal"/>
                                     </div>
                                     <div>
                                         <q-btn label="Оформить заказ" type="submit" color="primary" class="full-width q-mt-md text-weight-bold"/>
@@ -143,7 +144,8 @@ export default {
         street: null,
         house: null,
         corpus: null,
-        flat: null
+        flat: null,
+        is_subscribe: false
       },
       activeShipping: null,
       shippings: [],
@@ -163,7 +165,7 @@ export default {
   computed: {
     ...mapGetters({
       shippings: 'shippings/list',
-      cart: 'cart/cart'
+      cart: 'cart/cart',
     }),
     countTotal () {
       let total = 0
@@ -183,8 +185,40 @@ export default {
   },
   methods: {
     ...mapActions({
-      shippingsIndex: 'shippings/index'
-    })
+      orderStore: 'orders/store',
+      shippingsIndex: 'shippings/index',
+      clearCart: 'cart/clear',
+      cartCustomer: 'cart/addCustomer',
+      cartShipping: 'cart/addShipping'
+    }),
+    sendOrder () {
+      this.cartShipping(this.shipping_id)
+      if (this.cart.customer_id === null) {
+        this.customer.name = `${this.customer.first_name} ${this.customer.last_name}`
+        this.cartCustomer(this.customer)
+      }
+
+      if (
+        this.customer.street !== null ||
+        this.customer.corpus !== null ||
+        this.customer.house !== null ||
+        this.customer.flat !== null
+      ) {
+        this.customer.address = `${this.customer.address.street} ${this.customer.address.corpus} ${this.customer.address.house} ${this.customer.address.flat}`
+      }
+      this.orderStore(this.cart)
+        .then(response => {
+          if (response.status === 201) {
+            this.$q.notify({
+              message: response.data.message,
+              color: 'positive',
+              position: 'top'
+            })
+            this.clearCart()
+            this.$router.push('/')
+          }
+        })
+    }
   },
   created () {
     this.shippingsIndex()

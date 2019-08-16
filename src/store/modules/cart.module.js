@@ -31,10 +31,13 @@ export default {
     ADD_TO_CART (state, newItem) {
       state.cart.lines.push(newItem)
     },
+    CLEAR_CART (state) {
+      state.cart.lines = {}
+    },
     CHANGE_ITEM (state, data) {
       state.cart.lines.find(line => {
         if (line.variant.id === data.id) {
-          return line.qty += data.qty
+          line.qty += data.qty
         }
       })
     },
@@ -45,11 +48,14 @@ export default {
         }
       })
     },
+    ADD_CUSTOMER_ID (state, payload) {
+      state.cart.customer_id = payload
+    },
     ADD_CUSTOMER (state, payload) {
-      state.cart.customer = payload
+      state.cart.customer = Object.assign({}, payload)
     },
     ADD_SHIPPING (state, payload) {
-      state.cart.shippingId = payload
+      state.cart.shipping_id = payload
     }
   },
   actions: {
@@ -70,6 +76,10 @@ export default {
     updateLocal ({ state }) {
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
+    clear (context) {
+      context.commit('CLEAR_CART')
+      context.dispatch('updateLocal')
+    },
     addToCart (context, variant) {
       let line = null
       line = context.state.cart.lines.filter(element => element.variant.id === variant.id)
@@ -81,6 +91,7 @@ export default {
           color: 'positive'
         })
         context.commit('ADD_TO_CART', {
+          variant_id: variant.id,
           variant: variant,
           qty: 1
         })
@@ -112,12 +123,16 @@ export default {
         color: 'negative'
       })
     },
+    setCustomerId (context, id) {
+      context.commit('ADD_CUSTOMER_ID', id)
+      context.dispatch('updateLocal')
+    },
     addCustomer (context, customer) {
-      context.commit('addCustomer', customer)
+      context.commit('ADD_CUSTOMER', customer)
       context.dispatch('updateLocal')
     },
     addShipping (context, shippingId) {
-      context.commit('addCustomer', shippingId)
+      context.commit('ADD_SHIPPING', shippingId)
       context.dispatch('updateLocal')
     }
   }
