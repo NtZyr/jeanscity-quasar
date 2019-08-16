@@ -4,7 +4,13 @@
             <div class="row justify-center q-py-lg">
                 <div class="row container q-col-gutter-x-lg q-pb-md-xl">
                     <div class="col-md-8 col-sm-12 q-pb-xs-lg q-pb-md-none overflow-hidden">
-                        <img src="/statics/images/map.svg" alt="" height="100%">
+                        <GmapMap
+                                ref="mapRef"
+                                :zoom="13"
+                                :center="{lat:10, lng:10}"
+                                style="width: 100%; height: 100%;"
+                        >
+                        </GmapMap>
                     </div>
                     <div class="col-md-4 col-sm-12">
                         <p class="icon map q-mb-lg">Адрес будет находитсья здесь</p>
@@ -12,42 +18,48 @@
                         <p class="icon mail q-mb-lg">jeanscity@gmail.com </p>
                         <p class="icon vk q-mb-lg">https://vk.com/malkovich_21</p>
                         <q-form
-                            @submit="onSubmit"
-                            @reset="onReset"
+                            @submit="callbackSubmit"
                             class="form-background q-pa-lg flex justify-center"
                         >
                             <h5 class="text-uppercase no-margin q-pb-md flex justify-center">Заказать звонок</h5>
                             <q-input
                                 required
                                 filled
-                                v-model="fullName"
-                                label="имя и фамилия"
+                                v-model="callback.customer.name"
+                                label="Имя и фамилия"
                                 type="text"
                                 class="full-width q-mb-md"
                             />
                             <q-input
                                 filled
-                                v-model="email"
-                                label="email"
+                                v-model="callback.customer.email"
+                                label="Email"
                                 type="email"
                                 class="full-width q-mb-md"
                             />
                             <q-input
                                 required
                                 filled
-                                v-model="phone"
+                                v-model="callback.customer.phone"
                                 type="tel"
-                                label="телефон"
+                                label="Телефон"
                                 mask="+7 (###) ### - ####"
                                 unmasked-value
                                 fill-mask
                                 class="q-mb-md full-width"
                             />
                             <q-input
+                                    required
+                                    filled
+                                    v-model="callback.subject"
+                                    label="Тема сообщения"
+                                    class="q-mb-md full-width"
+                            />
+                            <q-input
                                 required
                                 filled
-                                v-model="message"
-                                label="сообщение"
+                                v-model="callback.text"
+                                label="Сообщение"
                                 type="textarea"
                                 class="full-width"
                             />
@@ -100,13 +112,39 @@
 </style>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
-      fullName: null,
-      email: null,
-      phone: null,
-      message: null
+      callback: {
+        customer: {
+          name: null,
+          email: null,
+          phone: null
+        },
+        subject: null,
+        text: null
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      callbackStore: 'callbacks/store'
+    }),
+    clearCallback () {
+      this.callback = {}
+    },
+    callbackSubmit () {
+      this.callbackStore(this.callback)
+        .then(response => {
+          this.$q.notify({
+            message: response.data.message,
+            color: 'positive',
+            position: 'top'
+          })
+          this.clearCallback()
+        })
     }
   }
 }

@@ -32,7 +32,7 @@ export default {
       state.cart.lines.push(newItem)
     },
     CLEAR_CART (state) {
-      state.cart.lines = {}
+      state.cart.lines = []
     },
     CHANGE_ITEM (state, data) {
       state.cart.lines.find(line => {
