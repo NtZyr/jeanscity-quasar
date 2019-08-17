@@ -23,6 +23,7 @@
                         :values="filter[attribute.slug]"
                         :attribute="attribute"
                         :is="`type-${attribute.type}`"
+                        class="attribute-type"
                 />
             </q-card>
         </q-expansion-item>
@@ -77,4 +78,6 @@ export default {
             font-size 13px
         .q-item__section--main
             padding-left 16px
+    .attribute-type
+        font-weight 400
 </style>

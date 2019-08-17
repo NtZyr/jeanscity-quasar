@@ -17,7 +17,15 @@
           </div>
         </div>
         <div class="row q-col-gutter-x-sm items-stretch col-md-9 col-sm-8 col-xs-12 product-items">
-            <template v-if="products.length > 0">
+            <q-circular-progress
+                    indeterminate
+                    size="50px"
+                    :thickness="0.22"
+                    track-color="grey-3"
+                    class="q-ma-md"
+                    v-show="!load"
+            />
+            <template v-if="products.length > 0 && load">
                 <list-item
                       v-for="product in products"
                       :key="product.id"
@@ -32,7 +40,7 @@
                       @input="preFilterPage"
                 />
             </template>
-            <template v-else>
+            <template v-else-if="products.length === 0 && load">
                 Товары не найдены
             </template>
         </div>
@@ -55,6 +63,7 @@ export default {
       attributes: [],
       meta: {},
       model: null,
+      load: false
     }
   },
   watch: {
@@ -96,14 +105,28 @@ export default {
           this.filterAttrs(response.data.data)
         })
     },
+    preLoader () {
+      setTimeout(() => {
+        this.load = true
+      }, 2200)
+    }
+  },
+  beforeCreate () {
+    // this.test = false
   },
   created () {
     this.debouncedProductFilter = _.debounce(this.productFilter, 500)
+  },
+  mounted () {
+    this.preLoader()
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+    .q-circular-progress
+        color #E71821
+        margin 0 auto
     .expansion-shadow
         box-shadow 0px 4px 15px rgba(0, 0, 0, 0.25)
         color #3C3C3C

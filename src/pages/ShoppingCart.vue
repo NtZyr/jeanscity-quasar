@@ -1,6 +1,6 @@
 <template>
     <q-page-container>
-        <q-page class="bg-grey-2">
+        <q-page class="bg-grey-2" v-if="cart.lines.length > 0">
             <div class="row justify-center q-py-lg">
                 <div class="row container q-col-gutter-x-lg q-pb-md-xl">
                     <div class="col-12 text-h5">Корзина</div>
@@ -122,6 +122,18 @@
                                 </q-form>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </q-page>
+        <q-page class="bg-grey-2 flex items-center" v-else>
+            <div class="row justify-center q-py-lg full-width">
+                <div class="row container q-col-gutter-x-lg q-pb-md-xl">
+                    <div class="col-12 text-h5 text-center empty flex column">
+                        <i class="material-icons">
+                            sentiment_dissatisfied
+                        </i>
+                        Корзина пуста <br>(идите нахуй, я вас не звал)
                     </div>
                 </div>
             </div>
@@ -283,6 +295,8 @@ export default {
             padding-top -15px
     .checkbox
         font-size 12px
+    .empty
+        color #9E9E9E
 
     @media (max-width $breakpoint-xs)
         .price

@@ -1,11 +1,11 @@
 <template>
     <div class="col-md-4 col-sm-6 col-xs-12 q-pb-lg">
         <q-card class="list-product shadow-0 full-height bg-transparent overflow-hidden">
-            <template v-if="product.variants.length > 0">
+            <template v-if="product.variants.length > 0" class="">
                 <q-card-section class="info q-pt-none">
                     <ul class="absolute-top-left sizes">
                         <li @click="setActiveVariant(variant)" v-for="variant in product.variants" :key="variant.id">
-                            {{ variant.values.dolore_sunt }}
+                            {{ variant.values.dolore_sunt }}44
                         </li>
                     </ul>
                     <product-thumbnail/>
@@ -74,6 +74,23 @@ export default {
             opacity 0
             transition .3s
             z-index 99
+            list-style none
+            margin 0
+            padding 0
+            max-height 270px
+            display flex
+            flex-direction column
+            flex-wrap wrap
+            li
+                background-color #000
+                margin-bottom 2px
+                color #FFF
+                opacity 0.4
+                padding 4px 10px
+                font-size 16px
+                font-weight 600
+                cursor pointer
+                margin 2px 0 0 2px
         &:hover
             background-color white !important
             transition all .3s ease

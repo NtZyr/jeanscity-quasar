@@ -24,6 +24,7 @@
                         <q-card
                                 @click="$router.push({ name: 'catalog', params: { parent: category.slug } })"
                                 class="my-card col-12 flex items-center shadow-0 cursor-pointer"
+                                style="border-radius: 4px"
                         >
                             <q-img
                                     :src="category.thumbnail_image"
@@ -121,6 +122,7 @@
         background: -ms-linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%); /* ie10+ */
         background: linear-gradient(315deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%); /* w3c */
         opacity: 0.5;
+        border-radius: 4px;
     }
 
     .slider {

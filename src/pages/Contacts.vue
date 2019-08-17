@@ -13,10 +13,25 @@
                         </GmapMap>
                     </div>
                     <div class="col-md-4 col-sm-12">
-                        <p class="icon map q-mb-lg">Адрес будет находитсья здесь</p>
-                        <p class="icon phone q-mb-lg">+7 (996) 453-93-03</p>
-                        <p class="icon mail q-mb-lg">jeanscity@gmail.com </p>
-                        <p class="icon vk q-mb-lg">https://vk.com/malkovich_21</p>
+                        <p class="icon map q-mb-lg">
+                            <i class="material-icons">
+                                location_on
+                            </i>
+                            Адрес будет находитсья здесь
+                        </p>
+                        <p class="icon phone q-mb-lg">
+                            <i class="material-icons">
+                                phone
+                            </i>
+                            +7 (996) 453-93-03
+                        </p>
+                        <p class="icon mail q-mb-lg">
+                            <i class="material-icons">
+                                email
+                            </i>
+                            jeanscity@gmail.com
+                        </p>
+                        <p class="icon-custom vk q-mb-lg">https://vk.com/malkovich_21</p>
                         <q-form
                             @submit="callbackSubmit"
                             class="form-background q-pa-lg flex justify-center"
@@ -81,6 +96,15 @@
             color #3C3C3C
     .icon
         position: relative
+        width 100%
+        color #3C3C3C
+        font-size 15px
+        i
+            font-size 26px
+            color #A4A4A4
+            margin-right 15px
+    .icon-custom
+        position: relative
         padding-left 40px
         width 100%
         color #3C3C3C
@@ -93,18 +117,6 @@
             left 0
             top 0
             background-repeat no-repeat
-    .map
-        &:before
-            background-image url("/statics/images/icon-map.svg")
-            background-size 18px 24px
-    .phone
-        &:before
-            background-image url("/statics/images/icon-phone.svg")
-            background-size 22px 22px
-    .mail
-        &:before
-            background-image url("/statics/images/icon-mail.svg")
-            background-size 24px 20px
     .vk
         &:before
             background-image url("/statics/images/icon-vk.svg")

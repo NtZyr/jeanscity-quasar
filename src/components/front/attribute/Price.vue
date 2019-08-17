@@ -11,7 +11,7 @@
             </div>
 
             <div class="col-12 items-center q-col-gutter-none">
-                <div class="row items-center">
+                <div class="row items-center price-input">
                     <div class="col-md-6 col-xs-12 flex items-center justify-center">
                         <p class="no-margin q-pr-sm">от</p>
                         <q-input
@@ -83,6 +83,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+.filter
+    font-weight 400
+.price-input
+    color #838383
 </style>

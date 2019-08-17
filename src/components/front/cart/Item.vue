@@ -13,7 +13,7 @@
             <product-thumbnail/>
             <div class="flex items-center md-hide lg-hide xl-hide q-px-sm-none q-px-xs-none q-pt-sm">
                 <q-btn
-                        v-if="line.qty > 1"
+                        :aria-disabled="line.qty < 2"
                         round
                         color="white"
                         text-color="black"
@@ -29,7 +29,7 @@
                         :value=line.qty
                 >
                 <q-btn
-                        v-if="line.qty < line.variant.in_stock"
+                        :disabled="line.qty === line.variant.in_stock"
                         round
                         color="white"
                         text-color="black"
@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-md-4 sm-hide xs-hide q-pt-md q-pl-xs flex q-pr-lg numbers">
                     <q-btn
-                            v-if="line.qty > 1"
+                            :disabled="line.qty < 2"
                             round
                             color="white"
                             text-color="black"
@@ -84,7 +84,7 @@
                             :value=line.qty
                     >
                     <q-btn
-                            v-if="line.qty < line.variant.in_stock"
+                            :disabled="line.qty === line.variant.in_stock"
                             round
                             color="white"
                             text-color="black"
