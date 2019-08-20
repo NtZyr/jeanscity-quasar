@@ -2,28 +2,34 @@
     <div class="col-md-4 col-sm-6 col-xs-12 q-pb-lg">
         <q-card class="list-product shadow-0 full-height bg-transparent overflow-hidden">
             <template v-if="product.variants.length > 0" class="">
-                <q-card-section class="info q-pt-none">
-                    <ul class="absolute-top-left sizes">
-                        <li @click="setActiveVariant(variant)" v-for="variant in product.variants" :key="variant.id">
-                            {{ variant.values.dolore_sunt }}44
-                        </li>
-                    </ul>
-                    <product-thumbnail/>
-                    <q-badge class="no-border-radius sale-badge" color="red-8" floating v-if="activeVariant.sale > 0 && activeVariant.sale_price !== 0">
-                        {{ activeVariant.sale }}%
-                    </q-badge>
-                    <div class="row q-pt-xs items-end">
-                        <template v-if="activeVariant.sale > 0 && activeVariant.sale_price > 0">
-                            <span class="text-bold sale price">{{ activeVariant.sale_price }} руб.</span>
-                            <q-space/>
-                            <span class="text-bold old price">{{ activeVariant.price }} руб.</span>
-                        </template>
-                        <template v-else>
-                            <span class="text-bold price">{{ activeVariant.price }} руб.</span>
-                        </template>
-                    </div>
-                    <router-link :to="{ name: 'product', params: { product_slug: product.slug } }" class="text-h6 product-name text-black">{{ product.name }}</router-link>
-                </q-card-section>
+                <router-link :to="{ name: 'product', params: { product_slug: product.slug } }" class="list-item">
+                    <q-card-section class="info q-pt-none">
+                        <ul class="absolute-top-left sizes">
+                            <li @click.prevent="setActiveVariant(variant)"
+                                v-for="variant in product.variants"
+                                :key="variant.id"
+                            >
+                                {{ variant.values.dolore_sunt }}44
+                            </li>
+                        </ul>
+                        <product-thumbnail/>
+                        <q-badge class="no-border-radius sale-badge" color="red-8" floating v-if="activeVariant.sale > 0 && activeVariant.sale_price !== 0">
+                            {{ activeVariant.sale }}%
+                        </q-badge>
+                        <div class="row q-pt-xs items-end">
+                            <template v-if="activeVariant.sale > 0 && activeVariant.sale_price > 0">
+                                <span class="text-bold sale price">{{ activeVariant.sale_price }} руб.</span>
+                                <q-space/>
+                                <span class="text-bold old price">{{ activeVariant.price }} руб.</span>
+                            </template>
+                            <template v-else>
+                                <span class="text-bold price">{{ activeVariant.price }} руб.</span>
+                            </template>
+                        </div>
+<!--                        <div :to="{ name: 'product', params: { product_slug: product.slug } }" class="text-h6 product-name text-black">{{ product.name }}</div>-->
+                        <div class="text-h6 product-name text-black">{{ product.name }}</div>
+                    </q-card-section>
+                </router-link>
             </template>
             <template v-else>
                 <q-card-section class="bg-white text-center full-height">
@@ -70,6 +76,9 @@ export default {
 
 <style lang="stylus" scoped>
     .list-product
+        .list-item
+            text-decoration none
+            z-index 90
         .sizes
             opacity 0
             transition .3s

@@ -149,7 +149,8 @@ export default {
       return this.product.variants.map(variant => {
         return {
           value: variant.id,
-          label: variant.values.nam_optio
+          // label: variant.values.nam_optio
+          label: variant.values.brand
         }
       })
     },

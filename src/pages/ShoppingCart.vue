@@ -216,7 +216,7 @@ export default {
         this.customer.house !== null ||
         this.customer.flat !== null
       ) {
-        this.customer.address = `${this.customer.address.street} ${this.customer.address.corpus} ${this.customer.address.house} ${this.customer.address.flat}`
+        this.customer.address = `${this.customer.street} ${this.customer.corpus} ${this.customer.house} ${this.customer.flat}`
       }
       this.orderStore(this.cart)
         .then(response => {
