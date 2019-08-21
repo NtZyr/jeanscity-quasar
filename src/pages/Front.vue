@@ -12,7 +12,6 @@
                                 inline-label
                                 v-model="tab"
                                 narrow-indicator
-                                :breakpoint="0"
                                 align="justify"
                                 class="bg-white full-width tab-links"
                         >
@@ -75,7 +74,8 @@ export default {
     ...mapActions({
       categoriesIndex: 'categories/index'
     }),
-    scrollToElement (el) {
+    scrollToElement () {
+      const el = document.getElementById('brands')
       const target = getScrollTarget(el)
       const offset = el.offsetTop
       const duration = 1000

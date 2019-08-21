@@ -41,6 +41,7 @@
                     :row-md="4"
                     :row-sm="3"
                     :row-xs="2"
+                    id="brands"
                 />
 
         </q-page>
