@@ -9,7 +9,7 @@
                                 v-for="variant in product.variants"
                                 :key="variant.id"
                             >
-                                {{ variant.values.dolore_sunt }}44
+                                {{ variant.values.nam }}
                             </li>
                         </ul>
                         <product-thumbnail/>
@@ -69,6 +69,7 @@ export default {
     }
   },
   created () {
+    console.log(this.product)
     this.activeVariant = this.product.variants[0]
   }
 }
@@ -96,7 +97,7 @@ export default {
                 color #FFF
                 opacity 0.4
                 padding 4px 10px
-                font-size 16px
+                font-size 14px
                 font-weight 600
                 cursor pointer
                 margin 2px 0 0 2px

@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     test () {
-
       this.values.forEach((value, i) => {
         this.debouncedAdd(value)
       })
