@@ -133,7 +133,7 @@
                         <i class="material-icons">
                             sentiment_dissatisfied
                         </i>
-                        Корзина пуста <br>(идите нахуй, я вас не звал)
+                        Корзина пуста
                     </div>
                 </div>
             </div>

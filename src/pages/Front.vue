@@ -125,13 +125,6 @@ export default {
     }
     .q-header {
         color: #3C3C3C;
-        .q-toolbar {
-            a:first-child {
-                /*display: inline-block;*/
-                /*vertical-align: top;*/
-                /*line-height: 0;*/
-            }
-        }
     }
     .q-tab__indicator {
         color: #E71821;
@@ -153,22 +146,6 @@ export default {
           color: #3C3C3C;
         }
     }
-    /*.header-links {*/
-    /*    i {*/
-    /*        font-size: 24px;*/
-    /*    }*/
-    /*    a {*/
-    /*        color: #3C3C3C;*/
-    /*        text-decoration: none;*/
-    /*        &:first-child {*/
-    /*            padding-right: 35px;*/
-    /*            align-items: center;*/
-    /*        }*/
-    /*        &:last-child {*/
-    /*            padding-left: 35px;*/
-    /*        }*/
-    /*    }*/
-    /*}*/
     .header-btns {
         a {
             text-decoration: none;
