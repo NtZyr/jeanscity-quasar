@@ -97,14 +97,14 @@ export default {
     *{
         font-family: 'Roboto', sans-serif;
     }
-    .q-menu {
-        margin: 0 auto;
-        max-width: 1170px;
-        width: 100%;
-        left: 0 !important;
-        border-radius: 2px;
-        right: 0;
-    }
+    /*.q-menu {*/
+    /*    margin: 0 auto;*/
+    /*    width: 100%;*/
+    /*    max-width: 1170px;*/
+    /*    left: 0 !important;*/
+    /*    right: 0;*/
+    /*    border-radius: 2px;*/
+    /*}*/
     .brands {
         box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
         max-width: 1170px !important;

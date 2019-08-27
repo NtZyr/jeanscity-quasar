@@ -36,7 +36,6 @@
                 </div>
                 <!-- todo быстрая загрузка/скрытие по одному -->
                 <homepage-expand
-                    :values="attribute.values"
                     :row-lg="6"
                     :row-md="4"
                     :row-sm="3"
@@ -177,6 +176,7 @@ export default {
     this.attributeShow(2)
       .then(response => {
         this.attribute = response.data.data
+        // console.log(this.attribute.values)
       })
   }
 }

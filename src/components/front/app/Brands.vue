@@ -35,7 +35,8 @@ export default {
     }),
     scrollOrShow () {
       console.log(this.$route)
-      if (this.$route.fullPath === '/') {
+      this.show = false
+      if (this.$route.path === '/') {
         this.scrollToElement()
       } else {
         this.show = !this.show
@@ -51,6 +52,7 @@ export default {
   },
   created () {
     this.categoriesIndex({ return: 'parents' })
+    // this.show = false
   }
 }
 </script>
