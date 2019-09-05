@@ -1,14 +1,21 @@
 export default {
   namespaced: true,
   state: {
-    filter: {}
+    filter: {},
+    attrs: []
   },
   getters: {
     filter (state) {
       return state.filter
+    },
+    attrs (state) {
+      return state.attrs
     }
   },
   mutations: {
+    SET_ATTRS (state, payload) {
+      state.attrs = Object.assign({}, payload)
+    },
     SET_FILTER (state, payload) {
       state.filter = Object.assign({}, payload)
     },
@@ -23,9 +30,15 @@ export default {
     },
     SET_SALE (state, payload) {
       state.filter = Object.assign({}, state.filter, { sale: payload })
+    },
+    SET_PAGE (state, payload) {
+      state.filter = Object.assign({}, state.filter, { page: payload })
     }
   },
   actions: {
+    attrs ({ commit, dispatch }, attrs) {
+      commit('SET_ATTRS', attrs)
+    },
     filterFromQuery ({ commit, dispatch }, filter) {
       commit('SET_FILTER', filter)
       dispatch('filterQuery')
@@ -49,6 +62,10 @@ export default {
     },
     sale ({ commit, dispatch }, sale) {
       commit('SET_SALE', sale)
+      dispatch('filterQuery')
+    },
+    page ({ commit, dispatch }, page) {
+      commit('SET_PAGE', page)
       dispatch('filterQuery')
     }
   }

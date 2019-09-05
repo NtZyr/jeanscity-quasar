@@ -2,20 +2,30 @@
     <div class="q-px-none container row q-col-gutter-x-lg">
         <div class="col-sm-12 col-xs-12">
             <div class="row q-col-gutter-x-lg">
-                <!-- todo галерея не работает -->
-                <q-scroll-area class='col-md-1 col-sm-2 col-xs-3 offset-md-1 offset-sm-2 offset-xs-0' style="max-height: 500px">
-                    <div class="">
-                        <div class="" v-for="(item, index) in small"><img class='q-pb-sm-xl q-pb-xs-xs' :src="item.img" width="100%" alt=""></div>
+                <div class="col-md-6 col-sm-12 col-xs-12 scroll-item flex no-wrap justify-between">
+                    <div class="row full-width">
+                        <q-scroll-area
+                                class='col-md-2 col-sm-2 col-xs-2 offset-sm-1 offset-xs-0 q-pr-md-sm q-pr-sm-lg q-px-xs-none item-height'
+                        >
+                            <div class="item-image" v-for="(item, index) in small">
+                                <img class='q-mb-sm-xl q-mb-xs-xs'
+                                     :src="'../statics/images/' + item.img" width="100%"
+                                     alt=""
+                                     @click="changeImage(item.img)"
+                                >
+                            </div>
+                        </q-scroll-area>
+                        <img class="col-md-8 col-sm-6 col-xs-9 offset-1 item-height" :src="'../statics/images/' + image"
+                             width="100%"
+                             alt=""
+                        >
                     </div>
-                </q-scroll-area>
-                <div class="col-md-5 col-sm-6 col-xs-8 scroll-item">
-                    <img src="/statics/images/image.png" width="100%" alt="">
                 </div>
-                <div class="col-md-5 col-sm-11 col-xs-12 offset-md-0 offset-sm-1 offset-xs-0 q-pt-lg">
+                <div class="col-md-6 col-sm-11 col-xs-12 offset-md-0 offset-sm-1 offset-xs-0 q-pt-lg">
                     <div class="row column-md row-sm row-xs q-col-gutter-x-sm">
                         <div class="col-md-12 col-sm-6 col-xs-12">
                             <h5 class="no-margin item-name">{{ product.name }}</h5>
-                            <div class="text-subtitle1 q-pt-sm">Бренд: {{ activeVariant.values.quaerat }}</div>
+                            <div class="text-subtitle1 q-pt-sm">Бренд: {{ activeVariant.values.brand }}</div>
                             <template v-if="activeVariant.sale_price > 0">
                                 <div class="text-h6 q-pt-md price old">{{ activeVariant.price }} р.</div>
                                 <div class="text-h6 q-pt-md price sale">{{ activeVariant.sale_price }} р.</div>
@@ -35,9 +45,8 @@
                                     label="Выберите размер"
                             />
                             <q-btn
-                                    @click="itemStore(item)"
+                                    @click="itemStore(activeVariant)"
                                     color="red-8 item-btn"
-                                    style="height: 49px; width: 250px;"
                                     class="q-mb-xl q-mt-xl"
                                     label="Добавить в корзину"
                             />
@@ -60,6 +69,8 @@
 </template>
 
 <style lang="stylus" scoped>
+    .item-height
+        max-height 500px
     .text-subtitle1
         color #3C3C3C
         font-weight 300
@@ -85,6 +96,9 @@
             text-decoration line-through
     .q-scrollarea__thumb--v
         width 5px
+    @media(max-width $breakpoint-xs)
+        .item-height
+            max-height 400px
 
 </style>
 
@@ -96,55 +110,27 @@ export default {
     return {
       product: {},
       activeVariantId: null,
-      model: null,
-      sail: true,
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
+      image: 'image2.png',
       errors: [],
-      item: {
-        name: 'Футболка мужская'
-      },
+      // todo placeholder for gallery
       small: [
         {
-          img: '../statics/images/image.png'
+          img: 'image.png'
         },
         {
-          img: '../statics/images/image2.png'
+          img: 'image2.png'
         },
         {
-          img: '../statics/images/image.png'
+          img: 'image.png'
         },
         {
-          img: '../statics/images/image2.png'
+          img: 'image2.png'
         },
         {
-          img: '../statics/images/image2.png'
+          img: 'image2.png'
         },
         {
-          img: '../statics/images/image2.png'
-        }
-      ],
-      images: [
-        {
-          id: 1,
-          img: '../statics/images/image.png'
-        },
-        {
-          id: 2,
-          img: '../statics/images/image2.png'
-        },
-        {
-          id: 3,
-          img: '../statics/images/image.png'
-        },
-        {
-          id: 4,
-          img: '../statics/images/image2.png'
-        },
-        {
-          id: 5,
-          img: '../statics/images/image.png'
+          img: 'image2.png'
         }
       ]
     }
@@ -163,21 +149,25 @@ export default {
       return this.product.variants.map(variant => {
         return {
           value: variant.id,
-          label: variant.values.nam_optio
+          // label: variant.values.nam_optio
+          label: variant.values.brand
         }
       })
     },
     activeVariant () {
-      return this.product.variants.find(variant => {
-        if (variant.id === this.activeVariantId) {
-          return variant
-        }
-      })
+      if (typeof this.product.variants !== 'undefined') {
+        return this.product.variants.find(variant => {
+          if (variant.id === this.activeVariantId) {
+            return variant
+          }
+        })
+      }
     }
   },
   methods: {
     ...mapActions({
-      productShow: 'products/show'
+      productShow: 'products/show',
+      addToCart: 'cart/addToCart'
     }),
     loadProduct (productSlug) {
       this.productShow(productSlug)
@@ -185,6 +175,12 @@ export default {
           this.product = response.data.data
           this.activeVariantId = this.product.variants[0].id
         })
+    },
+    itemStore (variant) {
+      this.addToCart(variant)
+    },
+    changeImage (img) {
+      this.image = img
     }
   },
   created () {

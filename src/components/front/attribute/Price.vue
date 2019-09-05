@@ -11,13 +11,14 @@
             </div>
 
             <div class="col-12 items-center q-col-gutter-none">
-                <div class="row items-center">
+                <div class="row items-center price-input">
                     <div class="col-md-6 col-xs-12 flex items-center justify-center">
                         <p class="no-margin q-pr-sm">от</p>
                         <q-input
                                 v-model.number="localPrice.min"
                                 type="number"
                                 style="max-width: 65px"
+                                @change="debouncedPriceFilter(localPrice)"
                         />
                         <p class="no-margin">&#8381;</p>
                     </div>
@@ -27,6 +28,7 @@
                                 v-model.number="localPrice.max"
                                 type="number"
                                 style="max-width: 65px;"
+                                @change="debouncedPriceFilter(localPrice)"
                         />
                         <p class="no-margin">&#8381;</p>
                     </div>
@@ -57,7 +59,7 @@ export default {
   watch: {
     range: {
       handler (newval, oldval) {
-        // todo диапазон меняется только при изменении категории, цена не меняется
+        // todo диапазон меняется только при изменении категории, цена не меняется !исправлено
         if (Object.entries(oldval).length === 0) {
           this.localPrice = newval
         }
@@ -81,6 +83,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+.filter
+    font-weight 400
+.price-input
+    color #838383
 </style>

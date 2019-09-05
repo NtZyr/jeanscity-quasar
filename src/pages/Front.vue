@@ -12,13 +12,13 @@
                                 inline-label
                                 v-model="tab"
                                 narrow-indicator
-                                :breakpoint="0"
                                 align="justify"
                                 class="bg-white full-width tab-links"
                         >
                             <q-route-tab :name="category.slug" v-for="category in categories" :key="category.id" :to="{ name: 'catalog', params: { parent: category.slug } }" :label="category.name"/>
                             <!-- todo сделать модалку на весь экран с брендами. загрузку брендов подсмотреть на главной -->
-                            <q-tab name="brands" label="Бренды" />
+                            <brands></brands>
+<!--                            <q-tab name="brands" label="Бренды" @click="scrollToElement()"/>-->
                             <q-route-tab :to="{ name: 'catalog', query: { sale: true } }" name="sales" label="Скидки" />
                             <q-route-tab to="/contacts" name="contacts" label="Контакты" />
                         </q-tabs>
@@ -27,13 +27,20 @@
                         <q-btn router="tel:+79964539303" flat style="color: #3C3C3C" icon="phone" label="+7 (996) 453-93-03" class="icon-hide"/>
                         <!-- todo поиск по сайту: модалка с выбором – сайт/каталог -->
                         <q-btn router="/" flat style="color: #3C3C3C" icon="search" label="" />
-                        <q-btn to="/cart" flat style="color: #3C3C3C" icon="shopping_cart" label="">
-                            <q-badge color="red" floating>22</q-badge>
-                        </q-btn>
-                        <q-btn-dropdown v-if="$q.screen.lt.md" style="color: #3C3C3C" auto-close stretch flat icon="menu">
-                            <q-list separator link class="menu-dropdown">
-                                <q-item v-for="category in categories" :key="category.id">
-                                    <q-item-section>{{ category.name }}</q-item-section>
+                        <app-cart/>
+                        <q-btn-dropdown v-if="$q.screen.lt.md" auto-close stretch flat icon="menu">
+                            <q-list separator link class="menu-dropdown" style="color: #3C3C3C; text-decoration: none">
+                                <q-item v-for="category in categories" :key="category.id"
+                                        :to="{ name: 'catalog', params: { parent: category.slug } }"
+                                        :label="category.name"
+                                >
+                                    <q-item-section>{{ category.slug }}</q-item-section>
+                                </q-item>
+                                <q-item  :to="{ name: 'catalog', query: { sale: true } }">
+                                    <q-item-section>Скидки</q-item-section>
+                                </q-item>
+                                <q-item to="/contacts">
+                                    <q-item-section>Контакты</q-item-section>
                                 </q-item>
                             </q-list>
                         </q-btn-dropdown>
@@ -51,7 +58,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { scroll } from 'quasar'
 import AppFooter from '../components/front/app/Footer'
+import AppCart from '../components/front/app/Cart'
+import Brands from '../components/front/app/Brands'
+const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
   name: 'App',
@@ -61,7 +72,9 @@ export default {
     }
   },
   components: {
-    AppFooter
+    AppFooter,
+    AppCart,
+    Brands
   },
   computed: {
     ...mapGetters({
@@ -84,19 +97,34 @@ export default {
     *{
         font-family: 'Roboto', sans-serif;
     }
+    /*.q-menu {*/
+    /*    margin: 0 auto;*/
+    /*    width: 100%;*/
+    /*    max-width: 1170px;*/
+    /*    left: 0 !important;*/
+    /*    right: 0;*/
+    /*    border-radius: 2px;*/
+    /*}*/
+    .brands {
+        box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
+        max-width: 1170px !important;
+        width: 100%;
+        a {
+            text-decoration: none;
+            color: #3C3C3C;
+            font-size: 16px;
+            font-weight: 400;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
     .container {
         width: 100%;
         max-width: 1200px;
     }
     .q-header {
         color: #3C3C3C;
-        .q-toolbar {
-            a:first-child {
-                /*display: inline-block;*/
-                /*vertical-align: top;*/
-                /*line-height: 0;*/
-            }
-        }
     }
     .q-tab__indicator {
         color: #E71821;
@@ -113,23 +141,11 @@ export default {
         .q-tab__label {
             font-weight: 400;
         }
+        button {
+          font-weight: 400;
+          color: #3C3C3C;
+        }
     }
-    /*.header-links {*/
-    /*    i {*/
-    /*        font-size: 24px;*/
-    /*    }*/
-    /*    a {*/
-    /*        color: #3C3C3C;*/
-    /*        text-decoration: none;*/
-    /*        &:first-child {*/
-    /*            padding-right: 35px;*/
-    /*            align-items: center;*/
-    /*        }*/
-    /*        &:last-child {*/
-    /*            padding-left: 35px;*/
-    /*        }*/
-    /*    }*/
-    /*}*/
     .header-btns {
         a {
             text-decoration: none;
@@ -144,7 +160,7 @@ export default {
             font-size: 28px;
         }
     }
-    .q-btn-dropdown__arrow {
+    .header-btns .q-btn-dropdown__arrow {
         display: none;
     }
     .menu-dropdown {
@@ -176,6 +192,11 @@ export default {
             &:hover {
                 text-decoration: underline;
             }
+        }
+    }
+    .slider {
+        .q-btn {
+            z-index: 99;
         }
     }
 

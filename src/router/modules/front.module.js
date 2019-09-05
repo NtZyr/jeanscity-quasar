@@ -14,7 +14,6 @@ export const front = [
         path: 'products',
         component: () => import('pages/Products.vue'),
         beforeEnter: (to, from, next) => {
-          console.log(to)
           next()
         },
         children: [
@@ -35,7 +34,8 @@ export const front = [
         ]
       },
       {
-        path: '/cart',
+        path: 'cart',
+        name: 'app.cart',
         component: () => import('pages/ShoppingCart.vue')
       },
       {

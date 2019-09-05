@@ -1,44 +1,35 @@
 <template>
     <div class="col-md-4 col-sm-6 col-xs-12 q-pb-lg">
         <q-card class="list-product shadow-0 full-height bg-transparent overflow-hidden">
-            <template v-if="product.variants.length > 0">
-                <q-card-section class="info q-pt-none">
-                    <ul class="absolute-top-left sizes">
-                        <li @click="setActiveVariant(variant)" v-for="variant in product.variants" :key="variant.id">
-                            {{ variant.values.nam_optio }}
-                        </li>
-                    </ul>
-                    <template v-if="typeof activeVariant.gallery !== 'undefined' && activeVariant.gallery.length > 0">
-                        <q-img
-                                style="width: 100%; height: 308px; border: 2px solid white;"
-                                v-if="activeVariant.gallery.length > 0"
-                                :src="`${storageLink}/${activeVariant.gallery[0].id}/${activeVariant.gallery[0].file_name}`"
-                        />
-                    </template>
-                    <template v-else>
-                        <div style="width: 100%; height: 308px; border: 2px solid white;" class="bg-grey-4 row justify-center items-center">
-                            <q-icon
-                                    color="grey-5"
-                                    size="60px"
-                                    name="clear"
-                            />
+            <template v-if="product.variants.length > 0" class="">
+                <router-link :to="{ name: 'product', params: { product_slug: product.slug } }" class="list-item">
+                    <q-card-section class="info q-pt-none">
+                        <ul class="absolute-top-left sizes">
+                            <li @click.prevent="setActiveVariant(variant)"
+                                v-for="variant in product.variants"
+                                :key="variant.id"
+                            >
+                                {{ variant.values.nam }}
+                            </li>
+                        </ul>
+                        <product-thumbnail/>
+                        <q-badge class="no-border-radius sale-badge" color="red-8" floating v-if="activeVariant.sale > 0 && activeVariant.sale_price !== 0">
+                            {{ activeVariant.sale }}%
+                        </q-badge>
+                        <div class="row q-pt-xs items-end">
+                            <template v-if="activeVariant.sale > 0 && activeVariant.sale_price > 0">
+                                <span class="text-bold sale price">{{ activeVariant.sale_price }} руб.</span>
+                                <q-space/>
+                                <span class="text-bold old price">{{ activeVariant.price }} руб.</span>
+                            </template>
+                            <template v-else>
+                                <span class="text-bold price">{{ activeVariant.price }} руб.</span>
+                            </template>
                         </div>
-                    </template>
-                    <q-badge class="no-border-radius sale-badge" color="red-8" floating v-if="activeVariant.sale > 0 && activeVariant.sale_price !== 0">
-                        {{ activeVariant.sale }}%
-                    </q-badge>
-                    <div class="row q-pt-xs items-end">
-                        <template v-if="activeVariant.sale > 0 && activeVariant.sale_price > 0">
-                            <span class="text-bold sale price">{{ activeVariant.sale_price }} руб.</span>
-                            <q-space/>
-                            <span class="text-bold old price">{{ activeVariant.price }} руб.</span>
-                        </template>
-                        <template v-else>
-                            <span class="text-bold price">{{ activeVariant.price }} руб.</span>
-                        </template>
-                    </div>
-                    <router-link :to="{ name: 'product', params: { product_slug: product.slug } }" class="text-h6 product-name text-black">{{ product.name }}</router-link>
-                </q-card-section>
+<!--                        <div :to="{ name: 'product', params: { product_slug: product.slug } }" class="text-h6 product-name text-black">{{ product.name }}</div>-->
+                        <div class="text-h6 product-name text-black">{{ product.name }}</div>
+                    </q-card-section>
+                </router-link>
             </template>
             <template v-else>
                 <q-card-section class="bg-white text-center full-height">
@@ -54,9 +45,11 @@
 
 <script>
 import { STORAGE_URL } from '../../../api'
+import ProductThumbnail from './Thumbnail'
 
 export default {
   name: 'ListItem',
+  components: { ProductThumbnail },
   data () {
     return {
       activeVariant: {}
@@ -76,6 +69,7 @@ export default {
     }
   },
   created () {
+    console.log(this.product)
     this.activeVariant = this.product.variants[0]
   }
 }
@@ -83,10 +77,30 @@ export default {
 
 <style lang="stylus" scoped>
     .list-product
+        .list-item
+            text-decoration none
+            z-index 90
         .sizes
             opacity 0
             transition .3s
             z-index 99
+            list-style none
+            margin 0
+            padding 0
+            max-height 270px
+            display flex
+            flex-direction column
+            flex-wrap wrap
+            li
+                background-color #000
+                margin-bottom 2px
+                color #FFF
+                opacity 0.4
+                padding 4px 10px
+                font-size 14px
+                font-weight 600
+                cursor pointer
+                margin 2px 0 0 2px
         &:hover
             background-color white !important
             transition all .3s ease

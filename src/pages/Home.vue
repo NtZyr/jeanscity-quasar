@@ -12,9 +12,8 @@
                             height="325px"
                             class="slider"
                         >
-                            <!-- todo кнопки упали за :before -->
                             <q-carousel-slide v-for="(item, index) in homeslides" :key="item.id" class="slider-item" :name="index" :img-src="item.image">
-                                <q-btn class="slider-btn" style="z-index: 99;" type="a" :href="item.link" replace color="primary text-white" size="18px" :label="item.link_label"></q-btn>
+                                <q-btn class="slider-btn" type="a" :href="item.link" replace color="primary text-white" size="18px" :label="item.link_label"></q-btn>
                                 <div class="text-h4 text-white" style="position:absolute; top: 18px; left: 18px; color: #fff; z-index: 99;">{{item.title}}</div>
                             </q-carousel-slide>
                         </q-carousel>
@@ -25,6 +24,7 @@
                         <q-card
                                 @click="$router.push({ name: 'catalog', params: { parent: category.slug } })"
                                 class="my-card col-12 flex items-center shadow-0 cursor-pointer"
+                                style="border-radius: 4px"
                         >
                             <q-img
                                     :src="category.thumbnail_image"
@@ -36,11 +36,11 @@
                 </div>
                 <!-- todo быстрая загрузка/скрытие по одному -->
                 <homepage-expand
-                    :values="attribute.values"
                     :row-lg="6"
                     :row-md="4"
                     :row-sm="3"
                     :row-xs="2"
+                    id="brands"
                 />
 
         </q-page>
@@ -122,6 +122,7 @@
         background: -ms-linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%); /* ie10+ */
         background: linear-gradient(315deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%); /* w3c */
         opacity: 0.5;
+        border-radius: 4px;
     }
 
     .slider {
@@ -175,6 +176,7 @@ export default {
     this.attributeShow(2)
       .then(response => {
         this.attribute = response.data.data
+        // console.log(this.attribute.values)
       })
   }
 }
