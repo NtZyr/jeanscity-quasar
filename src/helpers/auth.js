@@ -1,4 +1,5 @@
 import API from '../api'
+import Router from '../router'
 
 export function getLocalToken () {
   const tokenStr = localStorage.getItem('token')

@@ -27,26 +27,23 @@ export default function (/* { store, ssrContext } */) {
 
   Router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('token')
-    to.matched.filter(async route => {
-      if (route.path === to.fullPath) {
-        if (route.name === 'auth.login' && token) {
-          next('/admin')
-        } else if (route.name === 'admin.home' && token === null) {
-          next('/login')
-        }
 
-        if (route.parent.meta.auth && token === null) {
+    to.matched.filter(async route => {
+      if (route.meta.auth === true) {
+        if (token === null) {
           next('/login')
-        } else if (route.parent.meta.auth && token) {
-          const user = await getUser()
-          if (user.data.data && route.meta.access) {
-            if (route.meta.access.includes(user.data.data.role.name) === false) {
-              next('/admin')
-            }
-          }
         }
+        getUser()
+          .then(r => {
+            next()
+          })
+          .catch(e => {
+            localStorage.removeItem('token')
+            next('/login')
+          })
       }
     })
+
     next()
   })
 

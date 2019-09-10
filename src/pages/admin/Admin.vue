@@ -195,7 +195,6 @@ export default {
     ...mapActions({
       login: 'auth/login',
       logout: 'auth/logout',
-      checkUser: 'auth/me',
       callbacksUnanswered: 'callbacks/unanswered',
       ordersOnHold: 'orders/onhold'
     }),
@@ -207,7 +206,6 @@ export default {
     }
   },
   created () {
-    this.checkUser()
     this.callbacksUnanswered()
     this.ordersOnHold()
   }
