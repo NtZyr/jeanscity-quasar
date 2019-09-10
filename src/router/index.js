@@ -29,15 +29,15 @@ export default function (/* { store, ssrContext } */) {
     const token = localStorage.getItem('token')
 
     to.matched.filter(async route => {
-      if (route.meta.auth === true) {
+      if (route.meta.auth === true && to.name === route.name) {
         if (token === null) {
           next('/login')
         }
         getUser()
-          .then(r => {
+          .then(response => {
             next()
           })
-          .catch(e => {
+          .catch(errors => {
             localStorage.removeItem('token')
             next('/login')
           })

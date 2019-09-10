@@ -178,14 +178,14 @@ export default {
   data () {
     return {
       help: false,
-      left: true,
+      left: true
     }
   },
   computed: {
     ...mapGetters({
       auth: 'auth/authUser',
       unanswered: 'callbacks/unanswered',
-      onhold: 'orders/onhold',
+      onhold: 'orders/onhold'
     }),
     breadcrumbs () {
       return this.$route.matched
